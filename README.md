@@ -4,7 +4,7 @@ Save all of your Quick/Autosaves in Cyberpunk2077 automatically, start additiona
 
 - Copy new Quick/Autosaves to a different location (can be filtered by age)
 - Create customnames for your savefiles (like Level, Gender etc.) based on your progress
-- Start any 3rd party applications (e.g. camera tools) when the game is started or already running
+- Start any 3rd party applications (e.g. camera tools) when the game is starting or already running
 - Autosave the game (if possible) if the last save reached a specific age
 
 ## Install
