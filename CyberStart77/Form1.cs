@@ -271,7 +271,7 @@ namespace CyberStart77
                         string destFile = Path.Combine(newDirName, Path.GetFileName(saveFiles));
 
 
-                        File.Copy(saveFiles, destFile);
+                        File.Copy(saveFiles, destFile,false);
                         File.SetCreationTime(destFile, File.GetCreationTime(saveFiles));
                     }
                     Directory.SetCreationTime(newDirName, item.CreationTime);
@@ -873,6 +873,7 @@ namespace CyberStart77
 
                 this.Width = panelRightSide.Width + 10 + 2 * 10;
                 this.Location = new Point(this.Location.X + xr - this.Right, this.Location.Y);
+               // panelCredit.Location = new Point(7, this.Height - panelCredit.Height);
             }
             else
             {
@@ -885,6 +886,7 @@ namespace CyberStart77
                 this.Location = new Point(this.Location.X - (this.Right - xr), this.Location.Y);
                 panelRightSide.Visible = true;
             }
+           
             Properties.Settings.Default.hideStatusLog = checkBoxHideStatusLog.Checked;
             Properties.Settings.Default.Save();
         }

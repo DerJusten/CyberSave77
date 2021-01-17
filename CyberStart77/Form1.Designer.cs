@@ -39,6 +39,18 @@ namespace CyberStart77
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.panelAll = new System.Windows.Forms.Panel();
+            this.panelRightSide = new System.Windows.Forms.Panel();
+            this.panelButton = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panelCredit = new System.Windows.Forms.Panel();
+            this.modernButtonStart = new CyberStart77.ModernButton();
+            this.modernButtonStop = new CyberStart77.ModernButton();
+            this.modernButtonExit = new CyberStart77.ModernButton();
             this.panelSettings = new CyberStart77.DrawPanel();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.panelSettingsRunDisable = new System.Windows.Forms.Panel();
@@ -54,6 +66,7 @@ namespace CyberStart77
             this.checkBoxDisableExtraSaveGames = new System.Windows.Forms.CheckBox();
             this.groupBoxExtraSavegames = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioButtonCustomName = new System.Windows.Forms.RadioButton();
             this.radioButtonSavegameContentSchema = new System.Windows.Forms.RadioButton();
             this.radioButtonDirNameSchema = new System.Windows.Forms.RadioButton();
             this.buttonSearchExtraSavegames = new System.Windows.Forms.Button();
@@ -74,19 +87,11 @@ namespace CyberStart77
             this.checkBoxAutostart = new System.Windows.Forms.CheckBox();
             this.checkBoxHideStatusLog = new System.Windows.Forms.CheckBox();
             this.checkBoxMinimizeToTray = new System.Windows.Forms.CheckBox();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.modernButtonStart = new CyberStart77.ModernButton();
-            this.modernButtonStop = new CyberStart77.ModernButton();
-            this.modernButtonExit = new CyberStart77.ModernButton();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.panelAll = new System.Windows.Forms.Panel();
-            this.panelRightSide = new System.Windows.Forms.Panel();
-            this.panelButton = new System.Windows.Forms.Panel();
-            this.radioButtonCustomName = new System.Windows.Forms.RadioButton();
-            this.label9 = new System.Windows.Forms.Label();
             this.cmsNotifyIcon.SuspendLayout();
+            this.panelAll.SuspendLayout();
+            this.panelRightSide.SuspendLayout();
+            this.panelButton.SuspendLayout();
+            this.panelCredit.SuspendLayout();
             this.panelSettings.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.panelSettingsRunDisable.SuspendLayout();
@@ -102,9 +107,6 @@ namespace CyberStart77
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
             this.groupBox7.SuspendLayout();
-            this.panelAll.SuspendLayout();
-            this.panelRightSide.SuspendLayout();
-            this.panelButton.SuspendLayout();
             this.SuspendLayout();
             // 
             // bgwCheckProcess
@@ -164,6 +166,158 @@ namespace CyberStart77
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel2.Location = new System.Drawing.Point(52, -1);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(105, 13);
+            this.linkLabel2.TabIndex = 12;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "creators of CyberCAT";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(-1, -1);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Buttons by";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.Location = new System.Drawing.Point(221, -1);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(64, 13);
+            this.linkLabel1.TabIndex = 7;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Kiranshastry";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(158, -1);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "| UI Icons by ";
+            // 
+            // panelAll
+            // 
+            this.panelAll.Controls.Add(this.panelCredit);
+            this.panelAll.Controls.Add(this.panelRightSide);
+            this.panelAll.Controls.Add(this.textBoxLog);
+            this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAll.Location = new System.Drawing.Point(0, 0);
+            this.panelAll.Name = "panelAll";
+            this.panelAll.Size = new System.Drawing.Size(756, 813);
+            this.panelAll.TabIndex = 6;
+            // 
+            // panelRightSide
+            // 
+            this.panelRightSide.Controls.Add(this.panelButton);
+            this.panelRightSide.Controls.Add(this.panelSettings);
+            this.panelRightSide.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelRightSide.Location = new System.Drawing.Point(376, 0);
+            this.panelRightSide.Name = "panelRightSide";
+            this.panelRightSide.Size = new System.Drawing.Size(380, 813);
+            this.panelRightSide.TabIndex = 14;
+            // 
+            // panelButton
+            // 
+            this.panelButton.Controls.Add(this.label9);
+            this.panelButton.Controls.Add(this.modernButtonStart);
+            this.panelButton.Controls.Add(this.modernButtonStop);
+            this.panelButton.Controls.Add(this.modernButtonExit);
+            this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelButton.Location = new System.Drawing.Point(0, 738);
+            this.panelButton.Name = "panelButton";
+            this.panelButton.Size = new System.Drawing.Size(380, 75);
+            this.panelButton.TabIndex = 13;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(316, 62);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(66, 13);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "JW [170121]";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // panelCredit
+            // 
+            this.panelCredit.Controls.Add(this.label8);
+            this.panelCredit.Controls.Add(this.linkLabel2);
+            this.panelCredit.Controls.Add(this.linkLabel1);
+            this.panelCredit.Controls.Add(this.label7);
+            this.panelCredit.Location = new System.Drawing.Point(6, 800);
+            this.panelCredit.Name = "panelCredit";
+            this.panelCredit.Size = new System.Drawing.Size(291, 13);
+            this.panelCredit.TabIndex = 7;
+            // 
+            // modernButtonStart
+            // 
+            this.modernButtonStart.BackColor = System.Drawing.Color.White;
+            this.modernButtonStart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonStart.ClickEffectEnabled = true;
+            this.modernButtonStart.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonStart.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonStart.Location = new System.Drawing.Point(7, 3);
+            this.modernButtonStart.Name = "modernButtonStart";
+            this.modernButtonStart.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonStart.TabIndex = 8;
+            this.modernButtonStart.Text = "Start";
+            this.modernButtonStart.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonStart.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonStart.Click += new System.EventHandler(this.buttonStart_Click);
+            // 
+            // modernButtonStop
+            // 
+            this.modernButtonStop.BackColor = System.Drawing.Color.White;
+            this.modernButtonStop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonStop.ClickEffectEnabled = true;
+            this.modernButtonStop.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonStop.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonStop.Location = new System.Drawing.Point(116, 3);
+            this.modernButtonStop.Name = "modernButtonStop";
+            this.modernButtonStop.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonStop.TabIndex = 9;
+            this.modernButtonStop.Text = "Stop";
+            this.modernButtonStop.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonStop.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonStop.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // modernButtonExit
+            // 
+            this.modernButtonExit.BackColor = System.Drawing.Color.White;
+            this.modernButtonExit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonExit.ClickEffectEnabled = true;
+            this.modernButtonExit.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonExit.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonExit.Location = new System.Drawing.Point(270, 3);
+            this.modernButtonExit.Name = "modernButtonExit";
+            this.modernButtonExit.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonExit.TabIndex = 10;
+            this.modernButtonExit.Text = "Exit";
+            this.modernButtonExit.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonExit.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
             // panelSettings
             // 
@@ -367,6 +521,18 @@ namespace CyberStart77
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Name schema";
+            // 
+            // radioButtonCustomName
+            // 
+            this.radioButtonCustomName.AutoEllipsis = true;
+            this.radioButtonCustomName.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonCustomName.Location = new System.Drawing.Point(5, 77);
+            this.radioButtonCustomName.Name = "radioButtonCustomName";
+            this.radioButtonCustomName.Size = new System.Drawing.Size(319, 21);
+            this.radioButtonCustomName.TabIndex = 8;
+            this.radioButtonCustomName.Text = "Savegame Custom (not set)";
+            this.radioButtonCustomName.UseVisualStyleBackColor = true;
+            this.radioButtonCustomName.CheckedChanged += new System.EventHandler(this.radioButtonCustomName_CheckedChanged);
             // 
             // radioButtonSavegameContentSchema
             // 
@@ -597,162 +763,6 @@ namespace CyberStart77
             this.checkBoxMinimizeToTray.UseVisualStyleBackColor = true;
             this.checkBoxMinimizeToTray.CheckedChanged += new System.EventHandler(this.checkBoxMinimizeToTray_CheckedChanged);
             // 
-            // linkLabel2
-            // 
-            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel2.Location = new System.Drawing.Point(96, 799);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(105, 13);
-            this.linkLabel2.TabIndex = 12;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "creators of CyberCAT";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(-3, 799);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(104, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Buttons made by the";
-            // 
-            // modernButtonStart
-            // 
-            this.modernButtonStart.BackColor = System.Drawing.Color.White;
-            this.modernButtonStart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonStart.ClickEffectEnabled = true;
-            this.modernButtonStart.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonStart.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStart.Location = new System.Drawing.Point(7, 3);
-            this.modernButtonStart.Name = "modernButtonStart";
-            this.modernButtonStart.Size = new System.Drawing.Size(91, 46);
-            this.modernButtonStart.TabIndex = 8;
-            this.modernButtonStart.Text = "Start";
-            this.modernButtonStart.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonStart.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonStart.Click += new System.EventHandler(this.buttonStart_Click);
-            // 
-            // modernButtonStop
-            // 
-            this.modernButtonStop.BackColor = System.Drawing.Color.White;
-            this.modernButtonStop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonStop.ClickEffectEnabled = true;
-            this.modernButtonStop.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonStop.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStop.Location = new System.Drawing.Point(116, 3);
-            this.modernButtonStop.Name = "modernButtonStop";
-            this.modernButtonStop.Size = new System.Drawing.Size(91, 46);
-            this.modernButtonStop.TabIndex = 9;
-            this.modernButtonStop.Text = "Stop";
-            this.modernButtonStop.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonStop.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonStop.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // modernButtonExit
-            // 
-            this.modernButtonExit.BackColor = System.Drawing.Color.White;
-            this.modernButtonExit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonExit.ClickEffectEnabled = true;
-            this.modernButtonExit.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonExit.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonExit.Location = new System.Drawing.Point(270, 3);
-            this.modernButtonExit.Name = "modernButtonExit";
-            this.modernButtonExit.Size = new System.Drawing.Size(91, 46);
-            this.modernButtonExit.TabIndex = 10;
-            this.modernButtonExit.Text = "Exit";
-            this.modernButtonExit.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonExit.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonExit.Click += new System.EventHandler(this.buttonExit_Click);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Location = new System.Drawing.Point(277, 799);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(64, 13);
-            this.linkLabel1.TabIndex = 7;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Kiranshastry";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(185, 799);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(96, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "| UI Icons made by ";
-            // 
-            // panelAll
-            // 
-            this.panelAll.Controls.Add(this.linkLabel2);
-            this.panelAll.Controls.Add(this.panelRightSide);
-            this.panelAll.Controls.Add(this.label8);
-            this.panelAll.Controls.Add(this.textBoxLog);
-            this.panelAll.Controls.Add(this.label7);
-            this.panelAll.Controls.Add(this.linkLabel1);
-            this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelAll.Location = new System.Drawing.Point(0, 0);
-            this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(756, 813);
-            this.panelAll.TabIndex = 6;
-            // 
-            // panelRightSide
-            // 
-            this.panelRightSide.Controls.Add(this.panelButton);
-            this.panelRightSide.Controls.Add(this.panelSettings);
-            this.panelRightSide.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRightSide.Location = new System.Drawing.Point(376, 0);
-            this.panelRightSide.Name = "panelRightSide";
-            this.panelRightSide.Size = new System.Drawing.Size(380, 813);
-            this.panelRightSide.TabIndex = 14;
-            // 
-            // panelButton
-            // 
-            this.panelButton.Controls.Add(this.label9);
-            this.panelButton.Controls.Add(this.modernButtonStart);
-            this.panelButton.Controls.Add(this.modernButtonStop);
-            this.panelButton.Controls.Add(this.modernButtonExit);
-            this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButton.Location = new System.Drawing.Point(0, 738);
-            this.panelButton.Name = "panelButton";
-            this.panelButton.Size = new System.Drawing.Size(380, 75);
-            this.panelButton.TabIndex = 13;
-            // 
-            // radioButtonCustomName
-            // 
-            this.radioButtonCustomName.AutoEllipsis = true;
-            this.radioButtonCustomName.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonCustomName.Location = new System.Drawing.Point(5, 77);
-            this.radioButtonCustomName.Name = "radioButtonCustomName";
-            this.radioButtonCustomName.Size = new System.Drawing.Size(319, 21);
-            this.radioButtonCustomName.TabIndex = 8;
-            this.radioButtonCustomName.Text = "Savegame Custom (not set)";
-            this.radioButtonCustomName.UseVisualStyleBackColor = true;
-            this.radioButtonCustomName.CheckedChanged += new System.EventHandler(this.radioButtonCustomName_CheckedChanged);
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(316, 62);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(66, 13);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "JW [170121]";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -770,6 +780,13 @@ namespace CyberStart77
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.cmsNotifyIcon.ResumeLayout(false);
+            this.panelAll.ResumeLayout(false);
+            this.panelAll.PerformLayout();
+            this.panelRightSide.ResumeLayout(false);
+            this.panelButton.ResumeLayout(false);
+            this.panelButton.PerformLayout();
+            this.panelCredit.ResumeLayout(false);
+            this.panelCredit.PerformLayout();
             this.panelSettings.ResumeLayout(false);
             this.groupBoxSettings.ResumeLayout(false);
             this.panelSettingsRunDisable.ResumeLayout(false);
@@ -792,11 +809,6 @@ namespace CyberStart77
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.panelAll.ResumeLayout(false);
-            this.panelAll.PerformLayout();
-            this.panelRightSide.ResumeLayout(false);
-            this.panelButton.ResumeLayout(false);
-            this.panelButton.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -857,6 +869,7 @@ namespace CyberStart77
         private System.Windows.Forms.Panel panelRightSide;
         private System.Windows.Forms.RadioButton radioButtonCustomName;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panelCredit;
     }
 }
 
