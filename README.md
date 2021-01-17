@@ -29,4 +29,4 @@ This application just checks if a process called "Cyberpunk2077.exe" is running.
 #### Disclaimer:
 This is just a personal project I wrote for myself, since I wanted to start automatically these great cameras tools https://github.com/FransBouma/InjectableGenericCameraSystem/releases/tag/CP102
 <br>The code is pure spaghetti and there are probably a lot of bugs I don't know of.
-Also I am sorry for any grammar errors, since English isn't my mother tongue.
+Also I am sorry for any grammar errors, since English isn't my mother tongue..
