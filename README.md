@@ -1,6 +1,6 @@
 # CyberStart77
 
-Save all of your Quick/Autosaves in Cyberpunk2077 automatically
+Save all of your Quick/Autosaves in Cyberpunk2077 automatically, start additional apps on game start and a bit more
 
 - Copy new Quick/Autosaves to a different location (can be filtered by age)
 - Create customnames for your savefiles (like Level, Gender etc.) based on your progress
