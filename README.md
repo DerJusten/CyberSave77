@@ -8,9 +8,14 @@ CyberSave77 (prev. CyberStart77) is a little application which copies your **Aut
 - create a backup of your savegame folder
 - create automatically a quicksave after a specific time (this can be probably ignored by most of the people, since the game has an Autosave feature)
 ## How to use
-Download the ZIP file in the release tab and unzip it to any location. Just start the CyberStart77.exe and you are free to go.
-<br>I would recommend to check all the settings, if they are fine for you (like Savegame history path and Name schema). The default settings set your "Savegame history path" to "%username%\Saved Games\CD Projekt Red\SaveGameHistory", this is the path where your savefile copies will go.<br>
-To start CyberSave77 you have to click on start and it will check for the process Cyberpunk2077.exe. If this process is running, it will start to look for new savegames which can be copied.<br>
+- download ZIP file in the release tab unzip it to any location and start CyberSave77.exe
+- adjust the settings like you want to
+- click on Start
+- run Cyberpunk2077.exe (also works if it is already running)
+
+## What does it do 
+This tool checks every X seconds (you can adjust the seconds) if the game (Cyberpunk2077) is running or not. If it is, it starts to check the savegame directories and compares them by their creation date. Based on your settings, it copies the matching directories (including their files) to your "Savegame history path", which is by default %username%\Saved Games\CD Projekt Red\SaveGameHistory.
+
 
 ### Disclaimer
 This is just a hobby project I made for myself but I decided that I want to share it with anyone, who also wants to use any of the features. I am not a great coder and there are probably alot of things which can be made better. Also I am terrible at giving names so I am sorry for any grammar errors and the weird naming.
