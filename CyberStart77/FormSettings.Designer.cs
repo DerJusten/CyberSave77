@@ -163,9 +163,9 @@ namespace CyberStart77
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(9, 75);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(187, 19);
+            this.label5.Size = new System.Drawing.Size(149, 19);
             this.label5.TabIndex = 16;
-            this.label5.Text = "Quick/Autosave Archive Path";
+            this.label5.Text = "Savegame history path";
             // 
             // textBoxPathExtraSavegames
             // 
@@ -192,9 +192,9 @@ namespace CyberStart77
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 19);
+            this.label3.Size = new System.Drawing.Size(150, 19);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Savegame Path";
+            this.label3.Text = "Default savegame path";
             // 
             // textBoxPathSavegame
             // 

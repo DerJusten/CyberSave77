@@ -296,73 +296,73 @@ namespace CyberStart77
             try
             {
                 string lifepath, gender, lvl, newDirName;
-            int nameSchemaMode = Properties.Settings.Default.nameSchemaMode;
-            foreach (var item in legacySaves)
-            {
-                if (nameSchemaMode == 1 || nameSchemaMode == 2)
+                int nameSchemaMode = Properties.Settings.Default.nameSchemaMode;
+                foreach (var item in legacySaves)
                 {
-                    var jsonFiles = Directory.EnumerateFiles(item.FullName, "metadata.9.json");
-                    if (jsonFiles.Count() > 0)
+                    if (nameSchemaMode == 1 || nameSchemaMode == 2)
                     {
-                        string nameSchema = Properties.Settings.Default.customNameSchema;
-                        if (nameSchemaMode == 2 && !string.IsNullOrEmpty(nameSchema))
+                        var jsonFiles = Directory.EnumerateFiles(item.FullName, "metadata.9.json");
+                        if (jsonFiles.Count() > 0)
                         {
-                            newDirName = Path.Combine(settings.SavegamePathHistory, getNameSchemaSaveGame(readJsonFromFile(jsonFiles.First()), item.CreationTime));
+                            string nameSchema = Properties.Settings.Default.customNameSchema;
+                            if (nameSchemaMode == 2 && !string.IsNullOrEmpty(nameSchema))
+                            {
+                                newDirName = Path.Combine(settings.SavegamePathHistory, getNameSchemaSaveGame(readJsonFromFile(jsonFiles.First()), item.CreationTime));
+                            }
+                            else
+                            {
+                                JObject jo = readJsonFromFile(jsonFiles.First());
+                                lifepath = (string)jo["Data"]["metadata"]["lifePath"];
+                                gender = (string)jo["Data"]["metadata"]["bodyGender"];
+                                lvl = (string)jo["Data"]["metadata"]["level"];
+                                newDirName = Path.Combine(settings.SavegamePathHistory, lifepath + " " + gender + " " + lvl + " " + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
+                            }
                         }
+                        //Fallback if json not found/empty
                         else
-                        {
-                            JObject jo = readJsonFromFile(jsonFiles.First());
-                            lifepath = (string)jo["Data"]["metadata"]["lifePath"];
-                            gender = (string)jo["Data"]["metadata"]["bodyGender"];
-                            lvl = (string)jo["Data"]["metadata"]["level"];
-                            newDirName = Path.Combine(settings.SavegamePathHistory, lifepath + " " + gender + " " + lvl + " " + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
-                        }
+                            newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
                     }
-                    //Fallback if json not found/empty
                     else
                         newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
-                }
-                else
-                    newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
 
-                if (!Directory.Exists(newDirName) && settings.copyDirs == true)
-                {
-                    Directory.CreateDirectory(newDirName);
-                }
-
-                if (settings.copyDirs == true)
-                {
-                    foreach (var saveFiles in Directory.EnumerateFiles(item.FullName))
+                    if (!Directory.Exists(newDirName) && settings.copyDirs == true)
                     {
-                        string destFile = Path.Combine(newDirName, Path.GetFileName(saveFiles));
-
-
-                        File.Copy(saveFiles, destFile, false);
-                        File.SetCreationTime(destFile, File.GetCreationTime(saveFiles));
+                        Directory.CreateDirectory(newDirName);
                     }
 
-                    Directory.SetCreationTime(newDirName, item.CreationTime);
-                    Directory.SetLastWriteTime(newDirName, item.LastWriteTime);
-                }
-                if (bgwCheckProcess.IsBusy == true)
-                    bgwCheckProcess.ReportProgress(0, "Copy Savegame " + item.Name + " to " + new DirectoryInfo(newDirName).Name);
+                    if (settings.copyDirs == true)
+                    {
+                        foreach (var saveFiles in Directory.EnumerateFiles(item.FullName))
+                        {
+                            string destFile = Path.Combine(newDirName, Path.GetFileName(saveFiles));
 
-                lastSaveGameCreationDate = item.CreationTime;
 
-                //Restart Autosave Timer since a
-                if (timerAutoQuickSave.Enabled == true)
-                {
-                    timerAutoQuickSave.Stop();
-                    timerAutoQuickSave.Start();
+                            File.Copy(saveFiles, destFile, false);
+                            File.SetCreationTime(destFile, File.GetCreationTime(saveFiles));
+                        }
+
+                        Directory.SetCreationTime(newDirName, item.CreationTime);
+                        Directory.SetLastWriteTime(newDirName, item.LastWriteTime);
+                    }
+                    if (bgwCheckProcess.IsBusy == true)
+                        bgwCheckProcess.ReportProgress(0, "Copy Savegame " + item.Name + " to " + new DirectoryInfo(newDirName).Name);
+
+                    lastSaveGameCreationDate = item.CreationTime;
+
+                    //Restart Autosave Timer since a
+                    if (timerAutoQuickSave.Enabled == true)
+                    {
+                        timerAutoQuickSave.Stop();
+                        timerAutoQuickSave.Start();
+                    }
                 }
             }
-        }
             catch (Exception err)
             {
                 bgwCheckProcess.ReportProgress(-1, "ERROR (CopySaveGames): " + err.Message);
             }
-}
-public static JObject readJsonFromFile(string jsonFile)
+        }
+        public static JObject readJsonFromFile(string jsonFile)
         {
             using (StreamReader sr = new StreamReader(jsonFile))
             {
@@ -681,7 +681,7 @@ public static JObject readJsonFromFile(string jsonFile)
             }
             else if (e.ProgressPercentage == -1 || e.ProgressPercentage == 0)
                 textBoxLog.AppendText(e.UserState.ToString() + Environment.NewLine);
-            using (StreamWriter sw = new StreamWriter("CyberSave77.log",true))
+            using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
             {
                 Log(e.UserState.ToString(), sw, e.ProgressPercentage);
             }
@@ -1120,7 +1120,7 @@ public static JObject readJsonFromFile(string jsonFile)
                     minimizeToTray();
                 }
             }
-        
+
         }
 
         private void minimizeToTray()
@@ -1291,7 +1291,7 @@ public static JObject readJsonFromFile(string jsonFile)
 
         private void modernButtonDebug_Click(object sender, EventArgs e)
         {
-            
+
             bDebug = true;
             List<ProcessStartInfo> pInfo = new List<ProcessStartInfo>();
 
@@ -1324,13 +1324,13 @@ public static JObject readJsonFromFile(string jsonFile)
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
-                Log((e.ExceptionObject as Exception).Message,sw,-1);
-        
+                Log((e.ExceptionObject as Exception).Message, sw, -1);
+
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-          
+
         }
 
         private void checkBoxDisableAutosave_CheckedChanged(object sender, EventArgs e)
