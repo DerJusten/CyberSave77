@@ -26,60 +26,60 @@ namespace CyberStart77.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public int processTimer {
+        public int counterProcessCheck {
             get {
-                return ((int)(this["processTimer"]));
+                return ((int)(this["counterProcessCheck"]));
             }
             set {
-                this["processTimer"] = value;
+                this["counterProcessCheck"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("30")]
-        public int savegameTimer {
+        public int intervalSaveGameCheckSeconds {
             get {
-                return ((int)(this["savegameTimer"]));
+                return ((int)(this["intervalSaveGameCheckSeconds"]));
             }
             set {
-                this["savegameTimer"] = value;
+                this["intervalSaveGameCheckSeconds"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Cyberpunk2077")]
-        public string process {
+        public string processName {
             get {
-                return ((string)(this["process"]));
+                return ((string)(this["processName"]));
             }
             set {
-                this["process"] = value;
+                this["processName"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string savegamePath {
+        public string savegameDefaultPath {
             get {
-                return ((string)(this["savegamePath"]));
+                return ((string)(this["savegameDefaultPath"]));
             }
             set {
-                this["savegamePath"] = value;
+                this["savegameDefaultPath"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string extraSavegamePath {
+        public string savegameHistoryPath {
             get {
-                return ((string)(this["extraSavegamePath"]));
+                return ((string)(this["savegameHistoryPath"]));
             }
             set {
-                this["extraSavegamePath"] = value;
+                this["savegameHistoryPath"] = value;
             }
         }
         
@@ -110,12 +110,12 @@ namespace CyberStart77.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int name_schema {
+        public int nameSchemaMode {
             get {
-                return ((int)(this["name_schema"]));
+                return ((int)(this["nameSchemaMode"]));
             }
             set {
-                this["name_schema"] = value;
+                this["nameSchemaMode"] = value;
             }
         }
         
@@ -158,36 +158,36 @@ namespace CyberStart77.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool autostart {
+        public bool autostartBgw {
             get {
-                return ((bool)(this["autostart"]));
+                return ((bool)(this["autostartBgw"]));
             }
             set {
-                this["autostart"] = value;
+                this["autostartBgw"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int minDifferenceLastSaveGame {
+        public int timeDifferenceSaveGames {
             get {
-                return ((int)(this["minDifferenceLastSaveGame"]));
+                return ((int)(this["timeDifferenceSaveGames"]));
             }
             set {
-                this["minDifferenceLastSaveGame"] = value;
+                this["timeDifferenceSaveGames"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int minAutosaveGame {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int intervalAutoQuickSaveMinutes {
             get {
-                return ((int)(this["minAutosaveGame"]));
+                return ((int)(this["intervalAutoQuickSaveMinutes"]));
             }
             set {
-                this["minAutosaveGame"] = value;
+                this["intervalAutoQuickSaveMinutes"] = value;
             }
         }
         
@@ -200,6 +200,66 @@ namespace CyberStart77.Properties {
             }
             set {
                 this["customNameSchema"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool killStartedAppsOnExit {
+            get {
+                return ((bool)(this["killStartedAppsOnExit"]));
+            }
+            set {
+                this["killStartedAppsOnExit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int autoQuickSaveMaxRetries {
+            get {
+                return ((int)(this["autoQuickSaveMaxRetries"]));
+            }
+            set {
+                this["autoQuickSaveMaxRetries"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int autoQuickSaveErrorDelay {
+            get {
+                return ((int)(this["autoQuickSaveErrorDelay"]));
+            }
+            set {
+                this["autoQuickSaveErrorDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool disableAutoQuicksave {
+            get {
+                return ((bool)(this["disableAutoQuicksave"]));
+            }
+            set {
+                this["disableAutoQuicksave"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point guiLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["guiLocation"]));
+            }
+            set {
+                this["guiLocation"] = value;
             }
         }
     }

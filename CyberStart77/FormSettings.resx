@@ -118,14 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label4.Text" xml:space="preserve">
-    <value>Retrieve values from the savegame json (metadata9.json)
-Values are retrieved by %KeyName% (e.g. %level% for playerlevel)
+    <value>Custom names can display various stats of your current savegame. 
+Click on Keyname List and double click on the element you want to add.  You can adjust spaces etc. by simply editing the textbox. 
+The Label below will show you a preview of the name from an example file.
 
-Dates can also be added by writing the dateformat in square bracket []
-(e.g. 10-12-2020_18-00-00 would be [dd-MM-YYYY_HH-mm-ss] )</value>
+
+</value>
   </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="bgwBackup.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>114, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

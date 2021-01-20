@@ -44,6 +44,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +72,12 @@
     <Compile Include="FormKeyNames.Designer.cs">
       <DependentUpon>FormKeyNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoading.Designer.cs">
+      <DependentUpon>FormLoading.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormProcess.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormKeyNames.resx">
       <DependentUpon>FormKeyNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLoading.resx">
+      <DependentUpon>FormLoading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormProcess.resx">
       <DependentUpon>FormProcess.cs</DependentUpon>
@@ -132,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\021-settings.png" />
+    <None Include="Resources\Cyberpunk2077_Wallpapers_TraumaTeam_1600x900_EN.png" />
     <Content Include="v_female_02.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

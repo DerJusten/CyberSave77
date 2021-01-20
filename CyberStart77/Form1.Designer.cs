@@ -44,37 +44,27 @@ namespace CyberStart77
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
             this.panelAll = new System.Windows.Forms.Panel();
+            this.panelCredit = new System.Windows.Forms.Panel();
             this.panelRightSide = new System.Windows.Forms.Panel();
             this.panelButton = new System.Windows.Forms.Panel();
+            this.modernButtonDebug = new CyberStart77.ModernButton();
             this.label9 = new System.Windows.Forms.Label();
-            this.panelCredit = new System.Windows.Forms.Panel();
             this.modernButtonStart = new CyberStart77.ModernButton();
             this.modernButtonStop = new CyberStart77.ModernButton();
             this.modernButtonExit = new CyberStart77.ModernButton();
             this.panelSettings = new CyberStart77.DrawPanel();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
+            this.labelProcess = new System.Windows.Forms.Label();
             this.panelSettingsRunDisable = new System.Windows.Forms.Panel();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBoxDisableAutosave = new System.Windows.Forms.CheckBox();
+            this.groupBoxAutosave = new System.Windows.Forms.GroupBox();
+            this.numericUpDownTryAutoQuickSave = new System.Windows.Forms.NumericUpDown();
+            this.labelAutosve = new System.Windows.Forms.Label();
             this.pictureBoxAddSettings = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBoxProcess = new System.Windows.Forms.TextBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownSaveGame = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownProcess = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxDisableExtraSaveGames = new System.Windows.Forms.CheckBox();
+            this.checkBoxDisableSaveGameHistory = new System.Windows.Forms.CheckBox();
             this.groupBoxExtraSavegames = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.radioButtonCustomName = new System.Windows.Forms.RadioButton();
-            this.radioButtonSavegameContentSchema = new System.Windows.Forms.RadioButton();
-            this.radioButtonDirNameSchema = new System.Windows.Forms.RadioButton();
-            this.buttonSearchExtraSavegames = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBoxPathExtraSavegames = new System.Windows.Forms.TextBox();
-            this.buttonSearchSaveGamePath = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxPathSavegame = new System.Windows.Forms.TextBox();
+            this.numericUpDownMinSaveGames = new System.Windows.Forms.NumericUpDown();
+            this.labelSaveGameTimeDif = new System.Windows.Forms.Label();
             this.checkBoxIgnoreAddApps = new System.Windows.Forms.CheckBox();
             this.groupBoxAddApplication = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -89,19 +79,17 @@ namespace CyberStart77
             this.checkBoxMinimizeToTray = new System.Windows.Forms.CheckBox();
             this.cmsNotifyIcon.SuspendLayout();
             this.panelAll.SuspendLayout();
+            this.panelCredit.SuspendLayout();
             this.panelRightSide.SuspendLayout();
             this.panelButton.SuspendLayout();
-            this.panelCredit.SuspendLayout();
             this.panelSettings.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.panelSettingsRunDisable.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.groupBoxAutosave.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSaveGame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownProcess)).BeginInit();
             this.groupBoxExtraSavegames.SuspendLayout();
-            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinSaveGames)).BeginInit();
             this.groupBoxAddApplication.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEdit)).BeginInit();
@@ -125,7 +113,7 @@ namespace CyberStart77
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
-            this.textBoxLog.Size = new System.Drawing.Size(360, 787);
+            this.textBoxLog.Size = new System.Drawing.Size(360, 494);
             this.textBoxLog.TabIndex = 1;
             this.textBoxLog.TabStop = false;
             // 
@@ -223,8 +211,20 @@ namespace CyberStart77
             this.panelAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelAll.Location = new System.Drawing.Point(0, 0);
             this.panelAll.Name = "panelAll";
-            this.panelAll.Size = new System.Drawing.Size(756, 813);
+            this.panelAll.Size = new System.Drawing.Size(756, 526);
             this.panelAll.TabIndex = 6;
+            // 
+            // panelCredit
+            // 
+            this.panelCredit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelCredit.Controls.Add(this.label8);
+            this.panelCredit.Controls.Add(this.linkLabel2);
+            this.panelCredit.Controls.Add(this.linkLabel1);
+            this.panelCredit.Controls.Add(this.label7);
+            this.panelCredit.Location = new System.Drawing.Point(6, 511);
+            this.panelCredit.Name = "panelCredit";
+            this.panelCredit.Size = new System.Drawing.Size(291, 13);
+            this.panelCredit.TabIndex = 7;
             // 
             // panelRightSide
             // 
@@ -233,43 +233,50 @@ namespace CyberStart77
             this.panelRightSide.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRightSide.Location = new System.Drawing.Point(376, 0);
             this.panelRightSide.Name = "panelRightSide";
-            this.panelRightSide.Size = new System.Drawing.Size(380, 813);
+            this.panelRightSide.Size = new System.Drawing.Size(380, 526);
             this.panelRightSide.TabIndex = 14;
             // 
             // panelButton
             // 
+            this.panelButton.Controls.Add(this.modernButtonDebug);
             this.panelButton.Controls.Add(this.label9);
             this.panelButton.Controls.Add(this.modernButtonStart);
             this.panelButton.Controls.Add(this.modernButtonStop);
             this.panelButton.Controls.Add(this.modernButtonExit);
             this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButton.Location = new System.Drawing.Point(0, 738);
+            this.panelButton.Location = new System.Drawing.Point(0, 454);
             this.panelButton.Name = "panelButton";
-            this.panelButton.Size = new System.Drawing.Size(380, 75);
+            this.panelButton.Size = new System.Drawing.Size(380, 72);
             this.panelButton.TabIndex = 13;
+            // 
+            // modernButtonDebug
+            // 
+            this.modernButtonDebug.BackColor = System.Drawing.Color.White;
+            this.modernButtonDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonDebug.ClickEffectEnabled = true;
+            this.modernButtonDebug.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonDebug.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonDebug.Location = new System.Drawing.Point(211, 3);
+            this.modernButtonDebug.Name = "modernButtonDebug";
+            this.modernButtonDebug.Size = new System.Drawing.Size(56, 46);
+            this.modernButtonDebug.TabIndex = 15;
+            this.modernButtonDebug.Text = "Debug";
+            this.modernButtonDebug.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonDebug.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonDebug.Visible = false;
+            this.modernButtonDebug.Click += new System.EventHandler(this.modernButtonDebug_Click);
             // 
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(316, 62);
+            this.label9.Location = new System.Drawing.Point(316, 59);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(66, 13);
+            this.label9.Size = new System.Drawing.Size(65, 13);
             this.label9.TabIndex = 15;
-            this.label9.Text = "JW [170121]";
+            this.label9.Text = "DJ [200121]";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // panelCredit
-            // 
-            this.panelCredit.Controls.Add(this.label8);
-            this.panelCredit.Controls.Add(this.linkLabel2);
-            this.panelCredit.Controls.Add(this.linkLabel1);
-            this.panelCredit.Controls.Add(this.label7);
-            this.panelCredit.Location = new System.Drawing.Point(6, 800);
-            this.panelCredit.Name = "panelCredit";
-            this.panelCredit.Size = new System.Drawing.Size(291, 13);
-            this.panelCredit.TabIndex = 7;
             // 
             // modernButtonStart
             // 
@@ -294,7 +301,7 @@ namespace CyberStart77
             this.modernButtonStop.ClickEffectEnabled = true;
             this.modernButtonStop.DefaultColor = System.Drawing.Color.White;
             this.modernButtonStop.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStop.Location = new System.Drawing.Point(116, 3);
+            this.modernButtonStop.Location = new System.Drawing.Point(115, 3);
             this.modernButtonStop.Name = "modernButtonStop";
             this.modernButtonStop.Size = new System.Drawing.Size(91, 46);
             this.modernButtonStop.TabIndex = 9;
@@ -310,7 +317,7 @@ namespace CyberStart77
             this.modernButtonExit.ClickEffectEnabled = true;
             this.modernButtonExit.DefaultColor = System.Drawing.Color.White;
             this.modernButtonExit.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonExit.Location = new System.Drawing.Point(270, 3);
+            this.modernButtonExit.Location = new System.Drawing.Point(272, 3);
             this.modernButtonExit.Name = "modernButtonExit";
             this.modernButtonExit.Size = new System.Drawing.Size(91, 46);
             this.modernButtonExit.TabIndex = 10;
@@ -328,52 +335,96 @@ namespace CyberStart77
             this.panelSettings.Controls.Add(this.groupBoxSettings);
             this.panelSettings.Location = new System.Drawing.Point(0, 0);
             this.panelSettings.Name = "panelSettings";
-            this.panelSettings.Size = new System.Drawing.Size(380, 735);
+            this.panelSettings.Size = new System.Drawing.Size(380, 448);
             this.panelSettings.TabIndex = 5;
             // 
             // groupBoxSettings
             // 
+            this.groupBoxSettings.Controls.Add(this.labelProcess);
             this.groupBoxSettings.Controls.Add(this.panelSettingsRunDisable);
             this.groupBoxSettings.Controls.Add(this.groupBox7);
             this.groupBoxSettings.Location = new System.Drawing.Point(3, 3);
             this.groupBoxSettings.Name = "groupBoxSettings";
-            this.groupBoxSettings.Size = new System.Drawing.Size(360, 729);
+            this.groupBoxSettings.Size = new System.Drawing.Size(360, 438);
             this.groupBoxSettings.TabIndex = 2;
             this.groupBoxSettings.TabStop = false;
-            this.groupBoxSettings.Text = "Settings";
+            // 
+            // labelProcess
+            // 
+            this.labelProcess.AutoEllipsis = true;
+            this.labelProcess.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelProcess.Location = new System.Drawing.Point(16, 24);
+            this.labelProcess.Name = "labelProcess";
+            this.labelProcess.Size = new System.Drawing.Size(292, 28);
+            this.labelProcess.TabIndex = 17;
+            this.labelProcess.Text = "Process: ";
+            this.labelProcess.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panelSettingsRunDisable
             // 
             this.panelSettingsRunDisable.AutoScroll = true;
             this.panelSettingsRunDisable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelSettingsRunDisable.Controls.Add(this.groupBox5);
-            this.panelSettingsRunDisable.Controls.Add(this.groupBox4);
-            this.panelSettingsRunDisable.Controls.Add(this.checkBoxDisableExtraSaveGames);
+            this.panelSettingsRunDisable.Controls.Add(this.checkBoxDisableAutosave);
+            this.panelSettingsRunDisable.Controls.Add(this.groupBoxAutosave);
+            this.panelSettingsRunDisable.Controls.Add(this.pictureBoxAddSettings);
+            this.panelSettingsRunDisable.Controls.Add(this.checkBoxDisableSaveGameHistory);
             this.panelSettingsRunDisable.Controls.Add(this.groupBoxExtraSavegames);
             this.panelSettingsRunDisable.Controls.Add(this.checkBoxIgnoreAddApps);
             this.panelSettingsRunDisable.Controls.Add(this.groupBoxAddApplication);
             this.panelSettingsRunDisable.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSettingsRunDisable.Location = new System.Drawing.Point(3, 21);
             this.panelSettingsRunDisable.Name = "panelSettingsRunDisable";
-            this.panelSettingsRunDisable.Size = new System.Drawing.Size(354, 614);
+            this.panelSettingsRunDisable.Size = new System.Drawing.Size(354, 328);
             this.panelSettingsRunDisable.TabIndex = 18;
             // 
-            // groupBox5
+            // checkBoxDisableAutosave
             // 
-            this.groupBox5.Controls.Add(this.pictureBoxAddSettings);
-            this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.textBoxProcess);
-            this.groupBox5.Location = new System.Drawing.Point(5, 0);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(345, 77);
-            this.groupBox5.TabIndex = 16;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Process";
+            this.checkBoxDisableAutosave.AutoSize = true;
+            this.checkBoxDisableAutosave.Location = new System.Drawing.Point(14, 104);
+            this.checkBoxDisableAutosave.Name = "checkBoxDisableAutosave";
+            this.checkBoxDisableAutosave.Size = new System.Drawing.Size(169, 23);
+            this.checkBoxDisableAutosave.TabIndex = 16;
+            this.checkBoxDisableAutosave.Text = "Disable AutoQuickSave";
+            this.checkBoxDisableAutosave.UseVisualStyleBackColor = true;
+            this.checkBoxDisableAutosave.CheckedChanged += new System.EventHandler(this.checkBoxDisableAutosave_CheckedChanged);
+            // 
+            // groupBoxAutosave
+            // 
+            this.groupBoxAutosave.Controls.Add(this.numericUpDownTryAutoQuickSave);
+            this.groupBoxAutosave.Controls.Add(this.labelAutosve);
+            this.groupBoxAutosave.Location = new System.Drawing.Point(5, 105);
+            this.groupBoxAutosave.Name = "groupBoxAutosave";
+            this.groupBoxAutosave.Size = new System.Drawing.Size(345, 68);
+            this.groupBoxAutosave.TabIndex = 15;
+            this.groupBoxAutosave.TabStop = false;
+            // 
+            // numericUpDownTryAutoQuickSave
+            // 
+            this.numericUpDownTryAutoQuickSave.Location = new System.Drawing.Point(265, 32);
+            this.numericUpDownTryAutoQuickSave.Name = "numericUpDownTryAutoQuickSave";
+            this.numericUpDownTryAutoQuickSave.Size = new System.Drawing.Size(74, 25);
+            this.numericUpDownTryAutoQuickSave.TabIndex = 5;
+            this.numericUpDownTryAutoQuickSave.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDownTryAutoQuickSave.ValueChanged += new System.EventHandler(this.numericUpDownTryAutosave_ValueChanged);
+            // 
+            // labelAutosve
+            // 
+            this.labelAutosve.AutoSize = true;
+            this.labelAutosve.Location = new System.Drawing.Point(8, 34);
+            this.labelAutosve.Name = "labelAutosve";
+            this.labelAutosve.Size = new System.Drawing.Size(198, 19);
+            this.labelAutosve.TabIndex = 4;
+            this.labelAutosve.Text = "Create a Quicksave every (min)";
+            this.labelAutosve.MouseHover += new System.EventHandler(this.labelAutosve_MouseHover);
             // 
             // pictureBoxAddSettings
             // 
             this.pictureBoxAddSettings.Image = global::CyberStart77.Properties.Resources._021_settings;
-            this.pictureBoxAddSettings.Location = new System.Drawing.Point(305, 13);
+            this.pictureBoxAddSettings.Location = new System.Drawing.Point(309, 3);
             this.pictureBoxAddSettings.Name = "pictureBoxAddSettings";
             this.pictureBoxAddSettings.Size = new System.Drawing.Size(37, 26);
             this.pictureBoxAddSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -385,245 +436,53 @@ namespace CyberStart77
             this.pictureBoxAddSettings.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
             this.pictureBoxAddSettings.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // label6
+            // checkBoxDisableSaveGameHistory
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 24);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(169, 19);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Name of process to check:";
-            // 
-            // textBoxProcess
-            // 
-            this.textBoxProcess.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxProcess.Location = new System.Drawing.Point(3, 43);
-            this.textBoxProcess.Name = "textBoxProcess";
-            this.textBoxProcess.Size = new System.Drawing.Size(336, 25);
-            this.textBoxProcess.TabIndex = 0;
-            this.textBoxProcess.TextChanged += new System.EventHandler(this.textBoxProcess_TextChanged);
-            this.textBoxProcess.Leave += new System.EventHandler(this.textBoxProcess_Leave);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Controls.Add(this.numericUpDownSaveGame);
-            this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.numericUpDownProcess);
-            this.groupBox4.Location = new System.Drawing.Point(5, 82);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(345, 82);
-            this.groupBox4.TabIndex = 15;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Timer";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(154, 19);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Savegame interval (sec.)";
-            this.label2.MouseHover += new System.EventHandler(this.label2_MouseHover);
-            // 
-            // numericUpDownSaveGame
-            // 
-            this.numericUpDownSaveGame.Location = new System.Drawing.Point(174, 54);
-            this.numericUpDownSaveGame.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.numericUpDownSaveGame.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownSaveGame.Name = "numericUpDownSaveGame";
-            this.numericUpDownSaveGame.Size = new System.Drawing.Size(48, 25);
-            this.numericUpDownSaveGame.TabIndex = 2;
-            this.numericUpDownSaveGame.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.numericUpDownSaveGame.ValueChanged += new System.EventHandler(this.numericUpDownSaveGame_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 19);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Process interval (sec.)";
-            this.label1.MouseHover += new System.EventHandler(this.label1_MouseHover);
-            // 
-            // numericUpDownProcess
-            // 
-            this.numericUpDownProcess.Location = new System.Drawing.Point(174, 20);
-            this.numericUpDownProcess.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.numericUpDownProcess.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownProcess.Name = "numericUpDownProcess";
-            this.numericUpDownProcess.Size = new System.Drawing.Size(48, 25);
-            this.numericUpDownProcess.TabIndex = 0;
-            this.numericUpDownProcess.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDownProcess.ValueChanged += new System.EventHandler(this.numericUpDownProcess_ValueChanged);
-            // 
-            // checkBoxDisableExtraSaveGames
-            // 
-            this.checkBoxDisableExtraSaveGames.AutoSize = true;
-            this.checkBoxDisableExtraSaveGames.Location = new System.Drawing.Point(5, 169);
-            this.checkBoxDisableExtraSaveGames.Name = "checkBoxDisableExtraSaveGames";
-            this.checkBoxDisableExtraSaveGames.Size = new System.Drawing.Size(184, 23);
-            this.checkBoxDisableExtraSaveGames.TabIndex = 14;
-            this.checkBoxDisableExtraSaveGames.Text = "Disable extra Savesgames";
-            this.checkBoxDisableExtraSaveGames.UseVisualStyleBackColor = true;
-            this.checkBoxDisableExtraSaveGames.CheckedChanged += new System.EventHandler(this.checkBoxDisableExtraSaveGames_CheckedChanged);
+            this.checkBoxDisableSaveGameHistory.AutoSize = true;
+            this.checkBoxDisableSaveGameHistory.Location = new System.Drawing.Point(14, 34);
+            this.checkBoxDisableSaveGameHistory.Name = "checkBoxDisableSaveGameHistory";
+            this.checkBoxDisableSaveGameHistory.Size = new System.Drawing.Size(188, 23);
+            this.checkBoxDisableSaveGameHistory.TabIndex = 14;
+            this.checkBoxDisableSaveGameHistory.Text = "Disable SaveGame History";
+            this.checkBoxDisableSaveGameHistory.UseVisualStyleBackColor = true;
+            this.checkBoxDisableSaveGameHistory.CheckedChanged += new System.EventHandler(this.checkBoxDisableExtraSaveGames_CheckedChanged);
             // 
             // groupBoxExtraSavegames
             // 
-            this.groupBoxExtraSavegames.Controls.Add(this.groupBox6);
-            this.groupBoxExtraSavegames.Controls.Add(this.buttonSearchExtraSavegames);
-            this.groupBoxExtraSavegames.Controls.Add(this.label5);
-            this.groupBoxExtraSavegames.Controls.Add(this.textBoxPathExtraSavegames);
-            this.groupBoxExtraSavegames.Controls.Add(this.buttonSearchSaveGamePath);
-            this.groupBoxExtraSavegames.Controls.Add(this.label4);
-            this.groupBoxExtraSavegames.Controls.Add(this.textBoxPathSavegame);
-            this.groupBoxExtraSavegames.Location = new System.Drawing.Point(5, 196);
+            this.groupBoxExtraSavegames.Controls.Add(this.numericUpDownMinSaveGames);
+            this.groupBoxExtraSavegames.Controls.Add(this.labelSaveGameTimeDif);
+            this.groupBoxExtraSavegames.Location = new System.Drawing.Point(5, 34);
             this.groupBoxExtraSavegames.Name = "groupBoxExtraSavegames";
-            this.groupBoxExtraSavegames.Size = new System.Drawing.Size(345, 240);
+            this.groupBoxExtraSavegames.Size = new System.Drawing.Size(345, 64);
             this.groupBoxExtraSavegames.TabIndex = 13;
             this.groupBoxExtraSavegames.TabStop = false;
-            this.groupBoxExtraSavegames.Text = "Extra savegames";
             // 
-            // groupBox6
+            // numericUpDownMinSaveGames
             // 
-            this.groupBox6.Controls.Add(this.radioButtonCustomName);
-            this.groupBox6.Controls.Add(this.radioButtonSavegameContentSchema);
-            this.groupBox6.Controls.Add(this.radioButtonDirNameSchema);
-            this.groupBox6.Location = new System.Drawing.Point(3, 130);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(330, 104);
-            this.groupBox6.TabIndex = 8;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Name schema";
+            this.numericUpDownMinSaveGames.Location = new System.Drawing.Point(265, 24);
+            this.numericUpDownMinSaveGames.Name = "numericUpDownMinSaveGames";
+            this.numericUpDownMinSaveGames.Size = new System.Drawing.Size(74, 25);
+            this.numericUpDownMinSaveGames.TabIndex = 3;
+            this.numericUpDownMinSaveGames.ValueChanged += new System.EventHandler(this.numericUpDownMinSaveGames_ValueChanged);
             // 
-            // radioButtonCustomName
+            // labelSaveGameTimeDif
             // 
-            this.radioButtonCustomName.AutoEllipsis = true;
-            this.radioButtonCustomName.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonCustomName.Location = new System.Drawing.Point(5, 77);
-            this.radioButtonCustomName.Name = "radioButtonCustomName";
-            this.radioButtonCustomName.Size = new System.Drawing.Size(319, 21);
-            this.radioButtonCustomName.TabIndex = 8;
-            this.radioButtonCustomName.Text = "Savegame Custom (not set)";
-            this.radioButtonCustomName.UseVisualStyleBackColor = true;
-            this.radioButtonCustomName.CheckedChanged += new System.EventHandler(this.radioButtonCustomName_CheckedChanged);
-            // 
-            // radioButtonSavegameContentSchema
-            // 
-            this.radioButtonSavegameContentSchema.AutoSize = true;
-            this.radioButtonSavegameContentSchema.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonSavegameContentSchema.Location = new System.Drawing.Point(5, 50);
-            this.radioButtonSavegameContentSchema.Name = "radioButtonSavegameContentSchema";
-            this.radioButtonSavegameContentSchema.Size = new System.Drawing.Size(315, 21);
-            this.radioButtonSavegameContentSchema.TabIndex = 7;
-            this.radioButtonSavegameContentSchema.Text = "Savegame content (Lifepath Gender Level + Date)";
-            this.radioButtonSavegameContentSchema.UseVisualStyleBackColor = true;
-            this.radioButtonSavegameContentSchema.CheckedChanged += new System.EventHandler(this.radioButtonSavegameContentSchema_CheckedChanged);
-            // 
-            // radioButtonDirNameSchema
-            // 
-            this.radioButtonDirNameSchema.AutoSize = true;
-            this.radioButtonDirNameSchema.Checked = true;
-            this.radioButtonDirNameSchema.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonDirNameSchema.Location = new System.Drawing.Point(5, 23);
-            this.radioButtonDirNameSchema.Name = "radioButtonDirNameSchema";
-            this.radioButtonDirNameSchema.Size = new System.Drawing.Size(311, 21);
-            this.radioButtonDirNameSchema.TabIndex = 6;
-            this.radioButtonDirNameSchema.TabStop = true;
-            this.radioButtonDirNameSchema.Text = "Directory name (Quicksave/Autosave etc. + Date)";
-            this.radioButtonDirNameSchema.UseVisualStyleBackColor = true;
-            this.radioButtonDirNameSchema.CheckedChanged += new System.EventHandler(this.radioButtonDirNameSchema_CheckedChanged);
-            // 
-            // buttonSearchExtraSavegames
-            // 
-            this.buttonSearchExtraSavegames.Location = new System.Drawing.Point(308, 100);
-            this.buttonSearchExtraSavegames.Name = "buttonSearchExtraSavegames";
-            this.buttonSearchExtraSavegames.Size = new System.Drawing.Size(27, 24);
-            this.buttonSearchExtraSavegames.TabIndex = 5;
-            this.buttonSearchExtraSavegames.Text = "...";
-            this.buttonSearchExtraSavegames.UseVisualStyleBackColor = true;
-            this.buttonSearchExtraSavegames.Click += new System.EventHandler(this.buttonSearchExtraSavegames_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 80);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(142, 19);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Extra savegames Path";
-            // 
-            // textBoxPathExtraSavegames
-            // 
-            this.textBoxPathExtraSavegames.Location = new System.Drawing.Point(7, 100);
-            this.textBoxPathExtraSavegames.Name = "textBoxPathExtraSavegames";
-            this.textBoxPathExtraSavegames.ReadOnly = true;
-            this.textBoxPathExtraSavegames.Size = new System.Drawing.Size(297, 25);
-            this.textBoxPathExtraSavegames.TabIndex = 3;
-            this.textBoxPathExtraSavegames.TextChanged += new System.EventHandler(this.textBoxPathExtraSavegames_TextChanged);
-            // 
-            // buttonSearchSaveGamePath
-            // 
-            this.buttonSearchSaveGamePath.Location = new System.Drawing.Point(308, 45);
-            this.buttonSearchSaveGamePath.Name = "buttonSearchSaveGamePath";
-            this.buttonSearchSaveGamePath.Size = new System.Drawing.Size(27, 24);
-            this.buttonSearchSaveGamePath.TabIndex = 2;
-            this.buttonSearchSaveGamePath.Text = "...";
-            this.buttonSearchSaveGamePath.UseVisualStyleBackColor = true;
-            this.buttonSearchSaveGamePath.Click += new System.EventHandler(this.buttonSearchSaveGamePath_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 26);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 19);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Savegame Path";
-            // 
-            // textBoxPathSavegame
-            // 
-            this.textBoxPathSavegame.Location = new System.Drawing.Point(7, 45);
-            this.textBoxPathSavegame.Name = "textBoxPathSavegame";
-            this.textBoxPathSavegame.ReadOnly = true;
-            this.textBoxPathSavegame.Size = new System.Drawing.Size(297, 25);
-            this.textBoxPathSavegame.TabIndex = 0;
-            this.textBoxPathSavegame.TextChanged += new System.EventHandler(this.textBoxPathSavegame_TextChanged);
+            this.labelSaveGameTimeDif.AutoSize = true;
+            this.labelSaveGameTimeDif.Location = new System.Drawing.Point(8, 30);
+            this.labelSaveGameTimeDif.Name = "labelSaveGameTimeDif";
+            this.labelSaveGameTimeDif.Size = new System.Drawing.Size(209, 19);
+            this.labelSaveGameTimeDif.TabIndex = 2;
+            this.labelSaveGameTimeDif.Text = "Minutes between last save game";
+            this.labelSaveGameTimeDif.MouseHover += new System.EventHandler(this.labelSaveGameTimeDif_MouseHover);
             // 
             // checkBoxIgnoreAddApps
             // 
             this.checkBoxIgnoreAddApps.AutoSize = true;
-            this.checkBoxIgnoreAddApps.Location = new System.Drawing.Point(5, 442);
+            this.checkBoxIgnoreAddApps.Location = new System.Drawing.Point(14, 179);
             this.checkBoxIgnoreAddApps.Name = "checkBoxIgnoreAddApps";
-            this.checkBoxIgnoreAddApps.Size = new System.Drawing.Size(208, 23);
+            this.checkBoxIgnoreAddApps.Size = new System.Drawing.Size(252, 23);
             this.checkBoxIgnoreAddApps.TabIndex = 12;
-            this.checkBoxIgnoreAddApps.Text = "Ignore additional applications";
+            this.checkBoxIgnoreAddApps.Text = "Disable external applications on start";
             this.checkBoxIgnoreAddApps.UseVisualStyleBackColor = true;
             this.checkBoxIgnoreAddApps.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreAddApps_CheckedChanged);
             // 
@@ -634,12 +493,11 @@ namespace CyberStart77
             this.groupBoxAddApplication.Controls.Add(this.pictureBoxEdit);
             this.groupBoxAddApplication.Controls.Add(this.pictureBoxDelete);
             this.groupBoxAddApplication.Controls.Add(this.listBoxProcess);
-            this.groupBoxAddApplication.Location = new System.Drawing.Point(5, 466);
+            this.groupBoxAddApplication.Location = new System.Drawing.Point(5, 180);
             this.groupBoxAddApplication.Name = "groupBoxAddApplication";
             this.groupBoxAddApplication.Size = new System.Drawing.Size(345, 146);
             this.groupBoxAddApplication.TabIndex = 12;
             this.groupBoxAddApplication.TabStop = false;
-            this.groupBoxAddApplication.Text = "Run additional applications on start";
             // 
             // label3
             // 
@@ -712,9 +570,9 @@ namespace CyberStart77
             this.groupBox7.Controls.Add(this.checkBoxAutostart);
             this.groupBox7.Controls.Add(this.checkBoxHideStatusLog);
             this.groupBox7.Controls.Add(this.checkBoxMinimizeToTray);
-            this.groupBox7.Location = new System.Drawing.Point(8, 637);
+            this.groupBox7.Location = new System.Drawing.Point(4, 350);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(345, 82);
+            this.groupBox7.Size = new System.Drawing.Size(353, 82);
             this.groupBox7.TabIndex = 17;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Other";
@@ -768,40 +626,38 @@ namespace CyberStart77
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(756, 813);
+            this.ClientSize = new System.Drawing.Size(756, 526);
             this.Controls.Add(this.panelAll);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(772, 852);
-            this.MinimumSize = new System.Drawing.Size(16, 400);
+            this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "Form1";
-            this.Text = "CyberSave77 (v0.1)";
+            this.Text = "CyberSave77 (v0.2)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.cmsNotifyIcon.ResumeLayout(false);
             this.panelAll.ResumeLayout(false);
             this.panelAll.PerformLayout();
+            this.panelCredit.ResumeLayout(false);
+            this.panelCredit.PerformLayout();
             this.panelRightSide.ResumeLayout(false);
             this.panelButton.ResumeLayout(false);
             this.panelButton.PerformLayout();
-            this.panelCredit.ResumeLayout(false);
-            this.panelCredit.PerformLayout();
             this.panelSettings.ResumeLayout(false);
             this.groupBoxSettings.ResumeLayout(false);
             this.panelSettingsRunDisable.ResumeLayout(false);
             this.panelSettingsRunDisable.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.groupBoxAutosave.ResumeLayout(false);
+            this.groupBoxAutosave.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSaveGame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownProcess)).EndInit();
             this.groupBoxExtraSavegames.ResumeLayout(false);
             this.groupBoxExtraSavegames.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinSaveGames)).EndInit();
             this.groupBoxAddApplication.ResumeLayout(false);
             this.groupBoxAddApplication.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
@@ -817,10 +673,6 @@ namespace CyberStart77
         private System.ComponentModel.BackgroundWorker bgwCheckProcess;
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.GroupBox groupBoxSettings;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDownSaveGame;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDownProcess;
         private System.Windows.Forms.ListBox listBoxProcess;
         private System.Windows.Forms.PictureBox pictureBoxDelete;
         private System.Windows.Forms.PictureBox pictureBoxAdd;
@@ -828,22 +680,9 @@ namespace CyberStart77
         private System.Windows.Forms.GroupBox groupBoxAddApplication;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox checkBoxIgnoreAddApps;
-        private System.Windows.Forms.CheckBox checkBoxDisableExtraSaveGames;
+        private System.Windows.Forms.CheckBox checkBoxDisableSaveGameHistory;
         private System.Windows.Forms.GroupBox groupBoxExtraSavegames;
-        private System.Windows.Forms.Button buttonSearchExtraSavegames;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBoxPathExtraSavegames;
-        private System.Windows.Forms.Button buttonSearchSaveGamePath;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxPathSavegame;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBoxProcess;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.RadioButton radioButtonSavegameContentSchema;
-        private System.Windows.Forms.RadioButton radioButtonDirNameSchema;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox checkBoxCloseToTray;
         private System.Windows.Forms.CheckBox checkBoxAutostart;
@@ -867,9 +706,16 @@ namespace CyberStart77
         private System.Windows.Forms.Panel panelAll;
         private System.Windows.Forms.Panel panelButton;
         private System.Windows.Forms.Panel panelRightSide;
-        private System.Windows.Forms.RadioButton radioButtonCustomName;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panelCredit;
+        private System.Windows.Forms.CheckBox checkBoxDisableAutosave;
+        private System.Windows.Forms.GroupBox groupBoxAutosave;
+        private System.Windows.Forms.NumericUpDown numericUpDownTryAutoQuickSave;
+        private System.Windows.Forms.Label labelAutosve;
+        private System.Windows.Forms.NumericUpDown numericUpDownMinSaveGames;
+        private System.Windows.Forms.Label labelSaveGameTimeDif;
+        private System.Windows.Forms.Label labelProcess;
+        private ModernButton modernButtonDebug;
     }
 }
 

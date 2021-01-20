@@ -101,6 +101,16 @@ namespace CyberStart77.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cyberpunk2077_Wallpapers_TraumaTeam_1600x900_EN {
+            get {
+                object obj = ResourceManager.GetObject("Cyberpunk2077_Wallpapers_TraumaTeam_1600x900_EN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] test_json_106 {

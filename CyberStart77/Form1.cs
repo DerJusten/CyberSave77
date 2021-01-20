@@ -25,14 +25,16 @@ namespace CyberStart77
             InitializeComponent();
         }
 
-        string saveGamePath, extraSaveGamePath;
+        //   string saveGameDefaultPath, saveGameHistoryPath;
         public static ProcInfoMin procInfo;
         private bool forceExit = false;
-        private static DateTime lastSaveGameCreationDate;
-        private static bool gameSaved = false;
+        private static DateTime lastSaveGameCreationDate = new DateTime();
+        //    private static bool gameSaved = false;
         private System.Timers.Timer timerSaveGame;
-        private int iChecksWithoutSavegame = 0;
-
+        private System.Timers.Timer timerAutoQuickSave;
+        //      private int iChecksWithoutSavegame = 0;
+        private static CyberSave77Settings settings;
+        private static bool bDebug = false;
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
@@ -61,39 +63,56 @@ namespace CyberStart77
         private void buttonStart_Click(object sender, EventArgs e)
         {
 
-            startBackgroundWorker();
 
+            startBackgroundWorker();
         }
 
         private void startBackgroundWorker()
         {
-            saveGamePath = Properties.Settings.Default.savegamePath;
-            extraSaveGamePath = Properties.Settings.Default.extraSavegamePath;
+
             List<ProcessStartInfo> pInfo = new List<ProcessStartInfo>();
 
-            if (checkBoxDisableExtraSaveGames.Checked == false)
+            settings = new CyberSave77Settings();
+            settings.ProcessName = Properties.Settings.Default.processName;
+            settings.SavegamePathDefault = Properties.Settings.Default.savegameDefaultPath;
+            settings.SavegamePathHistory = Properties.Settings.Default.savegameHistoryPath;
+
+            settings.IntervalAutoQuickSave = Properties.Settings.Default.intervalAutoQuickSaveMinutes * 1000 * 60;
+            settings.IntervalProcessCheck = Properties.Settings.Default.counterProcessCheck;
+            settings.IntervalSaveGameCheck = Properties.Settings.Default.intervalSaveGameCheckSeconds * 1000;
+
+            settings.KillStartedApplicationsOnExit = Properties.Settings.Default.killStartedAppsOnExit;
+            settings.DisableApplicationsOnStart = Properties.Settings.Default.disableAddApps;
+            settings.DisableAutoQuickSave = Properties.Settings.Default.disableAutoQuicksave;
+            settings.DisableSaveHameHistory = Properties.Settings.Default.disableExtraSavegames;
+
+            settings.TimeDifferenceBtwSavegames = Properties.Settings.Default.timeDifferenceSaveGames;
+            settings.AutoQsRetryInSecs = Properties.Settings.Default.autoQuickSaveErrorDelay;
+
+            if (settings.DisableSaveHameHistory == false)
             {
-                if (!Directory.Exists(saveGamePath))
+                if (!Directory.Exists(settings.SavegamePathDefault))
                 {
                     MessageBox.Show("Path not found.");
                     return;
                 }
-                else if (string.IsNullOrEmpty(extraSaveGamePath))
+                else if (string.IsNullOrEmpty(settings.SavegamePathHistory))
                 {
                     MessageBox.Show("Invalid Extra savegame path");
                     return;
                 }
             }
-            if (checkBoxIgnoreAddApps.Checked == false)
+            if (settings.DisableApplicationsOnStart == false)
             {
                 foreach (var item in readProcessInfoFromJson())
                 {
                     pInfo.Add(item.ConvertToProcessStartInfo());
                 }
+                settings.ApplicationsToStartList = pInfo;
             }
-            if (checkBoxIgnoreAddApps.Checked == true && checkBoxDisableExtraSaveGames.Checked == true)
+            if (settings.DisableApplicationsOnStart == true && settings.DisableAutoQuickSave == true && settings.DisableSaveHameHistory)
             {
-                MessageBox.Show("Invalid configuration! Custom Apps or extra save games have to be enabled");
+                MessageBox.Show("Invalid configuration! Custom Apps, AutoQuickSave or SaveGame History has to be enabled");
                 return;
             }
             else
@@ -102,60 +121,114 @@ namespace CyberStart77
                 modernButtonStart.Enabled = false;
                 modernButtonStop.Enabled = true;
                 startToolStripMenuItem.Text = "Stop";
-                bgwCheckProcess.RunWorkerAsync(pInfo);
+                bgwCheckProcess.RunWorkerAsync(settings);
             }
         }
 
         private void checkSaveGame()
         {
-            int timeDifference = Properties.Settings.Default.minDifferenceLastSaveGame;
-            int iAutosaveMinutes = Properties.Settings.Default.minAutosaveGame;
 
-            bgwCheckProcess.ReportProgress(1, "Check for new savegames..." + Environment.NewLine);
+            DirectoryInfo dirInfoDefault = new DirectoryInfo(settings.SavegamePathDefault);
+            DirectoryInfo dirInfoHistory = new DirectoryInfo(settings.SavegamePathHistory);
 
-            var legacySaves = Directory.EnumerateDirectories(saveGamePath).Where(d => d.Contains("AutoSave") || d.Contains("QuickSave") || d.Contains("PointOfNoReturnSave") || d.Contains("EndGameSave"));
-            if (!Directory.Exists(extraSaveGamePath))
-                Directory.CreateDirectory(extraSaveGamePath);
+            bgwCheckProcess.ReportProgress(0, "Check for new savegames...");
 
-            var extraSaves = Directory.EnumerateDirectories(extraSaveGamePath);
-            List<DirectoryInfo> listLegacyDirInfo = new List<DirectoryInfo>();
-            List<DirectoryInfo> listExtraSavesDirInfo = new List<DirectoryInfo>();
+            if (!Directory.Exists(settings.SavegamePathHistory))
+                Directory.CreateDirectory(settings.SavegamePathHistory);
 
-            foreach (var item in legacySaves)
+            //Get all directories
+            var allDirectories = dirInfoDefault.EnumerateDirectories();
+
+            //History saves will be saved in the default save game directory
+            if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                listLegacyDirInfo.Add(new DirectoryInfo(item));
-            }
-            foreach (var item in extraSaves)
-            {
-                listExtraSavesDirInfo.Add(new DirectoryInfo(item));
-            }
-            var existingDirs = listLegacyDirInfo.Where(d => listExtraSavesDirInfo.Any(f => d.CreationTime == f.CreationTime));
+                //Get all directories which are unique by their creation date (Copies will always have the same creation date as the original)
+                var uniqueDirsByDate = allDirectories.GroupBy(c => c.CreationTime).Where(g => g.Count() == 1).SelectMany(c => c);
 
-            var missingDirs = listLegacyDirInfo.Except(existingDirs);
+                //Filter unique dirs by their name to exclude ManualSaves and other dirs
+                var uniqueDirsFiltered = uniqueDirsByDate.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();// || d.Name.Contains("PointOfNoReturnSave") || d.Name.Contains("EndGameSave")).ToList();
 
-            if (lastSaveGameCreationDate == null)
-                lastSaveGameCreationDate = listLegacyDirInfo.Max(d => d.CreationTime);
-
-            missingDirs = missingDirs.Where(d => (d.CreationTime - lastSaveGameCreationDate).TotalMinutes >= timeDifference);
-
-            if (missingDirs.Count() > 0)
-                copySaveGames(missingDirs);
-
-            if (iAutosaveMinutes != 0)
-            {
-                int intervalInMin = Convert.ToInt32(Math.Floor(timerSaveGame.Interval / 1000 / 60));
-
-                if (iChecksWithoutSavegame * intervalInMin >= (iAutosaveMinutes - intervalInMin))
-                    gameSaved = false;
-
-                if (gameSaved == false && isProcessInForeground(Properties.Settings.Default.process))
+                if (lastSaveGameCreationDate == new DateTime() && allDirectories.Count() > 0)
                 {
-                    SendKeys.SendWait("{F5}");
-                    bgwCheckProcess.ReportProgress(0, "Autosave... (Sending F5)");
+                    //Get the latest save game which got copied (if one exists)
+                    var listDuplicateDirDates = allDirectories.GroupBy(c => c.CreationTime).Where(g => g.Count() > 1).SelectMany(c => c);
+                    if (listDuplicateDirDates.Count() > 0)
+                        lastSaveGameCreationDate = listDuplicateDirDates.Max(d => d.CreationTime);
                 }
 
-                iChecksWithoutSavegame++;
+                List<DirectoryInfo> dirsToBeCopied;
+
+
+                if (settings.TimeDifferenceBtwSavegames != 0)
+                    dirsToBeCopied = filterDirsByTime(uniqueDirsFiltered, settings.TimeDifferenceBtwSavegames);
+                else
+                    dirsToBeCopied = uniqueDirsFiltered;
+
+                if (dirsToBeCopied.Count() > 0)
+                {
+                    bgwCheckProcess.ReportProgress(2, "Found " + dirsToBeCopied.Count().ToString() + " savegame(s) to be copied");
+                    copySaveGames(dirsToBeCopied);
+                }
             }
+            else
+
+            {
+                var listDefaultSaveGames = allDirectories.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();// || d.Name.Contains("PointOfNoReturnSave") || d.Name.Contains("EndGameSave"));
+                var listHistorySaveGames = dirInfoHistory.EnumerateDirectories();
+
+                //Get all dirs with a different CreationTime (since all copied saves have the same creation time as the original ones)
+                var missingDirs = listDefaultSaveGames.Where(d => listHistorySaveGames.All(f => d.CreationTime != f.CreationTime));
+
+                if (lastSaveGameCreationDate == new DateTime() && listHistorySaveGames.Count() > 0)
+                    lastSaveGameCreationDate = listHistorySaveGames.Max(d => d.CreationTime);
+
+                // = missingDirs.Where(d => allDirectories.All(a => Math.Abs((d.CreationTime - a.CreationTime).TotalMinutes) > timeDifference));
+
+                var dirsToBeCopied = filterDirsByTime(missingDirs.ToList(), settings.TimeDifferenceBtwSavegames);
+
+
+
+                if (dirsToBeCopied.Count() > 0)
+                {
+                    bgwCheckProcess.ReportProgress(2, "Found " + dirsToBeCopied.Count().ToString() + " savegame(s) to be copied");
+                    copySaveGames(dirsToBeCopied);
+                }
+            }
+
+            //var extraSaves = Directory.EnumerateDirectories(extraSaveGamePath);
+            //List<DirectoryInfo> listLegacyDirInfo = new List<DirectoryInfo>();
+            //List<DirectoryInfo> listExtraSavesDirInfo = new List<DirectoryInfo>();
+
+            //foreach (var item in legacySaves)
+            //{
+            //    listLegacyDirInfo.Add(new DirectoryInfo(item));
+            //}
+            //foreach (var item in extraSaves)
+            //{
+            //    listExtraSavesDirInfo.Add(new DirectoryInfo(item));
+            //}
+
+        }
+
+        private List<DirectoryInfo> filterDirsByTime(List<DirectoryInfo> uniqueDirs, int timeDifference)
+        {
+            List<DirectoryInfo> lDirInfo = new List<DirectoryInfo>();
+            uniqueDirs = uniqueDirs.OrderBy(d => d.CreationTime).ToList();
+
+            for (int i = 0; i < uniqueDirs.Count(); i++)
+            {
+                if (i == 0 && lastSaveGameCreationDate == new DateTime())
+                {
+                    lastSaveGameCreationDate = uniqueDirs[i].CreationTime;
+                    lDirInfo.Add(uniqueDirs[i]);
+                }
+                else if (((uniqueDirs[i].CreationTime - lastSaveGameCreationDate).TotalMinutes) >= timeDifference)
+                {
+                    lastSaveGameCreationDate = uniqueDirs[i].CreationTime;
+                    lDirInfo.Add(uniqueDirs[i]);
+                }
+            }
+            return lDirInfo;
         }
 
         private bool isProcessInForeground(string processname)
@@ -177,7 +250,6 @@ namespace CyberStart77
             //{
             //    return false;
             //}
-
         }
 
         private void startCustomApplications(List<ProcessStartInfo> listExe)
@@ -221,76 +293,76 @@ namespace CyberStart77
         }
         private void copySaveGames(IEnumerable<DirectoryInfo> legacySaves)
         {
-            if (!Directory.Exists(extraSaveGamePath))
-                Directory.CreateDirectory(extraSaveGamePath);
             try
             {
-
                 string lifepath, gender, lvl, newDirName;
-                int nameSchemaMode = Properties.Settings.Default.name_schema;
-                foreach (var item in legacySaves)
+            int nameSchemaMode = Properties.Settings.Default.nameSchemaMode;
+            foreach (var item in legacySaves)
+            {
+                if (nameSchemaMode == 1 || nameSchemaMode == 2)
                 {
-
-
-                    if (nameSchemaMode == 1 || nameSchemaMode == 2)
+                    var jsonFiles = Directory.EnumerateFiles(item.FullName, "metadata.9.json");
+                    if (jsonFiles.Count() > 0)
                     {
-                        var jsonFiles = Directory.EnumerateFiles(item.FullName, "metadata.9.json");
-                        if (jsonFiles.Count() > 0)
+                        string nameSchema = Properties.Settings.Default.customNameSchema;
+                        if (nameSchemaMode == 2 && !string.IsNullOrEmpty(nameSchema))
                         {
-                            string nameSchema = Properties.Settings.Default.customNameSchema;
-                            if (nameSchemaMode == 2 && string.IsNullOrEmpty(nameSchema))
-                            {
-                                newDirName = getNameSchemaSaveGame(readJsonFromFile(jsonFiles.First()), item.CreationTime);
-                            }
-                            else
-                            {
-                                JObject jo = readJsonFromFile(jsonFiles.First());
-                                lifepath = (string)jo["Data"]["metadata"]["lifePath"];
-                                gender = (string)jo["Data"]["metadata"]["bodyGender"];
-                                lvl = (string)jo["Data"]["metadata"]["level"];
-                                newDirName = Path.Combine(extraSaveGamePath, lifepath + " " + gender + " " + lvl + " " + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
-                            }
+                            newDirName = Path.Combine(settings.SavegamePathHistory, getNameSchemaSaveGame(readJsonFromFile(jsonFiles.First()), item.CreationTime));
                         }
-                        //Fallback if json not found/empty
                         else
-                            newDirName = Path.Combine(extraSaveGamePath, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
+                        {
+                            JObject jo = readJsonFromFile(jsonFiles.First());
+                            lifepath = (string)jo["Data"]["metadata"]["lifePath"];
+                            gender = (string)jo["Data"]["metadata"]["bodyGender"];
+                            lvl = (string)jo["Data"]["metadata"]["level"];
+                            newDirName = Path.Combine(settings.SavegamePathHistory, lifepath + " " + gender + " " + lvl + " " + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
+                        }
                     }
-                    else if (Properties.Settings.Default.name_schema == 2)
-                    {
-                        newDirName = getNameSchemaSaveGame(readJsonFromFile(item.FullName), item.CreationTime);
-                    }
+                    //Fallback if json not found/empty
                     else
-                        newDirName = Path.Combine(extraSaveGamePath, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
-                    if (!Directory.Exists(newDirName))
-                    {
-                        Directory.CreateDirectory(newDirName);
-                    }
+                        newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
+                }
+                else
+                    newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
 
+                if (!Directory.Exists(newDirName) && settings.copyDirs == true)
+                {
+                    Directory.CreateDirectory(newDirName);
+                }
+
+                if (settings.copyDirs == true)
+                {
                     foreach (var saveFiles in Directory.EnumerateFiles(item.FullName))
                     {
                         string destFile = Path.Combine(newDirName, Path.GetFileName(saveFiles));
 
 
-                        File.Copy(saveFiles, destFile,false);
+                        File.Copy(saveFiles, destFile, false);
                         File.SetCreationTime(destFile, File.GetCreationTime(saveFiles));
                     }
+
                     Directory.SetCreationTime(newDirName, item.CreationTime);
                     Directory.SetLastWriteTime(newDirName, item.LastWriteTime);
-                    if (bgwCheckProcess.IsBusy == true)
-                        bgwCheckProcess.ReportProgress(1, "Copy Savegame " + item.Name + " to " + Path.GetDirectoryName(newDirName) + Environment.NewLine);
+                }
+                if (bgwCheckProcess.IsBusy == true)
+                    bgwCheckProcess.ReportProgress(0, "Copy Savegame " + item.Name + " to " + new DirectoryInfo(newDirName).Name);
 
-                    lastSaveGameCreationDate = item.CreationTime;
-                    gameSaved = true;
-                    iChecksWithoutSavegame = 0;
+                lastSaveGameCreationDate = item.CreationTime;
+
+                //Restart Autosave Timer since a
+                if (timerAutoQuickSave.Enabled == true)
+                {
+                    timerAutoQuickSave.Stop();
+                    timerAutoQuickSave.Start();
                 }
             }
+        }
             catch (Exception err)
             {
-
-                bgwCheckProcess.ReportProgress(-1, "ERROR (CopySaveGames): " + err.Message + Environment.NewLine);
+                bgwCheckProcess.ReportProgress(-1, "ERROR (CopySaveGames): " + err.Message);
             }
-        }
-        public static JObject readJsonFromFile(string jsonFile)
+}
+public static JObject readJsonFromFile(string jsonFile)
         {
             using (StreamReader sr = new StreamReader(jsonFile))
             {
@@ -320,8 +392,11 @@ namespace CyberStart77
                     //GROUP0 = Value including %
                     // GROUP1 = Value between %
                     // GROUP2 = Value between [] (returns empty.string when no square brackets found)
-                    jSchema.Add(new JsonRegexNameSchema { jsonKey = grp.Groups[1].Value,
-                                                            regexMatch = grp.Groups[0].Value });
+                    jSchema.Add(new JsonRegexNameSchema
+                    {
+                        jsonKey = grp.Groups[1].Value,
+                        regexMatch = grp.Groups[0].Value
+                    });
                 }
                 if (grp.Groups[2] != null)
                 {
@@ -343,13 +418,13 @@ namespace CyberStart77
                     {
                         string tmp = (string)jsonFile["Data"]["metadata"][item.jsonKey];
                         if (!string.IsNullOrEmpty(tmp))
-                            item.jsonValue = tmp;                     
+                            item.jsonValue = tmp;
                     }
                 }
 
             if ((!string.IsNullOrEmpty(nameSchema)) && nameSchema != "playerPosition")
             {
-                foreach (var item in jSchema.Where(j=>!string.IsNullOrEmpty(j.jsonValue)))
+                foreach (var item in jSchema.Where(j => !string.IsNullOrEmpty(j.jsonValue)))
                 {
 
                     nameSchema = nameSchema.Replace(item.regexMatch, item.jsonValue);
@@ -374,62 +449,91 @@ namespace CyberStart77
         private void bgwCheckProcess_DoWork(object sender, DoWorkEventArgs e)
         {
             Process[] p;
-            List<ProcessStartInfo> pListStartinfo = (List<ProcessStartInfo>)e.Argument;
-            string processName = Properties.Settings.Default.process;
 
-            int timerProcess = Properties.Settings.Default.processTimer;
-            int iTimerSaveGame = Properties.Settings.Default.savegameTimer * 1000;
-            bool bDisableCustomApp = Properties.Settings.Default.disableAddApps;
-            bool bDisbleExtraSaveGames = Properties.Settings.Default.disableExtraSavegames;
+            CyberSave77Settings settings = (CyberSave77Settings)e.Argument;
 
-            timerSaveGame = new System.Timers.Timer();
-            timerSaveGame.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            //string processName = Properties.Settings.Default.process;
 
-            timerSaveGame.Interval = iTimerSaveGame;
+            //int timerProcess = Properties.Settings.Default.processTimer;
+            ////seconds -> ms
+            //int iTimerSaveGame = Properties.Settings.Default.savegameTimer * 1000;
+            ////minutes -> ms
+            //int iTimerAutoQuickSave = Properties.Settings.Default.intervalAutoSafeMinutes * 60 * 1000;
 
-            bgwCheckProcess.ReportProgress(-1, "Backgroundworker has started" + Environment.NewLine);
+            //bool bDisableCustomApp = Properties.Settings.Default.disableAddApps;
+            //bool bDisbleExtraSaveGames = Properties.Settings.Default.disableExtraSavegames;
+            //bool bTerminateStartAppOnExit = Properties.Settings.Default.terminateStartApps;
+            timerSaveGame.Interval = settings.IntervalSaveGameCheck;
+            timerAutoQuickSave.Interval = settings.IntervalAutoQuickSave;
+
+
+            bgwCheckProcess.ReportProgress(2, "Backgroundworker has started");
+            displaySettings();
+
+
+
             while (bgwCheckProcess.CancellationPending == false)
             {
-                bgwCheckProcess.ReportProgress(-1, "Check for running process " + processName + Environment.NewLine);
-                p = Process.GetProcessesByName(processName);
-                if (p.Length > 0)
-                {
-                    if (bDisableCustomApp == false)
-                        startCustomApplications(pListStartinfo);
+                bgwCheckProcess.ReportProgress(0, "Check for running process " + settings.ProcessName);
 
-                    bgwCheckProcess.ReportProgress(0, processName + " is running..." + Environment.NewLine);
-                    while (checkProcessExit(p.FirstOrDefault()) == false)
+                p = Process.GetProcessesByName(settings.ProcessName);
+                if (p.Length > 0 || bDebug == true)
+                {
+                    if (settings.DisableApplicationsOnStart == false)
+                        startCustomApplications(settings.ApplicationsToStartList);
+
+                    bgwCheckProcess.ReportProgress(0, settings.ProcessName + " is running...");
+
+                    //while Process is running
+                    while (checkProcessExit(p.FirstOrDefault()) == false || bDebug == true)
                     {
-                        if (bDisbleExtraSaveGames == false)
+                        //SaveGameChecker
+                        if (settings.DisableSaveHameHistory == false)
                         {
                             if (timerSaveGame.Enabled == false)
                             {
                                 timerSaveGame.Start();
-                                bgwCheckProcess.ReportProgress(0, "Start SaveGameCheck in " + (timerSaveGame.Interval / 1000).ToString() + " seconds" + Environment.NewLine);
+                                bgwCheckProcess.ReportProgress(0, "Start SaveGameCheck in " + (timerSaveGame.Interval / 1000).ToString() + " seconds");
                             }
                         }
+                        //Autosaver
+                        if (settings.DisableAutoQuickSave == false && timerAutoQuickSave.Enabled == false)
+                        {
+                            timerAutoQuickSave.Start();
+                            bgwCheckProcess.ReportProgress(0, "Start AutoQuickSave...");
+                        }
+
                         if (bgwCheckProcess.CancellationPending)
                         {
+
                             timerSaveGame.Stop();
-                            break;
+                            timerAutoQuickSave.Stop();
+                            CancelTimer = true;
+                            return;
                         }
+                        //Small delay to keep the load low
                         Thread.Sleep(500);
                     }
-                    if (timerSaveGame.Enabled == true)
-                        timerSaveGame.Stop();
 
-                    if (bDisableCustomApp == false)
-                        killCustomApplications(pListStartinfo);
+                    timerSaveGame.Stop();
+                    timerAutoQuickSave.Stop();
+
+                    if (settings.DisableApplicationsOnStart == false)
+                        if (settings.KillStartedApplicationsOnExit == true)
+                            killCustomApplications(settings.ApplicationsToStartList);
 
 
-                    bgwCheckProcess.ReportProgress(0, processName + " exited" + Environment.NewLine);
+                    bgwCheckProcess.ReportProgress(0, settings.ProcessName + " exited");
+
+                    //try to prevent multiple exits, since multiple processes are running
+                    Thread.Sleep(750);
                 }
                 else
                 {
-                    if (timerProcess != 0)
+                    if (settings.IntervalProcessCheck != 0)
                     {
-                        bgwCheckProcess.ReportProgress(-1, "Sleep for " + timerProcess + " seoncds" + Environment.NewLine);
-                        for (int i = 0; i < timerProcess; i++)
+                        bgwCheckProcess.ReportProgress(2, "Sleep for " + settings.IntervalProcessCheck + " seoncds");
+                        for (int i = 0; i < settings.IntervalProcessCheck; i++)
                         {
                             if (bgwCheckProcess.CancellationPending == true)
                                 break;
@@ -439,7 +543,31 @@ namespace CyberStart77
                 }
             }
         }
+        private void displaySettings()
+        {
+            string stateHistorySavegame, stateAutoQuickSave, stateStartApp;
+            if (Properties.Settings.Default.disableExtraSavegames == true)
+                stateHistorySavegame = "Savegame History is disabled";
+            else
+                stateHistorySavegame = "Copy only savegames which are older than " + Properties.Settings.Default.timeDifferenceSaveGames + " minutes";
 
+            if (Properties.Settings.Default.disableAutoQuicksave == true)
+                stateAutoQuickSave = "AutoQuickSave is disabled";
+            else
+                stateAutoQuickSave = "AutoQuickSave every " + Properties.Settings.Default.intervalAutoQuickSaveMinutes + "  minutes";
+
+            if (Properties.Settings.Default.disableAddApps == true)
+                stateStartApp = "Start additional applications on start is disabled";
+            else
+                stateStartApp = "Start additional applications on start is enabled";
+
+            bgwCheckProcess.ReportProgress(0, "#########################################");
+            bgwCheckProcess.ReportProgress(0, stateHistorySavegame);
+            bgwCheckProcess.ReportProgress(0, stateAutoQuickSave);
+            bgwCheckProcess.ReportProgress(0, stateStartApp);
+            bgwCheckProcess.ReportProgress(0, "#########################################");
+
+        }
         private void killCustomApplications(List<ProcessStartInfo> pListStartinfo)
         {
             foreach (var item in pListStartinfo)
@@ -450,12 +578,12 @@ namespace CyberStart77
                     try
                     {
                         pro.Kill();
-                        bgwCheckProcess.ReportProgress(-1, "Successfully killed process " + item.FileName + Environment.NewLine);
+                        bgwCheckProcess.ReportProgress(2, "Successfully killed process " + item.FileName);
                     }
                     catch (Exception)
                     {
 
-                        bgwCheckProcess.ReportProgress(-1, "Failed to kill process " + item.FileName + Environment.NewLine);
+                        bgwCheckProcess.ReportProgress(2, "Failed to kill process " + item.FileName);
                     }
                 }
             }
@@ -464,72 +592,186 @@ namespace CyberStart77
         {
             checkSaveGame();
         }
+        private static bool CancelTimer = false;
+        //DEPRECATED -> in-game autosve interval is 5 minutes, which should be enough for most of the people (pretty much forgot about this feature)
+        //I still leave it in here, for lower custom intervals if this feature will ever be used
+        private void OnTimedEventAutoQuickSave(object source, ElapsedEventArgs e)
+        {
+            CancelTimer = false;
+
+            DateTime dt = new DateTime();
+            int iCounter = 1;
+            int iMaxRetries = Properties.Settings.Default.autoQuickSaveMaxRetries;
+            int iRetryAutoQuickSaveSeconds = settings.AutoQsRetryInSecs - 5;
+
+            if (isProcessInForeground(Properties.Settings.Default.processName))
+            {
+                SendKeys.SendWait("{F5}");
+                bgwCheckProcess.ReportProgress(0, "Create Quicksave... (Sending F5)");
+                dt = DateTime.Now;
+                Thread.Sleep(5000);
+            }
+            else
+            {
+                //Add action for not focused process
+                bgwCheckProcess.ReportProgress(-1, "Quicksave canceld. Process not focussed");
+                return;
+            }
+            while (savefileFound(dt) == false && iMaxRetries > 0)
+            {
+                timerAutoQuickSave.AutoReset = false;
+                bgwCheckProcess.ReportProgress(0, "Quicksave failed. Trying again in 30 seconds.");
+
+                //FOR Loop to check every second instead waiting for 30 seconds to cancel
+                for (int i = 0; i < iRetryAutoQuickSaveSeconds; i++)
+                {
+                    Thread.Sleep(1000);
+                    if (CancelTimer == true)
+                        return;
+                }
+                if (isProcessInForeground(Properties.Settings.Default.processName))
+                {
+                    SendKeys.SendWait("{F5}");
+                    bgwCheckProcess.ReportProgress(0, "Create Quicksave Try #" + iCounter + " (Sending F5)");
+                    dt = DateTime.Now;
+                    Thread.Sleep(5000);
+
+                    if (iCounter > iMaxRetries)
+                    {
+                        bgwCheckProcess.ReportProgress(-1, "Failed to save game in time after " + iCounter + " retries.");
+                        return;
+                    }
+                }
+                else
+                {
+                    //Add action for not focused process
+                    timerAutoQuickSave.Stop();
+                    timerAutoQuickSave.Start();
+                    timerAutoQuickSave.AutoReset = true;
+                    bgwCheckProcess.ReportProgress(-1, "Autosave canceld. Process not focussed");
+                    return;
+                }
+                iCounter++;
+            }
+
+            //Restart Timer   
+            timerAutoQuickSave.Stop();
+            timerAutoQuickSave.Start();
+            timerAutoQuickSave.AutoReset = true;
+            bgwCheckProcess.ReportProgress(0, "Game saved successfully");
+
+
+        }
+        //Checks if a Quciksave exists which isnt older than 5 seconds than the given DateTime, should be enough for slow HDDs
+        private bool savefileFound(DateTime expectedDate)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(settings.SavegamePathDefault);
+            var dirs = dirInfo.GetDirectories().Where(d => d.Name.Contains("QuickSave") && Math.Abs((d.CreationTime - expectedDate).TotalSeconds) < 5);
+            if (dirs.Count() > 0)
+                return true;
+            else
+                return false;
+        }
         private void bgwCheckProcess_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            textBoxLog.AppendText(e.UserState.ToString());
+            //State -1 = Error / 0 = Info / 2 = Debug
+            if (bDebug == true)
+            {
+                textBoxLog.AppendText(e.UserState.ToString() + Environment.NewLine);
+            }
+            else if (e.ProgressPercentage == -1 || e.ProgressPercentage == 0)
+                textBoxLog.AppendText(e.UserState.ToString() + Environment.NewLine);
+            using (StreamWriter sw = new StreamWriter("CyberSave77.log",true))
+            {
+                Log(e.UserState.ToString(), sw, e.ProgressPercentage);
+            }
         }
+        public static void Log(string logMessage, TextWriter w, int loglevel)
+        {
+            string state;
+            if (loglevel == -1)
+                state = "ERRROR";
+            else if (loglevel == 2)
+                state = "DEBUG";
+            else
+                state = "INFO";
 
+            w.WriteLine("[" + state + "]\t[" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + "]\t" + logMessage);
+            //w.WriteLine();
+            //w.WriteLine("-------------------------------");
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            numericUpDownProcess.Value = Properties.Settings.Default.processTimer;
-            numericUpDownSaveGame.Value = Properties.Settings.Default.savegameTimer;
+            if (Debugger.IsAttached == false)
+            {
+                Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            }
+            if (Properties.Settings.Default.guiLocation == new Point(0, 0))
+            {
+                Screen sc = Screen.FromControl(this);
+                this.Location = new Point((sc.Bounds.Width - this.Width) / 2, (sc.Bounds.Height - this.Height) / 2);
+            }
+            else
+                this.Location = Properties.Settings.Default.guiLocation;
+
+
             textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.DoubleBuffered = true;
 
+            loadTimer();
             loadSettings();
 
             loadListboxProcess();
 
-            if (Properties.Settings.Default.autostart == true)
+            if (Properties.Settings.Default.autostartBgw == true)
                 startBackgroundWorker();
         }
 
+
+        private void loadTimer()
+        {
+            timerAutoQuickSave = new System.Timers.Timer();
+            timerAutoQuickSave.Elapsed += new ElapsedEventHandler(OnTimedEventAutoQuickSave);
+            timerSaveGame = new System.Timers.Timer();
+            timerSaveGame.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+
+        }
         private void loadSettings()
         {
-            if (Properties.Settings.Default.savegamePath == string.Empty)
+            if (Properties.Settings.Default.savegameDefaultPath == string.Empty)
             {
                 string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\CD Projekt Red\Cyberpunk 2077");
                 if (Directory.Exists(path))
                 {
-                    saveGamePath = path;
-                    Properties.Settings.Default.savegamePath = path;
+                    Properties.Settings.Default.savegameDefaultPath = path;
+                    if (string.IsNullOrEmpty(Properties.Settings.Default.savegameHistoryPath))
+                    {
+                        string sgHistoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\CD Projekt Red\SaveGameHistory");
+                        Properties.Settings.Default.savegameHistoryPath = sgHistoryPath;
+                    }
                     Properties.Settings.Default.Save();
                 }
+                else
+                    MessageBox.Show("Couldn't find save game directory (expcted " + path + ")");
             }
 
-            textBoxProcess.Text = Properties.Settings.Default.process;
-            checkBoxAutostart.Checked = Properties.Settings.Default.autostart;
+
+            checkBoxAutostart.Checked = Properties.Settings.Default.autostartBgw;
             checkBoxCloseToTray.Checked = Properties.Settings.Default.closeToTray;
-            checkBoxDisableExtraSaveGames.Checked = Properties.Settings.Default.disableExtraSavegames;
+            checkBoxDisableSaveGameHistory.Checked = Properties.Settings.Default.disableExtraSavegames;
+            checkBoxDisableAutosave.Checked = Properties.Settings.Default.disableAutoQuicksave;
             checkBoxHideStatusLog.Checked = Properties.Settings.Default.hideStatusLog;
             checkBoxIgnoreAddApps.Checked = Properties.Settings.Default.disableAddApps;
             checkBoxMinimizeToTray.Checked = Properties.Settings.Default.minimizeToTray;
+            labelProcess.Text = "Process: " + Properties.Settings.Default.processName;
 
-            if (Properties.Settings.Default.name_schema == 1)
-                radioButtonSavegameContentSchema.Checked = true;
 
-            else if (Properties.Settings.Default.name_schema == 2)
-                radioButtonCustomName.Checked = true;
-            else
-                radioButtonDirNameSchema.Checked = true;
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.customNameSchema))
-                radioButtonCustomName.Text = "Savegame Custom (" + Properties.Settings.Default.customNameSchema + ")";
-            textBoxPathExtraSavegames.Text = Properties.Settings.Default.extraSavegamePath;
-            textBoxPathSavegame.Text = Properties.Settings.Default.savegamePath;
+            numericUpDownMinSaveGames.Value = Properties.Settings.Default.timeDifferenceSaveGames;
+            numericUpDownTryAutoQuickSave.Value = Properties.Settings.Default.intervalAutoQuickSaveMinutes;
         }
 
-        private void numericUpDownProcess_ValueChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.processTimer = (int)numericUpDownSaveGame.Value;
-            Properties.Settings.Default.Save();
-        }
 
-        private void numericUpDownSaveGame_ValueChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.savegameTimer = (int)numericUpDownSaveGame.Value;
-            Properties.Settings.Default.Save();
-        }
 
         private void bgwCheckProcess_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -542,6 +784,7 @@ namespace CyberStart77
                 modernButtonStart.Enabled = true;
                 modernButtonStop.Enabled = false;
                 startToolStripMenuItem.Text = "Start";
+                lastSaveGameCreationDate = new DateTime();
             }
         }
 
@@ -779,37 +1022,12 @@ namespace CyberStart77
             }
         }
 
-        private void label1_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.ShowAlways = true;
-            toolTip1.IsBalloon = true;
-            toolTip1.SetToolTip(label1, "Interval in seconds for checking if process (" + Properties.Settings.Default.process + ") is running");
-        }
 
-        private void label2_MouseHover(object sender, EventArgs e)
-        {
-            toolTip1.ShowAlways = true;
-            toolTip1.IsBalloon = true;
-            toolTip1.SetToolTip(label2, "Interval in seconds for checking if there are any new savegames");
-        }
-
-        private void textBoxProcess_TextChanged(object sender, EventArgs e)
-        {
-
-            Properties.Settings.Default.process = textBoxProcess.Text;
-            Properties.Settings.Default.Save();
-        }
-
-        private void textBoxProcess_Leave(object sender, EventArgs e)
-        {
-            if (textBoxProcess.Text.Contains("."))
-                textBoxProcess.Text = textBoxProcess.Text.Split('.').FirstOrDefault();
-        }
 
         private void checkBoxDisableExtraSaveGames_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.disableExtraSavegames = checkBoxDisableExtraSaveGames.Checked;
-            groupBoxExtraSavegames.Enabled = !checkBoxDisableExtraSaveGames.Checked;
+            Properties.Settings.Default.disableExtraSavegames = checkBoxDisableSaveGameHistory.Checked;
+            groupBoxExtraSavegames.Enabled = !checkBoxDisableSaveGameHistory.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -820,40 +1038,6 @@ namespace CyberStart77
             Properties.Settings.Default.Save();
         }
 
-        private void radioButtonDirNameSchema_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButtonDirNameSchema.Checked == true)
-                Properties.Settings.Default.name_schema = 0;
-            Properties.Settings.Default.Save();
-        }
-
-        private void radioButtonSavegameContentSchema_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButtonSavegameContentSchema.Checked == true)
-                Properties.Settings.Default.name_schema = 1;
-            Properties.Settings.Default.Save();
-        }
-
-        private void buttonSearchSaveGamePath_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                textBoxPathSavegame.Text = fbd.SelectedPath;
-            }
-        }
-
-        private void textBoxPathSavegame_TextChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.savegamePath = textBoxPathSavegame.Text;
-            Properties.Settings.Default.Save();
-        }
-
-        private void textBoxPathExtraSavegames_TextChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.extraSavegamePath = textBoxPathExtraSavegames.Text;
-            Properties.Settings.Default.Save();
-        }
 
         private void checkBoxMinimizeToTray_CheckedChanged(object sender, EventArgs e)
         {
@@ -873,7 +1057,7 @@ namespace CyberStart77
 
                 this.Width = panelRightSide.Width + 10 + 2 * 10;
                 this.Location = new Point(this.Location.X + xr - this.Right, this.Location.Y);
-               // panelCredit.Location = new Point(7, this.Height - panelCredit.Height);
+                // panelCredit.Location = new Point(7, this.Height - panelCredit.Height);
             }
             else
             {
@@ -886,14 +1070,14 @@ namespace CyberStart77
                 this.Location = new Point(this.Location.X - (this.Right - xr), this.Location.Y);
                 panelRightSide.Visible = true;
             }
-           
+
             Properties.Settings.Default.hideStatusLog = checkBoxHideStatusLog.Checked;
             Properties.Settings.Default.Save();
         }
 
         private void checkBoxAutostart_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.autostart = checkBoxAutostart.Checked;
+            Properties.Settings.Default.autostartBgw = checkBoxAutostart.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -903,17 +1087,7 @@ namespace CyberStart77
             Properties.Settings.Default.Save();
         }
 
-        private void buttonSearchExtraSavegames_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (textBoxPathSavegame.Text != string.Empty)
-                fbd.SelectedPath = textBoxPathSavegame.Text;
 
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                textBoxPathExtraSavegames.Text = fbd.SelectedPath;
-            }
-        }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
@@ -946,6 +1120,7 @@ namespace CyberStart77
                     minimizeToTray();
                 }
             }
+        
         }
 
         private void minimizeToTray()
@@ -1008,6 +1183,14 @@ namespace CyberStart77
                     e.Cancel = true;
                 }
             }
+            else
+            {
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    Properties.Settings.Default.guiLocation = this.Location;
+                    Properties.Settings.Default.Save();
+                }
+            }
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1037,14 +1220,141 @@ namespace CyberStart77
 
         private void radioButtonCustomName_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.name_schema = 2;
+            Properties.Settings.Default.nameSchemaMode = 2;
             Properties.Settings.Default.Save();
+        }
+
+        private void textBoxPathSavegame_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (!string.IsNullOrEmpty(tb.Text))
+                Process.Start(tb.Text);
+        }
+
+        private void numericUpDownTryAutosave_ValueChanged(object sender, EventArgs e)
+        {
+            //if (numericUpDownTryAutosave.Value < numericUpDownMinSaveGames.Value && numericUpDownTryAutosave.Value != 0)
+            //{
+            //    toolTip1.ShowAlways = true;
+            //    toolTip1.IsBalloon = true;
+            //    toolTip1.SetToolTip(numericUpDownTryAutosave, "Autosave value shouldn't be lower than 'Minutes between Savegames'");
+            //}
+
+            Properties.Settings.Default.intervalAutoQuickSaveMinutes = (int)numericUpDownTryAutoQuickSave.Value;
+            Properties.Settings.Default.Save();
+        }
+
+
+
+        private void labelAutosve_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(labelAutosve, "Try to create a quicksave of the game every " + numericUpDownTryAutoQuickSave.Value + " minutes (0 is disable)");
+        }
+
+        private void labelSaveGameTimeDif_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(labelSaveGameTimeDif, "Copy only savegames which are older than " + numericUpDownMinSaveGames.Value + " minutes than the last save.");
+        }
+
+        private void numericUpDownMinSaveGames_ValueChanged(object sender, EventArgs e)
+        {
+
+            //if (numericUpDownTryAutosave.Value < numericUpDownMinSaveGames.Value && numericUpDownTryAutosave.Value != 0)
+            //{
+            //    toolTip1.ShowAlways = true;
+            //    toolTip1.IsBalloon = true;
+            //    toolTip1.SetToolTip(numericUpDownMinSaveGames, "'Minutes between Savegames' value shouldn't be higher than 'Autosave'");
+            //}
+            Properties.Settings.Default.timeDifferenceSaveGames = (int)numericUpDownMinSaveGames.Value;
+            Properties.Settings.Default.Save();
+        }
+
+        private void button1_Click_3(object sender, EventArgs e)
+        {
+            checkSaveGame();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D && e.Modifiers == Keys.Control)
+                modernButtonDebug.Visible = !modernButtonDebug.Visible;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://www.flaticon.com/authors/kiranshastry");
         }
+
+        private void modernButtonDebug_Click(object sender, EventArgs e)
+        {
+            
+            bDebug = true;
+            List<ProcessStartInfo> pInfo = new List<ProcessStartInfo>();
+
+            settings = new CyberSave77Settings();
+            settings.ProcessName = Properties.Settings.Default.processName;
+            settings.SavegamePathDefault = Properties.Settings.Default.savegameDefaultPath;
+            settings.SavegamePathHistory = Properties.Settings.Default.savegameDefaultPath;
+            settings.IntervalAutoQuickSave = Properties.Settings.Default.intervalAutoQuickSaveMinutes;
+            settings.IntervalProcessCheck = 10;
+            settings.IntervalSaveGameCheck = 10 * 1000;
+            settings.KillStartedApplicationsOnExit = Properties.Settings.Default.killStartedAppsOnExit;
+            settings.DisableApplicationsOnStart = Properties.Settings.Default.disableAddApps;
+            settings.DisableAutoQuickSave = Properties.Settings.Default.disableAutoQuicksave;
+            settings.DisableSaveHameHistory = Properties.Settings.Default.disableExtraSavegames;
+            settings.TimeDifferenceBtwSavegames = Properties.Settings.Default.timeDifferenceSaveGames;
+            settings.copyDirs = false;
+
+            modernButtonStop.Enabled = true;
+            bgwCheckProcess.RunWorkerAsync(settings);
+        }
+
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
+            {
+                Log(e.Exception.Message, sw, -1);
+            }
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
+                Log((e.ExceptionObject as Exception).Message,sw,-1);
+        
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void checkBoxDisableAutosave_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBoxAutosave.Enabled = !checkBoxDisableAutosave.Checked;
+        }
+    }
+
+    public class CyberSave77Settings
+    {
+        public string ProcessName { get; set; }
+        public string SavegamePathDefault { get; set; }
+        public string SavegamePathHistory { get; set; }
+        public int IntervalProcessCheck { get; set; }
+        public int IntervalSaveGameCheck { get; set; }
+        public int TimeDifferenceBtwSavegames { get; set; }
+        public int IntervalAutoQuickSave { get; set; }
+        public int AutoQsRetryInSecs { get; set; }
+        public bool DisableApplicationsOnStart { get; set; }
+        public bool DisableSaveHameHistory { get; set; }
+        public bool DisableAutoQuickSave { get; set; }
+        public bool KillStartedApplicationsOnExit { get; set; }
+        public bool copyDirs { get; set; } = true;
+        public List<ProcessStartInfo> ApplicationsToStartList { get; set; }
     }
     public class JsonRegexNameSchema
     {
