@@ -11,6 +11,6 @@ CyberSave77 is a little application which copies your **Auto-/and Quicksaves** i
 Download the ZIP file in the release tab and unzip it to any location. Just start the CyberStart77.exe and you are free to go.
 <br>I would recommend to check all the settings, if they are fine for you (like Savegame history path and Name schema). The default settings set your "Savegame history path" to "%username%\Saved Games\CD Projekt Red\SaveGameHistory", this is the path where your savefile copies will go.<br>
 To start CyberSave77 you have to click on start and it will check for the process Cyberpunk2077.exe. If this process is running, it will start to look for new savegames which can be copied.
-
+<p><p>
 ### Disclaimer
 This is just a hobby project I made for myself but I decided that I want to share it with anyone, who also wants to use any of the features. I am not a great coder and there are probably alot of things which can be made better. Also I am terrible at giving names so I am sorry for any grammar errors and the weird naming.
