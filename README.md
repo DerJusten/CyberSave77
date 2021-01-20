@@ -1,4 +1,4 @@
-# CyberStart77 aka CyberSave77
+# CyberSave77 (prev. CyberStart77)
 
 CyberSave77 is a little application which copies your **Auto-/and Quicksaves** in Cyberpunk2077, so you never have to worry about going back in the future anymore. But it is more than just a simple copy job. You can customize the name based on your savegame stats and keep it clean by setting a time difference between the savegames you want to copy.
 
