@@ -726,14 +726,12 @@ namespace CyberSave77
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             }
             string[] args = Environment.GetCommandLineArgs();
-            if(args.Length > 1)
+            if (args.Length > 1)
             {
-                if(args[1].ToLower() == "reset")
+                if (args[1].ToLower() == "reset")
                 {
                     Properties.Settings.Default.Reset();
                     Properties.Settings.Default.Save();
-                    Application.Exit();
-                    return;
                 }
             }
             this.Text = "CyberSave77 " + version;
