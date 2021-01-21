@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CyberStart77.Properties {
+namespace CyberSave77.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -85,31 +85,31 @@ namespace CyberStart77.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool disableExtraSavegames {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableExtraSavegames {
             get {
-                return ((bool)(this["disableExtraSavegames"]));
+                return ((bool)(this["enableExtraSavegames"]));
             }
             set {
-                this["disableExtraSavegames"] = value;
+                this["enableExtraSavegames"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool disableAddApps {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enableAppsOnStart {
             get {
-                return ((bool)(this["disableAddApps"]));
+                return ((bool)(this["enableAppsOnStart"]));
             }
             set {
-                this["disableAddApps"] = value;
+                this["enableAppsOnStart"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int nameSchemaMode {
             get {
                 return ((int)(this["nameSchemaMode"]));
@@ -241,13 +241,13 @@ namespace CyberStart77.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool disableAutoQuicksave {
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool enableAutoQuicksave {
             get {
-                return ((bool)(this["disableAutoQuicksave"]));
+                return ((bool)(this["enableAutoQuicksave"]));
             }
             set {
-                this["disableAutoQuicksave"] = value;
+                this["enableAutoQuicksave"] = value;
             }
         }
         

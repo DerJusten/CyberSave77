@@ -1,5 +1,5 @@
 ﻿
-namespace CyberStart77
+namespace CyberSave77
 {
     partial class FormSettings
     {
@@ -44,6 +44,7 @@ namespace CyberStart77
             this.textBoxPathSavegame = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labelPreview = new System.Windows.Forms.Label();
+            this.modernButtonKeyNameList = new CyberSave77.ModernButton();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxCustomNameSchema = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -51,22 +52,22 @@ namespace CyberStart77
             this.checkBoxTerminateStartAppOnExit = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelSaveGameCheck = new System.Windows.Forms.Label();
             this.numericUpDownSaveGame = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.numericUpDownProcess = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxProcess = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelAutoQsMaxRetries = new System.Windows.Forms.Label();
             this.numericUpDownAutosaveMaxRetries = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelAutoQsRetry = new System.Windows.Forms.Label();
             this.numericUpDownAutosaveRetrySeconds = new System.Windows.Forms.NumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.bgwBackup = new System.ComponentModel.BackgroundWorker();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.modernButtonReset = new CyberStart77.ModernButton();
-            this.modernButtonCreateBackup = new CyberStart77.ModernButton();
-            this.modernButtonKeyNameList = new CyberStart77.ModernButton();
+            this.modernButtonAddToAutostart = new CyberSave77.ModernButton();
+            this.modernButtonReset = new CyberSave77.ModernButton();
+            this.modernButtonCreateBackup = new CyberSave77.ModernButton();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -96,7 +97,7 @@ namespace CyberStart77
             this.groupBox1.Size = new System.Drawing.Size(403, 445);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "SaveGameHistory";
+            this.groupBox1.Text = "Savegame history";
             // 
             // groupBox6
             // 
@@ -121,32 +122,35 @@ namespace CyberStart77
             this.radioButtonCustomName.Text = "Savegame Custom (not set)";
             this.radioButtonCustomName.UseVisualStyleBackColor = true;
             this.radioButtonCustomName.CheckedChanged += new System.EventHandler(this.radioButtonCustomName_CheckedChanged);
+            this.radioButtonCustomName.MouseHover += new System.EventHandler(this.radioButtonCustomName_MouseHover);
             // 
             // radioButtonSavegameContentSchema
             // 
             this.radioButtonSavegameContentSchema.AutoSize = true;
+            this.radioButtonSavegameContentSchema.Checked = true;
             this.radioButtonSavegameContentSchema.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonSavegameContentSchema.Location = new System.Drawing.Point(5, 50);
             this.radioButtonSavegameContentSchema.Name = "radioButtonSavegameContentSchema";
             this.radioButtonSavegameContentSchema.Size = new System.Drawing.Size(315, 21);
             this.radioButtonSavegameContentSchema.TabIndex = 7;
+            this.radioButtonSavegameContentSchema.TabStop = true;
             this.radioButtonSavegameContentSchema.Text = "Savegame content (Lifepath Gender Level + Date)";
             this.radioButtonSavegameContentSchema.UseVisualStyleBackColor = true;
             this.radioButtonSavegameContentSchema.CheckedChanged += new System.EventHandler(this.radioButtonSavegameContentSchema_CheckedChanged);
+            this.radioButtonSavegameContentSchema.MouseHover += new System.EventHandler(this.radioButtonSavegameContentSchema_MouseHover);
             // 
             // radioButtonDirNameSchema
             // 
             this.radioButtonDirNameSchema.AutoSize = true;
-            this.radioButtonDirNameSchema.Checked = true;
             this.radioButtonDirNameSchema.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonDirNameSchema.Location = new System.Drawing.Point(5, 23);
             this.radioButtonDirNameSchema.Name = "radioButtonDirNameSchema";
-            this.radioButtonDirNameSchema.Size = new System.Drawing.Size(311, 21);
+            this.radioButtonDirNameSchema.Size = new System.Drawing.Size(287, 21);
             this.radioButtonDirNameSchema.TabIndex = 6;
-            this.radioButtonDirNameSchema.TabStop = true;
-            this.radioButtonDirNameSchema.Text = "Directory name (Quicksave/Autosave etc. + Date)";
+            this.radioButtonDirNameSchema.Text = "Directory name (Quicksave/Autosave + Date)";
             this.radioButtonDirNameSchema.UseVisualStyleBackColor = true;
             this.radioButtonDirNameSchema.CheckedChanged += new System.EventHandler(this.radioButtonDirNameSchema_CheckedChanged);
+            this.radioButtonDirNameSchema.MouseHover += new System.EventHandler(this.radioButtonDirNameSchema_MouseHover);
             // 
             // buttonSearchExtraSavegames
             // 
@@ -176,6 +180,7 @@ namespace CyberStart77
             this.textBoxPathExtraSavegames.TabIndex = 15;
             this.textBoxPathExtraSavegames.TextChanged += new System.EventHandler(this.textBoxPathExtraSavegames_TextChanged);
             this.textBoxPathExtraSavegames.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPathSavegame_MouseDoubleClick);
+            this.textBoxPathExtraSavegames.MouseHover += new System.EventHandler(this.textBoxPathExtraSavegames_MouseHover);
             // 
             // buttonSearchSaveGamePath
             // 
@@ -205,6 +210,7 @@ namespace CyberStart77
             this.textBoxPathSavegame.TabIndex = 12;
             this.textBoxPathSavegame.TextChanged += new System.EventHandler(this.textBoxPathSavegame_TextChanged);
             this.textBoxPathSavegame.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxPathSavegame_MouseDoubleClick);
+            this.textBoxPathSavegame.MouseHover += new System.EventHandler(this.textBoxPathSavegame_MouseHover);
             // 
             // groupBox2
             // 
@@ -227,6 +233,22 @@ namespace CyberStart77
             this.labelPreview.TabIndex = 10;
             this.labelPreview.Text = "-";
             // 
+            // modernButtonKeyNameList
+            // 
+            this.modernButtonKeyNameList.BackColor = System.Drawing.Color.White;
+            this.modernButtonKeyNameList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonKeyNameList.ClickEffectEnabled = true;
+            this.modernButtonKeyNameList.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonKeyNameList.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonKeyNameList.Location = new System.Drawing.Point(294, 157);
+            this.modernButtonKeyNameList.Name = "modernButtonKeyNameList";
+            this.modernButtonKeyNameList.Size = new System.Drawing.Size(94, 37);
+            this.modernButtonKeyNameList.TabIndex = 9;
+            this.modernButtonKeyNameList.Text = "Keyname List";
+            this.modernButtonKeyNameList.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonKeyNameList.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonKeyNameList.Click += new System.EventHandler(this.modernButtonKeyNameList_Click);
+            // 
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -244,6 +266,13 @@ namespace CyberStart77
             this.textBoxCustomNameSchema.TabIndex = 4;
             this.textBoxCustomNameSchema.TextChanged += new System.EventHandler(this.textBoxCustomNameSchema_TextChanged);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.BackColor = System.Drawing.Color.White;
+            this.toolTip1.InitialDelay = 750;
+            this.toolTip1.ReshowDelay = 100;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBoxTerminateStartAppOnExit);
@@ -259,10 +288,11 @@ namespace CyberStart77
             this.checkBoxTerminateStartAppOnExit.AutoSize = true;
             this.checkBoxTerminateStartAppOnExit.Location = new System.Drawing.Point(13, 32);
             this.checkBoxTerminateStartAppOnExit.Name = "checkBoxTerminateStartAppOnExit";
-            this.checkBoxTerminateStartAppOnExit.Size = new System.Drawing.Size(332, 23);
+            this.checkBoxTerminateStartAppOnExit.Size = new System.Drawing.Size(372, 23);
             this.checkBoxTerminateStartAppOnExit.TabIndex = 0;
-            this.checkBoxTerminateStartAppOnExit.Text = "terminate application(s) when main process exited";
+            this.checkBoxTerminateStartAppOnExit.Text = "close all started applications, when Cyberpunk2077 exits";
             this.checkBoxTerminateStartAppOnExit.UseVisualStyleBackColor = true;
+            this.checkBoxTerminateStartAppOnExit.MouseHover += new System.EventHandler(this.checkBoxTerminateStartAppOnExit_MouseHover);
             // 
             // groupBox5
             // 
@@ -278,7 +308,7 @@ namespace CyberStart77
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.labelSaveGameCheck);
             this.groupBox4.Controls.Add(this.numericUpDownSaveGame);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.numericUpDownProcess);
@@ -289,14 +319,15 @@ namespace CyberStart77
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Timer";
             // 
-            // label7
+            // labelSaveGameCheck
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 53);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(196, 19);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Save game check interval (sec.)";
+            this.labelSaveGameCheck.AutoSize = true;
+            this.labelSaveGameCheck.Location = new System.Drawing.Point(6, 53);
+            this.labelSaveGameCheck.Name = "labelSaveGameCheck";
+            this.labelSaveGameCheck.Size = new System.Drawing.Size(196, 19);
+            this.labelSaveGameCheck.TabIndex = 3;
+            this.labelSaveGameCheck.Text = "Save game check interval (sec.)";
+            this.labelSaveGameCheck.MouseHover += new System.EventHandler(this.labelSaveGameCheck_MouseHover);
             // 
             // numericUpDownSaveGame
             // 
@@ -329,6 +360,7 @@ namespace CyberStart77
             this.label8.Size = new System.Drawing.Size(176, 19);
             this.label8.TabIndex = 1;
             this.label8.Text = "Process check interval (sec.)";
+            this.label8.MouseHover += new System.EventHandler(this.label8_MouseHover);
             // 
             // numericUpDownProcess
             // 
@@ -372,15 +404,17 @@ namespace CyberStart77
             this.textBoxProcess.TabIndex = 0;
             this.textBoxProcess.TextChanged += new System.EventHandler(this.textBoxProcess_TextChanged);
             this.textBoxProcess.Leave += new System.EventHandler(this.textBoxProcess_Leave);
+            this.textBoxProcess.MouseHover += new System.EventHandler(this.textBoxProcess_MouseHover);
             // 
-            // label2
+            // labelAutoQsMaxRetries
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 19);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Maximum retries";
+            this.labelAutoQsMaxRetries.AutoSize = true;
+            this.labelAutoQsMaxRetries.Location = new System.Drawing.Point(9, 69);
+            this.labelAutoQsMaxRetries.Name = "labelAutoQsMaxRetries";
+            this.labelAutoQsMaxRetries.Size = new System.Drawing.Size(112, 19);
+            this.labelAutoQsMaxRetries.TabIndex = 5;
+            this.labelAutoQsMaxRetries.Text = "Maximum retries";
+            this.labelAutoQsMaxRetries.MouseHover += new System.EventHandler(this.labelAutoQsMaxRetries_MouseHover);
             // 
             // numericUpDownAutosaveMaxRetries
             // 
@@ -400,14 +434,15 @@ namespace CyberStart77
             0});
             this.numericUpDownAutosaveMaxRetries.ValueChanged += new System.EventHandler(this.numericUpDownAutosaveMaxRetries_ValueChanged);
             // 
-            // label1
+            // labelAutoQsRetry
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(209, 19);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Time to wait until retry (seconds)";
+            this.labelAutoQsRetry.AutoSize = true;
+            this.labelAutoQsRetry.Location = new System.Drawing.Point(9, 34);
+            this.labelAutoQsRetry.Name = "labelAutoQsRetry";
+            this.labelAutoQsRetry.Size = new System.Drawing.Size(209, 19);
+            this.labelAutoQsRetry.TabIndex = 3;
+            this.labelAutoQsRetry.Text = "Time to wait until retry (seconds)";
+            this.labelAutoQsRetry.MouseHover += new System.EventHandler(this.labelAutoQsRetry_MouseHover);
             // 
             // numericUpDownAutosaveRetrySeconds
             // 
@@ -434,9 +469,9 @@ namespace CyberStart77
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label2);
+            this.groupBox7.Controls.Add(this.labelAutoQsMaxRetries);
             this.groupBox7.Controls.Add(this.numericUpDownAutosaveMaxRetries);
-            this.groupBox7.Controls.Add(this.label1);
+            this.groupBox7.Controls.Add(this.labelAutoQsRetry);
             this.groupBox7.Controls.Add(this.numericUpDownAutosaveRetrySeconds);
             this.groupBox7.Location = new System.Drawing.Point(15, 268);
             this.groupBox7.Name = "groupBox7";
@@ -454,6 +489,7 @@ namespace CyberStart77
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.modernButtonAddToAutostart);
             this.groupBox8.Controls.Add(this.modernButtonReset);
             this.groupBox8.Controls.Add(this.modernButtonCreateBackup);
             this.groupBox8.Location = new System.Drawing.Point(15, 377);
@@ -462,6 +498,23 @@ namespace CyberStart77
             this.groupBox8.TabIndex = 19;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Other";
+            // 
+            // modernButtonAddToAutostart
+            // 
+            this.modernButtonAddToAutostart.BackColor = System.Drawing.Color.White;
+            this.modernButtonAddToAutostart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonAddToAutostart.ClickEffectEnabled = true;
+            this.modernButtonAddToAutostart.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonAddToAutostart.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonAddToAutostart.Location = new System.Drawing.Point(13, 24);
+            this.modernButtonAddToAutostart.Name = "modernButtonAddToAutostart";
+            this.modernButtonAddToAutostart.Size = new System.Drawing.Size(111, 44);
+            this.modernButtonAddToAutostart.TabIndex = 2;
+            this.modernButtonAddToAutostart.Text = "Start with Windows";
+            this.modernButtonAddToAutostart.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonAddToAutostart.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonAddToAutostart.Click += new System.EventHandler(this.modernButtonAddToAutostart_Click);
+            this.modernButtonAddToAutostart.MouseHover += new System.EventHandler(this.modernButtonAddToAutostart_MouseHover);
             // 
             // modernButtonReset
             // 
@@ -478,6 +531,7 @@ namespace CyberStart77
             this.modernButtonReset.TextColor = System.Drawing.SystemColors.ControlText;
             this.modernButtonReset.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonReset.Click += new System.EventHandler(this.modernButtonReset_Click);
+            this.modernButtonReset.MouseHover += new System.EventHandler(this.modernButtonReset_MouseHover);
             // 
             // modernButtonCreateBackup
             // 
@@ -486,7 +540,7 @@ namespace CyberStart77
             this.modernButtonCreateBackup.ClickEffectEnabled = true;
             this.modernButtonCreateBackup.DefaultColor = System.Drawing.Color.White;
             this.modernButtonCreateBackup.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonCreateBackup.Location = new System.Drawing.Point(18, 24);
+            this.modernButtonCreateBackup.Location = new System.Drawing.Point(153, 24);
             this.modernButtonCreateBackup.Name = "modernButtonCreateBackup";
             this.modernButtonCreateBackup.Size = new System.Drawing.Size(101, 44);
             this.modernButtonCreateBackup.TabIndex = 0;
@@ -494,22 +548,7 @@ namespace CyberStart77
             this.modernButtonCreateBackup.TextColor = System.Drawing.SystemColors.ControlText;
             this.modernButtonCreateBackup.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonCreateBackup.Click += new System.EventHandler(this.modernButtonCreateBackup_Click);
-            // 
-            // modernButtonKeyNameList
-            // 
-            this.modernButtonKeyNameList.BackColor = System.Drawing.Color.White;
-            this.modernButtonKeyNameList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonKeyNameList.ClickEffectEnabled = true;
-            this.modernButtonKeyNameList.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonKeyNameList.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonKeyNameList.Location = new System.Drawing.Point(294, 157);
-            this.modernButtonKeyNameList.Name = "modernButtonKeyNameList";
-            this.modernButtonKeyNameList.Size = new System.Drawing.Size(94, 37);
-            this.modernButtonKeyNameList.TabIndex = 9;
-            this.modernButtonKeyNameList.Text = "Keyname List";
-            this.modernButtonKeyNameList.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonKeyNameList.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonKeyNameList.Click += new System.EventHandler(this.modernButtonKeyNameList_Click);
+            this.modernButtonCreateBackup.MouseHover += new System.EventHandler(this.modernButtonCreateBackup_MouseHover);
             // 
             // FormSettings
             // 
@@ -526,6 +565,8 @@ namespace CyberStart77
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(853, 507);
             this.Name = "FormSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Settings";
@@ -575,7 +616,7 @@ namespace CyberStart77
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxPathSavegame;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelSaveGameCheck;
         private System.Windows.Forms.NumericUpDown numericUpDownSaveGame;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDownProcess;
@@ -583,14 +624,15 @@ namespace CyberStart77
         private System.Windows.Forms.RadioButton radioButtonCustomName;
         private System.Windows.Forms.RadioButton radioButtonSavegameContentSchema;
         private System.Windows.Forms.RadioButton radioButtonDirNameSchema;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelAutoQsRetry;
         private System.Windows.Forms.NumericUpDown numericUpDownAutosaveRetrySeconds;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelAutoQsMaxRetries;
         private System.Windows.Forms.NumericUpDown numericUpDownAutosaveMaxRetries;
         private System.Windows.Forms.GroupBox groupBox7;
         private ModernButton modernButtonCreateBackup;
         private System.ComponentModel.BackgroundWorker bgwBackup;
         private System.Windows.Forms.GroupBox groupBox8;
         private ModernButton modernButtonReset;
+        private ModernButton modernButtonAddToAutostart;
     }
 }

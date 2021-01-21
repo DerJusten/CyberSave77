@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CyberStart77
+namespace CyberSave77
 {
     public class DrawPanel : Panel
     {
@@ -90,6 +90,7 @@ namespace CyberStart77
 
         private void TextClick(object sender, EventArgs e)
         {
+            
             base.OnClick(e);
         }
 

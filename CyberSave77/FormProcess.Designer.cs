@@ -1,5 +1,5 @@
 ﻿
-namespace CyberStart77
+namespace CyberSave77
 {
     partial class FormProcess
     {

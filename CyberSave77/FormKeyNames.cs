@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 
-namespace CyberStart77
+namespace CyberSave77
 {
     public partial class FormKeyNames : Form
     {

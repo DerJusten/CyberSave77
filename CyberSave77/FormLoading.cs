@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CyberStart77
+namespace CyberSave77
 {
     public partial class FormLoading : Form
     {
@@ -22,6 +22,7 @@ namespace CyberStart77
             label1.Parent = pictureBox1;
             progressBar1.Location = new Point((this.Width - progressBar1.Width) / 2, progressBar1.Location.Y);
             label1.Location = new Point((this.Width - label1.Width) / 2, label1.Location.Y);
+            label2.Parent = pictureBox1;
         }
     }
 }

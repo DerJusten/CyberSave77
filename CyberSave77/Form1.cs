@@ -16,7 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace CyberStart77
+namespace CyberSave77
 {
     public partial class Form1 : Form
     {
@@ -28,6 +28,7 @@ namespace CyberStart77
         //   string saveGameDefaultPath, saveGameHistoryPath;
         public static ProcInfoMin procInfo;
         private bool forceExit = false;
+        private static bool externalAppsStarted = false;
         private static DateTime lastSaveGameCreationDate = new DateTime();
         //    private static bool gameSaved = false;
         private System.Timers.Timer timerSaveGame;
@@ -82,14 +83,14 @@ namespace CyberStart77
             settings.IntervalSaveGameCheck = Properties.Settings.Default.intervalSaveGameCheckSeconds * 1000;
 
             settings.KillStartedApplicationsOnExit = Properties.Settings.Default.killStartedAppsOnExit;
-            settings.DisableApplicationsOnStart = Properties.Settings.Default.disableAddApps;
-            settings.DisableAutoQuickSave = Properties.Settings.Default.disableAutoQuicksave;
-            settings.DisableSaveHameHistory = Properties.Settings.Default.disableExtraSavegames;
+            settings.EnableApplicationsOnStart = Properties.Settings.Default.enableAppsOnStart;
+            settings.EnableAutoQuickSave = Properties.Settings.Default.enableAutoQuicksave;
+            settings.EnableSaveHameHistory = Properties.Settings.Default.enableExtraSavegames;
 
             settings.TimeDifferenceBtwSavegames = Properties.Settings.Default.timeDifferenceSaveGames;
             settings.AutoQsRetryInSecs = Properties.Settings.Default.autoQuickSaveErrorDelay;
 
-            if (settings.DisableSaveHameHistory == false)
+            if (settings.EnableSaveHameHistory == true)
             {
                 if (!Directory.Exists(settings.SavegamePathDefault))
                 {
@@ -102,7 +103,7 @@ namespace CyberStart77
                     return;
                 }
             }
-            if (settings.DisableApplicationsOnStart == false)
+            if (settings.EnableApplicationsOnStart == true)
             {
                 foreach (var item in readProcessInfoFromJson())
                 {
@@ -110,7 +111,7 @@ namespace CyberStart77
                 }
                 settings.ApplicationsToStartList = pInfo;
             }
-            if (settings.DisableApplicationsOnStart == true && settings.DisableAutoQuickSave == true && settings.DisableSaveHameHistory)
+            if (settings.EnableApplicationsOnStart == false && settings.EnableAutoQuickSave == false && settings.EnableSaveHameHistory==false)
             {
                 MessageBox.Show("Invalid configuration! Custom Apps, AutoQuickSave or SaveGame History has to be enabled");
                 return;
@@ -254,6 +255,7 @@ namespace CyberStart77
 
         private void startCustomApplications(List<ProcessStartInfo> listExe)
         {
+            externalAppsStarted = true;
             foreach (var item in listExe)
             {
                 if (!string.IsNullOrEmpty(item.FileName))
@@ -475,11 +477,11 @@ namespace CyberStart77
             while (bgwCheckProcess.CancellationPending == false)
             {
                 bgwCheckProcess.ReportProgress(0, "Check for running process " + settings.ProcessName);
-
+                bgwCheckProcess.ReportProgress(11, "Checking for " + settings.ProcessName);
                 p = Process.GetProcessesByName(settings.ProcessName);
                 if (p.Length > 0 || bDebug == true)
                 {
-                    if (settings.DisableApplicationsOnStart == false)
+                    if (settings.EnableApplicationsOnStart == true && externalAppsStarted == false)
                         startCustomApplications(settings.ApplicationsToStartList);
 
                     bgwCheckProcess.ReportProgress(0, settings.ProcessName + " is running...");
@@ -487,8 +489,10 @@ namespace CyberStart77
                     //while Process is running
                     while (checkProcessExit(p.FirstOrDefault()) == false || bDebug == true)
                     {
+                        //bgwCheckProcess.ReportProgress(12, settings.ProcessName + " is running");
+                        bgwCheckProcess.ReportProgress(12, "CyberSafe77 is up and running");
                         //SaveGameChecker
-                        if (settings.DisableSaveHameHistory == false)
+                        if (settings.EnableSaveHameHistory == true)
                         {
                             if (timerSaveGame.Enabled == false)
                             {
@@ -497,7 +501,7 @@ namespace CyberStart77
                             }
                         }
                         //Autosaver
-                        if (settings.DisableAutoQuickSave == false && timerAutoQuickSave.Enabled == false)
+                        if (settings.EnableAutoQuickSave == true && timerAutoQuickSave.Enabled == false)
                         {
                             timerAutoQuickSave.Start();
                             bgwCheckProcess.ReportProgress(0, "Start AutoQuickSave...");
@@ -514,11 +518,11 @@ namespace CyberStart77
                         //Small delay to keep the load low
                         Thread.Sleep(500);
                     }
-
+                    bgwCheckProcess.ReportProgress(11, "Waiting for " + settings.ProcessName);
                     timerSaveGame.Stop();
                     timerAutoQuickSave.Stop();
 
-                    if (settings.DisableApplicationsOnStart == false)
+                    if (settings.EnableApplicationsOnStart == true)
                         if (settings.KillStartedApplicationsOnExit == true)
                             killCustomApplications(settings.ApplicationsToStartList);
 
@@ -546,17 +550,17 @@ namespace CyberStart77
         private void displaySettings()
         {
             string stateHistorySavegame, stateAutoQuickSave, stateStartApp;
-            if (Properties.Settings.Default.disableExtraSavegames == true)
+            if (Properties.Settings.Default.enableExtraSavegames == false)
                 stateHistorySavegame = "Savegame History is disabled";
             else
                 stateHistorySavegame = "Copy only savegames which are older than " + Properties.Settings.Default.timeDifferenceSaveGames + " minutes";
 
-            if (Properties.Settings.Default.disableAutoQuicksave == true)
+            if (Properties.Settings.Default.enableAutoQuicksave ==false)
                 stateAutoQuickSave = "AutoQuickSave is disabled";
             else
                 stateAutoQuickSave = "AutoQuickSave every " + Properties.Settings.Default.intervalAutoQuickSaveMinutes + "  minutes";
 
-            if (Properties.Settings.Default.disableAddApps == true)
+            if (Properties.Settings.Default.enableAppsOnStart == false)
                 stateStartApp = "Start additional applications on start is disabled";
             else
                 stateStartApp = "Start additional applications on start is enabled";
@@ -674,17 +678,29 @@ namespace CyberStart77
         }
         private void bgwCheckProcess_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //State -1 = Error / 0 = Info / 2 = Debug
-            if (bDebug == true)
+            //State -1 = Error / 0 = Info / 2 = Debug / labelState = 10 red,11 orange, 12 green
+            if (bDebug == true && e.ProgressPercentage == 0)
             {
                 textBoxLog.AppendText(e.UserState.ToString() + Environment.NewLine);
             }
             else if (e.ProgressPercentage == -1 || e.ProgressPercentage == 0)
                 textBoxLog.AppendText(e.UserState.ToString() + Environment.NewLine);
-            using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
+            else if (e.ProgressPercentage >= 10)
             {
-                Log(e.UserState.ToString(), sw, e.ProgressPercentage);
+                if (e.ProgressPercentage == 10)
+                    labelState.ForeColor = Color.Red;
+                else if (e.ProgressPercentage == 11)
+                    labelState.ForeColor = Color.Orange;
+                else if (e.ProgressPercentage == 12)
+                    labelState.ForeColor = Color.Green;
+
+                labelState.Text = e.UserState.ToString();
             }
+            if (e.ProgressPercentage < 10)
+                using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
+                {
+                    Log(e.UserState.ToString(), sw, e.ProgressPercentage);
+                }
         }
         public static void Log(string logMessage, TextWriter w, int loglevel)
         {
@@ -707,25 +723,20 @@ namespace CyberStart77
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             }
-            if (Properties.Settings.Default.guiLocation == new Point(0, 0))
-            {
-                Screen sc = Screen.FromControl(this);
-                this.Location = new Point((sc.Bounds.Width - this.Width) / 2, (sc.Bounds.Height - this.Height) / 2);
-            }
-            else
-                this.Location = Properties.Settings.Default.guiLocation;
-
 
             textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.DoubleBuffered = true;
 
             loadTimer();
-            loadSettings();
+            loadSettingsUI();
 
             loadListboxProcess();
 
             if (Properties.Settings.Default.autostartBgw == true)
+            {
+                minimizeToTray(true);
                 startBackgroundWorker();
+            }
         }
 
 
@@ -737,7 +748,7 @@ namespace CyberStart77
             timerSaveGame.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 
         }
-        private void loadSettings()
+        private void loadSettingsUI()
         {
             if (Properties.Settings.Default.savegameDefaultPath == string.Empty)
             {
@@ -759,12 +770,12 @@ namespace CyberStart77
 
             checkBoxAutostart.Checked = Properties.Settings.Default.autostartBgw;
             checkBoxCloseToTray.Checked = Properties.Settings.Default.closeToTray;
-            checkBoxDisableSaveGameHistory.Checked = Properties.Settings.Default.disableExtraSavegames;
-            checkBoxDisableAutosave.Checked = Properties.Settings.Default.disableAutoQuicksave;
+            checkBoxEnableSaveGameHistory.Checked = Properties.Settings.Default.enableExtraSavegames;
+            checkBoxEnableAutosave.Checked = Properties.Settings.Default.enableAutoQuicksave;
             checkBoxHideStatusLog.Checked = Properties.Settings.Default.hideStatusLog;
-            checkBoxIgnoreAddApps.Checked = Properties.Settings.Default.disableAddApps;
+            checkBoxEnableAppsOnStart.Checked = Properties.Settings.Default.enableAppsOnStart;
             checkBoxMinimizeToTray.Checked = Properties.Settings.Default.minimizeToTray;
-            labelProcess.Text = "Process: " + Properties.Settings.Default.processName;
+
 
 
             numericUpDownMinSaveGames.Value = Properties.Settings.Default.timeDifferenceSaveGames;
@@ -779,12 +790,16 @@ namespace CyberStart77
                 Application.Exit();
             else
             {
+                labelState.Text = "CyberSafe77 is not started";
+                labelState.ForeColor = Color.Red;
                 textBoxLog.AppendText("Backgroundworker exited successfully" + Environment.NewLine);
                 panelSettingsRunDisable.Enabled = true;
                 modernButtonStart.Enabled = true;
                 modernButtonStop.Enabled = false;
                 startToolStripMenuItem.Text = "Start";
                 lastSaveGameCreationDate = new DateTime();
+                bDebug = false;
+                externalAppsStarted = false;
             }
         }
 
@@ -956,6 +971,21 @@ namespace CyberStart77
         {
             PictureBox pb = (PictureBox)sender;
             pb.BackColor = Color.LightGray;
+
+            string tooltip;
+            if (pb.Name != "pictureBoxAddSettings")
+            {
+                if (pb.Name == "pictureBoxAdd")
+                    tooltip = "Add a custom process to your start list";
+                else if (pb.Name == "pictureBoxEdit")
+                    tooltip = "Edit your selected process";
+                else
+                    tooltip = "Delete your selected process";
+
+                toolTip1.SetToolTip(pb, tooltip);
+                toolTip1.ShowAlways = true;
+                toolTip1.IsBalloon = true;
+            }
         }
 
         private void pictureBox_MouseLeave(object sender, EventArgs e)
@@ -1026,15 +1056,15 @@ namespace CyberStart77
 
         private void checkBoxDisableExtraSaveGames_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.disableExtraSavegames = checkBoxDisableSaveGameHistory.Checked;
-            groupBoxExtraSavegames.Enabled = !checkBoxDisableSaveGameHistory.Checked;
+            Properties.Settings.Default.enableExtraSavegames = checkBoxEnableSaveGameHistory.Checked;
+            groupBoxExtraSavegames.Enabled = checkBoxEnableSaveGameHistory.Checked;
             Properties.Settings.Default.Save();
         }
 
         private void checkBoxIgnoreAddApps_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.disableAddApps = checkBoxIgnoreAddApps.Checked;
-            groupBoxAddApplication.Enabled = !checkBoxIgnoreAddApps.Checked;
+            Properties.Settings.Default.enableAppsOnStart = checkBoxEnableAppsOnStart.Checked;
+            groupBoxAddApplication.Enabled = checkBoxEnableAppsOnStart.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -1057,7 +1087,7 @@ namespace CyberStart77
 
                 this.Width = panelRightSide.Width + 10 + 2 * 10;
                 this.Location = new Point(this.Location.X + xr - this.Right, this.Location.Y);
-                // panelCredit.Location = new Point(7, this.Height - panelCredit.Height);
+                panelCredit.Visible = false;
             }
             else
             {
@@ -1069,6 +1099,7 @@ namespace CyberStart77
 
                 this.Location = new Point(this.Location.X - (this.Right - xr), this.Location.Y);
                 panelRightSide.Visible = true;
+                panelCredit.Visible = true;
             }
 
             Properties.Settings.Default.hideStatusLog = checkBoxHideStatusLog.Checked;
@@ -1117,22 +1148,30 @@ namespace CyberStart77
                 if (checkBoxMinimizeToTray.Checked == true)
                 {
 
-                    minimizeToTray();
+                    minimizeToTray(false);
                 }
             }
 
         }
 
-        private void minimizeToTray()
+        private void minimizeToTray(bool showBalloon)
         {
+
             this.Hide();
+            this.ShowInTaskbar = false;
             notifyIcon1.Visible = true;
             notifyIcon1.Icon = this.Icon;
             notifyIcon1.Text = this.Text;
+            if (showBalloon == true)
+            {
+                notifyIcon1.BalloonTipText = "CyberSave77 is running";
+                notifyIcon1.ShowBalloonTip(2500);
+            }
         }
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Show();
+            this.ShowInTaskbar = true;
             this.WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = false;
 
@@ -1179,7 +1218,7 @@ namespace CyberStart77
                 if (e.CloseReason == CloseReason.UserClosing)
                 {
 
-                    minimizeToTray();
+                    minimizeToTray(false);
                     e.Cancel = true;
                 }
             }
@@ -1189,6 +1228,7 @@ namespace CyberStart77
                 {
                     Properties.Settings.Default.guiLocation = this.Location;
                     Properties.Settings.Default.Save();
+                    //  MessageBox.Show(Properties.Settings.Default.guiLocation.ToString());
                 }
             }
         }
@@ -1210,7 +1250,7 @@ namespace CyberStart77
                 fS.Location = new Point(Cursor.Position.X - fS.Width / 2, Cursor.Position.Y);
                 fS.ShowDialog();
             }
-            loadSettings();
+            loadSettingsUI();
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -1303,12 +1343,19 @@ namespace CyberStart77
             settings.IntervalProcessCheck = 10;
             settings.IntervalSaveGameCheck = 10 * 1000;
             settings.KillStartedApplicationsOnExit = Properties.Settings.Default.killStartedAppsOnExit;
-            settings.DisableApplicationsOnStart = Properties.Settings.Default.disableAddApps;
-            settings.DisableAutoQuickSave = Properties.Settings.Default.disableAutoQuicksave;
-            settings.DisableSaveHameHistory = Properties.Settings.Default.disableExtraSavegames;
+            settings.EnableApplicationsOnStart = Properties.Settings.Default.enableAppsOnStart;
+            settings.EnableAutoQuickSave = Properties.Settings.Default.enableAutoQuicksave;
+            settings.EnableSaveHameHistory = Properties.Settings.Default.enableExtraSavegames;
             settings.TimeDifferenceBtwSavegames = Properties.Settings.Default.timeDifferenceSaveGames;
             settings.copyDirs = false;
-
+            if (settings.EnableApplicationsOnStart == true)
+            {
+                foreach (var item in readProcessInfoFromJson())
+                {
+                    pInfo.Add(item.ConvertToProcessStartInfo());
+                }
+                settings.ApplicationsToStartList = pInfo;
+            }
             modernButtonStop.Enabled = true;
             bgwCheckProcess.RunWorkerAsync(settings);
         }
@@ -1328,14 +1375,66 @@ namespace CyberStart77
 
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBoxDisableAutosave_CheckedChanged(object sender, EventArgs e)
         {
-            groupBoxAutosave.Enabled = !checkBoxDisableAutosave.Checked;
+            Properties.Settings.Default.enableAutoQuicksave = checkBoxEnableAutosave.Checked;
+            Properties.Settings.Default.Save();
+            groupBoxAutosave.Enabled = checkBoxEnableAutosave.Checked;
+        }
+
+        private void Form1_Shown_1(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.guiLocation == new Point(0, 0))
+            {
+                Screen sc = Screen.FromControl(this);
+                this.Location = new Point((sc.Bounds.Width - this.Width) / 2, (sc.Bounds.Height - this.Height) / 2);
+            }
+            else
+            {
+                this.Location = Properties.Settings.Default.guiLocation;
+
+
+            }
+        }
+
+        private void listBoxProcess_MouseHover(object sender, EventArgs e)
+        {
+ 
+        }
+
+        private void checkBoxAutostart_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(checkBoxAutostart, "CyberSave77 will start automatically checking when started and will be minimized to the tray");
+        }
+
+        private void checkBoxIgnoreAddApps_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(checkBoxEnableAppsOnStart, "Starts your custom applications when the game is running for the first time");
+        }
+
+        private void checkBoxMinimizeToTray_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(checkBoxMinimizeToTray, "Minimizes CyberSave77 to the tray instead of minimizing");
+        }
+
+        private void checkBoxCloseToTray_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(checkBoxCloseToTray, "Minimizes CyberSave77 to the tray instead of closing. Use the exit button to close the application");
+        }
+
+        private void checkBoxHideStatusLog_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(checkBoxHideStatusLog, "Hides the current log on the left side");
         }
     }
 
@@ -1349,9 +1448,9 @@ namespace CyberStart77
         public int TimeDifferenceBtwSavegames { get; set; }
         public int IntervalAutoQuickSave { get; set; }
         public int AutoQsRetryInSecs { get; set; }
-        public bool DisableApplicationsOnStart { get; set; }
-        public bool DisableSaveHameHistory { get; set; }
-        public bool DisableAutoQuickSave { get; set; }
+        public bool EnableApplicationsOnStart { get; set; }
+        public bool EnableSaveHameHistory { get; set; }
+        public bool EnableAutoQuickSave { get; set; }
         public bool KillStartedApplicationsOnExit { get; set; }
         public bool copyDirs { get; set; } = true;
         public List<ProcessStartInfo> ApplicationsToStartList { get; set; }

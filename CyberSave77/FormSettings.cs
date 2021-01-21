@@ -12,8 +12,9 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Reflection;
 
-namespace CyberStart77
+namespace CyberSave77
 {
     public partial class FormSettings : Form
     {
@@ -61,12 +62,17 @@ namespace CyberStart77
             numericUpDownSaveGame.Value = Properties.Settings.Default.intervalSaveGameCheckSeconds;
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.processName))
-                checkBoxTerminateStartAppOnExit.Text = "terminate application(s) when " + Properties.Settings.Default.processName + " exited";
+                checkBoxTerminateStartAppOnExit.Text = "close all started applications, when " + Properties.Settings.Default.processName + " exits";
             else
-                checkBoxTerminateStartAppOnExit.Text = "terminate application(s) when main process exited";
+                checkBoxTerminateStartAppOnExit.Text = "close all started applications, when main process exits";
 
             numericUpDownAutosaveMaxRetries.Value = Properties.Settings.Default.autoQuickSaveMaxRetries;
             numericUpDownAutosaveRetrySeconds.Value = Properties.Settings.Default.autoQuickSaveErrorDelay;
+
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk")))
+                modernButtonAddToAutostart.Text = "Remove from Autostart";
+            else
+                modernButtonAddToAutostart.Text = "Start with Windows";
         }
 
 
@@ -237,7 +243,7 @@ namespace CyberStart77
             bgwBackup.ReportProgress(0);
             string folder = (string)e.Argument;
             String filename = "CB2077_SaveGame_BK_" + DateTime.Now.ToString("dd-MM-yy_HH-mm-ss") + ".zip";
-            if (!File.Exists(Path.Combine(folder, filename)))
+            if (!System.IO.File.Exists(Path.Combine(folder, filename)))
             {
                 ZipFile.CreateFromDirectory(Properties.Settings.Default.savegameDefaultPath, Path.Combine(folder, filename));
                 e.Result = "Successfully created backup at " + Path.Combine(folder, filename);
@@ -263,8 +269,112 @@ namespace CyberStart77
         {
             Properties.Settings.Default.Reset();
             Properties.Settings.Default.Save();
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk")))
+                File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk"));
 
             Application.Restart();
+        }
+
+        private void setTooltip(string text, Control ctrl)
+        {
+            toolTip1.ShowAlways = true;
+            toolTip1.IsBalloon = true;
+            toolTip1.SetToolTip(ctrl, text);
+        }
+        private void textBoxProcess_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Name of the process to check (not editable)", textBoxProcess);
+        }
+
+        private void label8_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Sets the interval when the process (" + Properties.Settings.Default.processName + ") is checked", label8);
+        }
+
+        private void labelSaveGameCheck_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Sets the interval when the savegame files get checked", labelSaveGameCheck);
+        }
+
+        private void checkBoxTerminateStartAppOnExit_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("All applications started by CyperSave77 get closed, when " + Properties.Settings.Default.processName + " exits", checkBoxTerminateStartAppOnExit);
+        }
+
+        private void labelAutoQsRetry_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Interval between the retries when an auto quicksave failed", labelAutoQsRetry);
+        }
+
+        private void labelAutoQsMaxRetries_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Number of retries when an auto quicksave failed", labelAutoQsMaxRetries);
+        }
+
+        private void textBoxPathSavegame_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip(@"Path to your default savegames in CyberPunk2077 (default %userdir%\Saved Games\CD Projekt Red\Cyberpunk 2077)", textBoxPathSavegame);
+        }
+
+        private void textBoxPathExtraSavegames_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip(@"Path will be used for your copied Auto-/Quicksaves. Can be different than the default savegame path.", textBoxPathSavegame);
+        }
+
+        private void radioButtonDirNameSchema_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Sets the directory name of your copied savegame to |Autosave-Date| (e.g. 'Autosave-21_01_2021-17-05-33')", radioButtonDirNameSchema);
+        }
+
+        private void radioButtonSavegameContentSchema_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Sets the directory name of your copied savegame to |Path Gender Level Date| (e.g. 'Nomad Female 27 19-01-21_21-58-13')", radioButtonSavegameContentSchema);
+        }
+
+        private void radioButtonCustomName_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Sets the directory name of your copied savem to any custom name, including data of your savegames", radioButtonCustomName);
+        }
+
+        private void modernButtonAddToAutostart_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk")))
+            {
+                File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk"));
+                modernButtonAddToAutostart.Text = "Start with Windows";
+            }
+            else
+            {
+                CreateShortcut();
+                modernButtonAddToAutostart.Text = "Remove from Autostart";
+            }
+        }
+
+        private void CreateShortcut()
+        {
+
+            IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+            string shortcutAddress = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "CyberSave77.lnk");
+            IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutAddress);
+
+            shortcut.TargetPath = Assembly.GetEntryAssembly().Location;
+            shortcut.WorkingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            shortcut.Save();
+        }
+
+        private void modernButtonAddToAutostart_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Adds or removes CyberSave77 from Windows Autostart", modernButtonAddToAutostart);
+        }
+
+        private void modernButtonCreateBackup_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Creates a ZIP backup of your default savegame directory", modernButtonCreateBackup);
+        }
+
+        private void modernButtonReset_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("Resets all the settings to default and restarts CyberSave77", modernButtonReset);
         }
     }
 }

@@ -119,7 +119,7 @@
   </resheader>
   <data name="label4.Text" xml:space="preserve">
     <value>Custom names can display various stats of your current savegame. 
-Click on Keyname List and double click on the element you want to add.  You can adjust spaces etc. by simply editing the textbox. 
+Click on Keyname List and double click on the element you want to add. You can adjust spaces etc. by simply editing the textbox.
 The Label below will show you a preview of the name from an example file.
 
 

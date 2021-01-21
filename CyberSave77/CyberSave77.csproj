@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D4D46D8F-6C54-421A-B809-4E47A59ED857}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CyberStart77</RootNamespace>
-    <AssemblyName>CyberStart77</AssemblyName>
+    <RootNamespace>CyberSave77</RootNamespace>
+    <AssemblyName>CyberSave77</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -36,7 +36,7 @@
     <ApplicationIcon>v_female_02.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>CyberStart77.Program</StartupObject>
+    <StartupObject>CyberSave77.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -145,6 +145,17 @@
     <None Include="Resources\021-settings.png" />
     <None Include="Resources\Cyberpunk2077_Wallpapers_TraumaTeam_1600x900_EN.png" />
     <Content Include="v_female_02.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
