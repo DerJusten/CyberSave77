@@ -36,6 +36,8 @@ namespace CyberSave77
         //      private int iChecksWithoutSavegame = 0;
         private static CyberSave77Settings settings;
         private static bool bDebug = false;
+        private static string version = "(v0.21)";
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
@@ -723,7 +725,18 @@ namespace CyberSave77
                 Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             }
-
+            string[] args = Environment.GetCommandLineArgs();
+            if(args.Length > 1)
+            {
+                if(args[1].ToLower() == "reset")
+                {
+                    Properties.Settings.Default.Reset();
+                    Properties.Settings.Default.Save();
+                    Application.Exit();
+                    return;
+                }
+            }
+            this.Text = "CyberSave77 " + version;
             textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.DoubleBuffered = true;
 
@@ -1238,11 +1251,6 @@ namespace CyberSave77
             Process.Start("https://github.com/WolvenKit/CyberCAT");
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void pictureBoxAddSettings_Click(object sender, EventArgs e)
         {
             using (FormSettings fS = new FormSettings())
@@ -1253,10 +1261,6 @@ namespace CyberSave77
             loadSettingsUI();
         }
 
-        private void button1_Click_2(object sender, EventArgs e)
-        {
-
-        }
 
         private void radioButtonCustomName_CheckedChanged(object sender, EventArgs e)
         {
@@ -1273,12 +1277,6 @@ namespace CyberSave77
 
         private void numericUpDownTryAutosave_ValueChanged(object sender, EventArgs e)
         {
-            //if (numericUpDownTryAutosave.Value < numericUpDownMinSaveGames.Value && numericUpDownTryAutosave.Value != 0)
-            //{
-            //    toolTip1.ShowAlways = true;
-            //    toolTip1.IsBalloon = true;
-            //    toolTip1.SetToolTip(numericUpDownTryAutosave, "Autosave value shouldn't be lower than 'Minutes between Savegames'");
-            //}
 
             Properties.Settings.Default.intervalAutoQuickSaveMinutes = (int)numericUpDownTryAutoQuickSave.Value;
             Properties.Settings.Default.Save();
@@ -1303,12 +1301,6 @@ namespace CyberSave77
         private void numericUpDownMinSaveGames_ValueChanged(object sender, EventArgs e)
         {
 
-            //if (numericUpDownTryAutosave.Value < numericUpDownMinSaveGames.Value && numericUpDownTryAutosave.Value != 0)
-            //{
-            //    toolTip1.ShowAlways = true;
-            //    toolTip1.IsBalloon = true;
-            //    toolTip1.SetToolTip(numericUpDownMinSaveGames, "'Minutes between Savegames' value shouldn't be higher than 'Autosave'");
-            //}
             Properties.Settings.Default.timeDifferenceSaveGames = (int)numericUpDownMinSaveGames.Value;
             Properties.Settings.Default.Save();
         }
@@ -1366,13 +1358,14 @@ namespace CyberSave77
             {
                 Log(e.Exception.Message, sw, -1);
             }
+            MessageBox.Show("Oh no, an unexpected error occured. (" + e.Exception.Message + ")");
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
                 Log((e.ExceptionObject as Exception).Message, sw, -1);
-
+            MessageBox.Show("Oh no, an unexpected error occured. (" + (e.ExceptionObject as Exception).Message + ")");
         }
 
         private void checkBoxDisableAutosave_CheckedChanged(object sender, EventArgs e)

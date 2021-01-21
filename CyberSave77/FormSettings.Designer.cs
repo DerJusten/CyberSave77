@@ -270,8 +270,8 @@ namespace CyberSave77
             // 
             this.toolTip1.AutoPopDelay = 5000;
             this.toolTip1.BackColor = System.Drawing.Color.White;
-            this.toolTip1.InitialDelay = 750;
-            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.InitialDelay = 1000;
+            this.toolTip1.ReshowDelay = 500;
             // 
             // groupBox3
             // 
