@@ -456,22 +456,11 @@ namespace CyberSave77
 
             CyberSave77Settings settings = (CyberSave77Settings)e.Argument;
 
-            //string processName = Properties.Settings.Default.process;
-
-            //int timerProcess = Properties.Settings.Default.processTimer;
-            ////seconds -> ms
-            //int iTimerSaveGame = Properties.Settings.Default.savegameTimer * 1000;
-            ////minutes -> ms
-            //int iTimerAutoQuickSave = Properties.Settings.Default.intervalAutoSafeMinutes * 60 * 1000;
-
-            //bool bDisableCustomApp = Properties.Settings.Default.disableAddApps;
-            //bool bDisbleExtraSaveGames = Properties.Settings.Default.disableExtraSavegames;
-            //bool bTerminateStartAppOnExit = Properties.Settings.Default.terminateStartApps;
             timerSaveGame.Interval = settings.IntervalSaveGameCheck;
             timerAutoQuickSave.Interval = settings.IntervalAutoQuickSave;
 
 
-            bgwCheckProcess.ReportProgress(2, "Backgroundworker has started");
+            bgwCheckProcess.ReportProgress(2, "CyberSave77 " + version + " is running");
             displaySettings();
 
 
@@ -698,7 +687,16 @@ namespace CyberSave77
 
                 labelState.Text = e.UserState.ToString();
             }
-            if (e.ProgressPercentage < 10)
+
+            //Logging
+            if(bDebug == true)
+            {
+                using (StreamWriter sw = new StreamWriter("CyberSave77_debug.log", true))
+                {
+                    Log(e.UserState.ToString(), sw, e.ProgressPercentage);
+                }
+            }
+            else if (e.ProgressPercentage < 10 && e.ProgressPercentage == -1)
                 using (StreamWriter sw = new StreamWriter("CyberSave77.log", true))
                 {
                     Log(e.UserState.ToString(), sw, e.ProgressPercentage);
@@ -947,10 +945,11 @@ namespace CyberSave77
         }
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if (bgwCheckProcess.IsBusy)
+            if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending)
             {
                 bgwCheckProcess.ReportProgress(0, "Please wait...");
                 bgwCheckProcess.CancelAsync();
+                
             }
         }
 
@@ -1162,7 +1161,7 @@ namespace CyberSave77
                     minimizeToTray(false);
                 }
             }
-
+         
         }
 
         private void minimizeToTray(bool showBalloon)
@@ -1185,6 +1184,8 @@ namespace CyberSave77
             this.ShowInTaskbar = true;
             this.WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = false;
+            textBoxLog.SelectionStart = textBoxLog.TextLength;
+            textBoxLog.ScrollToCaret();
 
         }
 
@@ -1210,12 +1211,12 @@ namespace CyberSave77
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (bgwCheckProcess.IsBusy == true)
+            if (bgwCheckProcess.IsBusy == true && bgwCheckProcess.CancellationPending == false)
             {
                 bgwCheckProcess.CancelAsync();
                 startToolStripMenuItem.Text = "Start";
             }
-            else
+            else if(bgwCheckProcess.IsBusy == false)
             {
                 bgwCheckProcess.RunWorkerAsync();
                 startToolStripMenuItem.Text = "Stop";
@@ -1386,6 +1387,7 @@ namespace CyberSave77
 
 
             }
+          
         }
 
         private void listBoxProcess_MouseHover(object sender, EventArgs e)
@@ -1426,6 +1428,11 @@ namespace CyberSave77
             toolTip1.ShowAlways = true;
             toolTip1.IsBalloon = true;
             toolTip1.SetToolTip(checkBoxHideStatusLog, "Hides the current log on the left side");
+        }
+
+        private void Form1_VisibleChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 

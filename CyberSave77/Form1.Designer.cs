@@ -47,8 +47,8 @@ namespace CyberSave77
             this.panelCredit = new System.Windows.Forms.Panel();
             this.panelRightSide = new System.Windows.Forms.Panel();
             this.panelButton = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
             this.modernButtonDebug = new CyberSave77.ModernButton();
+            this.label9 = new System.Windows.Forms.Label();
             this.modernButtonStart = new CyberSave77.ModernButton();
             this.modernButtonStop = new CyberSave77.ModernButton();
             this.modernButtonExit = new CyberSave77.ModernButton();
@@ -255,18 +255,6 @@ namespace CyberSave77
             this.panelButton.Size = new System.Drawing.Size(380, 72);
             this.panelButton.TabIndex = 13;
             // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(316, 59);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 13);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "DJ [200121]";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // modernButtonDebug
             // 
             this.modernButtonDebug.BackColor = System.Drawing.Color.White;
@@ -283,6 +271,18 @@ namespace CyberSave77
             this.modernButtonDebug.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonDebug.Visible = false;
             this.modernButtonDebug.Click += new System.EventHandler(this.modernButtonDebug_Click);
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(316, 59);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 13);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "DJ [200121]";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // modernButtonStart
             // 
@@ -655,6 +655,7 @@ namespace CyberSave77
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown_1);
+            this.VisibleChanged += new System.EventHandler(this.Form1_VisibleChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.cmsNotifyIcon.ResumeLayout(false);
