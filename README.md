@@ -6,7 +6,8 @@ CyberSave77 (prev. CyberStart77) is a little application which copies your **Aut
 - copies all or just some of your Auto-/Quicksave while the game is running
 - start any additional applications like camera tools, video recording  etc. when the game is running or starting for the first time
 - create a backup of your savegame folder
-- create automatically a quicksave after a specific time (this can be probably ignored by most of the people, since the game has an Autosave feature)
+- create automatically a quicksave after a specific time (may be removed in later versions, since the game has an autosave function)
+- NEW manage easily all of your savegames by just some clicks (display various information about your game progress, has move and delete function)
 ## How to use
 - download ZIP file in the release tab unzip it to any location and start CyberSave77.exe
 - adjust the settings like you want to
