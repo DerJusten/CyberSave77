@@ -17,7 +17,8 @@ CyberSave77 (prev. CyberStart77) is a little application which copies your **Aut
 This tool checks every X seconds (you can adjust the seconds) if the game (Cyberpunk2077) is running or not. If it is, it starts to check the savegame directories and compares them by their creation date. Based on your settings, it copies the matching directories (including their files) to your "Savegame history path", which is by default %username%\Saved Games\CD Projekt Red\SaveGameHistory.
 
 ## Known bugs
-If a shortcut of CyberSave77 gets added to the AutoStart (Settings -> Start with Windows), Windows Defender sometimes detects it as a trojan and put it in quarantine. This is (obviously) a false-positive, but I haven't figured out what is causing it. 
+If a shortcut of CyberSave77 gets added to the AutoStart (Settings -> Start with Windows), Windows Defender sometimes detects it as a trojan and puts it in quarantine. This is (obviously) a false-positive, but I haven't figured out what is causing it. <br>
+
 
 ### Disclaimer
 This is just a hobby project I made for myself but I decided that I want to share it with anyone, who also wants to use any of the features. I am not a great coder and there are probably alot of things which can be made better. Also I am terrible at giving names so I am sorry for any grammar errors and the weird naming.
