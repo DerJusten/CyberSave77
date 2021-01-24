@@ -25,18 +25,15 @@ namespace CyberSave77
             InitializeComponent();
         }
 
-        //   string saveGameDefaultPath, saveGameHistoryPath;
         public static ProcInfoMin procInfo;
         private bool forceExit = false;
         private static bool externalAppsStarted = false;
         private static DateTime lastSaveGameCreationDate = new DateTime();
-        //    private static bool gameSaved = false;
         private System.Timers.Timer timerSaveGame;
         private System.Timers.Timer timerAutoQuickSave;
-        //      private int iChecksWithoutSavegame = 0;
         private static CyberSave77Settings settings;
         private static bool bDebug = false;
-        private static string version = "(v0.21)";
+        private static string version = "(v0.22)";
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -113,7 +110,7 @@ namespace CyberSave77
                 }
                 settings.ApplicationsToStartList = pInfo;
             }
-            if (settings.EnableApplicationsOnStart == false && settings.EnableAutoQuickSave == false && settings.EnableSaveHameHistory==false)
+            if (settings.EnableApplicationsOnStart == false && settings.EnableAutoQuickSave == false && settings.EnableSaveHameHistory == false)
             {
                 MessageBox.Show("Invalid configuration! Custom Apps, AutoQuickSave or SaveGame History has to be enabled");
                 return;
@@ -198,19 +195,6 @@ namespace CyberSave77
                 }
             }
 
-            //var extraSaves = Directory.EnumerateDirectories(extraSaveGamePath);
-            //List<DirectoryInfo> listLegacyDirInfo = new List<DirectoryInfo>();
-            //List<DirectoryInfo> listExtraSavesDirInfo = new List<DirectoryInfo>();
-
-            //foreach (var item in legacySaves)
-            //{
-            //    listLegacyDirInfo.Add(new DirectoryInfo(item));
-            //}
-            //foreach (var item in extraSaves)
-            //{
-            //    listExtraSavesDirInfo.Add(new DirectoryInfo(item));
-            //}
-
         }
 
         private List<DirectoryInfo> filterDirsByTime(List<DirectoryInfo> uniqueDirs, int timeDifference)
@@ -236,8 +220,6 @@ namespace CyberSave77
 
         private bool isProcessInForeground(string processname)
         {
-            //try
-            //{
 
             IntPtr hwnd = GetForegroundWindow();
             uint pid;
@@ -247,12 +229,6 @@ namespace CyberSave77
                 return true;
             else
                 return false;
-
-            //}
-            //catch (Exception)
-            //{
-            //    return false;
-            //}
         }
 
         private void startCustomApplications(List<ProcessStartInfo> listExe)
@@ -546,7 +522,7 @@ namespace CyberSave77
             else
                 stateHistorySavegame = "Copy only savegames which are older than " + Properties.Settings.Default.timeDifferenceSaveGames + " minutes";
 
-            if (Properties.Settings.Default.enableAutoQuicksave ==false)
+            if (Properties.Settings.Default.enableAutoQuicksave == false)
                 stateAutoQuickSave = "AutoQuickSave is disabled";
             else
                 stateAutoQuickSave = "AutoQuickSave every " + Properties.Settings.Default.intervalAutoQuickSaveMinutes + "  minutes";
@@ -689,7 +665,7 @@ namespace CyberSave77
             }
 
             //Logging
-            if(bDebug == true)
+            if (bDebug == true)
             {
                 using (StreamWriter sw = new StreamWriter("CyberSave77_debug.log", true))
                 {
@@ -732,6 +708,7 @@ namespace CyberSave77
                     Properties.Settings.Default.Save();
                 }
             }
+           
             this.Text = "CyberSave77 " + version;
             textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.DoubleBuffered = true;
@@ -799,9 +776,9 @@ namespace CyberSave77
                 Application.Exit();
             else
             {
-                labelState.Text = "CyberSafe77 is not started";
+                labelState.Text = "CyberSave77 is not started";
                 labelState.ForeColor = Color.Red;
-                textBoxLog.AppendText("Backgroundworker exited successfully" + Environment.NewLine);
+                textBoxLog.AppendText("CyberSave77 has been stopped" + Environment.NewLine);
                 panelSettingsRunDisable.Enabled = true;
                 modernButtonStart.Enabled = true;
                 modernButtonStop.Enabled = false;
@@ -945,11 +922,11 @@ namespace CyberSave77
         }
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending)
+            if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending == false)
             {
                 bgwCheckProcess.ReportProgress(0, "Please wait...");
                 bgwCheckProcess.CancelAsync();
-                
+
             }
         }
 
@@ -989,6 +966,8 @@ namespace CyberSave77
                     tooltip = "Add a custom process to your start list";
                 else if (pb.Name == "pictureBoxEdit")
                     tooltip = "Edit your selected process";
+                else if (pb.Name == "pictureBoxSvgMgr")
+                    tooltip = "Opens SaveGameManager";
                 else
                     tooltip = "Delete your selected process";
 
@@ -1161,7 +1140,7 @@ namespace CyberSave77
                     minimizeToTray(false);
                 }
             }
-         
+
         }
 
         private void minimizeToTray(bool showBalloon)
@@ -1216,7 +1195,7 @@ namespace CyberSave77
                 bgwCheckProcess.CancelAsync();
                 startToolStripMenuItem.Text = "Start";
             }
-            else if(bgwCheckProcess.IsBusy == false)
+            else if (bgwCheckProcess.IsBusy == false)
             {
                 bgwCheckProcess.RunWorkerAsync();
                 startToolStripMenuItem.Text = "Stop";
@@ -1387,12 +1366,12 @@ namespace CyberSave77
 
 
             }
-          
+
         }
 
         private void listBoxProcess_MouseHover(object sender, EventArgs e)
         {
- 
+
         }
 
         private void checkBoxAutostart_MouseHover(object sender, EventArgs e)
@@ -1432,7 +1411,41 @@ namespace CyberSave77
 
         private void Form1_VisibleChanged(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void modernButton1_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
+            DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
+            List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
+            if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                listDirInfo.Add(dirInfoDefault);
+            else
+            {
+                listDirInfo.Add(dirInfoDefault);
+                listDirInfo.Add(dirInfoHistory);
+            }
+
+            FormSaveGameManager fsgm = new FormSaveGameManager(listDirInfo);
+            fsgm.ShowDialog();
+        }
+
+        private void pictureBoxSvgMgr_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
+            DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
+            List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
+            if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                listDirInfo.Add(dirInfoDefault);
+            else
+            {
+                listDirInfo.Add(dirInfoDefault);
+                listDirInfo.Add(dirInfoHistory);
+            }
+
+            using (FormSaveGameManager fsgm = new FormSaveGameManager(listDirInfo))
+                fsgm.ShowDialog();
         }
     }
 

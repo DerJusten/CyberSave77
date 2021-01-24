@@ -56,6 +56,7 @@ namespace CyberSave77
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.labelState = new System.Windows.Forms.Label();
             this.panelSettingsRunDisable = new System.Windows.Forms.Panel();
+            this.pictureBoxSvgMgr = new System.Windows.Forms.PictureBox();
             this.checkBoxEnableAutosave = new System.Windows.Forms.CheckBox();
             this.groupBoxAutosave = new System.Windows.Forms.GroupBox();
             this.numericUpDownTryAutoQuickSave = new System.Windows.Forms.NumericUpDown();
@@ -85,6 +86,7 @@ namespace CyberSave77
             this.panelSettings.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.panelSettingsRunDisable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgMgr)).BeginInit();
             this.groupBoxAutosave.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).BeginInit();
@@ -262,9 +264,9 @@ namespace CyberSave77
             this.modernButtonDebug.ClickEffectEnabled = true;
             this.modernButtonDebug.DefaultColor = System.Drawing.Color.White;
             this.modernButtonDebug.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonDebug.Location = new System.Drawing.Point(211, 3);
+            this.modernButtonDebug.Location = new System.Drawing.Point(205, 3);
             this.modernButtonDebug.Name = "modernButtonDebug";
-            this.modernButtonDebug.Size = new System.Drawing.Size(56, 46);
+            this.modernButtonDebug.Size = new System.Drawing.Size(67, 46);
             this.modernButtonDebug.TabIndex = 15;
             this.modernButtonDebug.Text = "Debug";
             this.modernButtonDebug.TextColor = System.Drawing.SystemColors.ControlText;
@@ -293,7 +295,7 @@ namespace CyberSave77
             this.modernButtonStart.HoverColor = System.Drawing.Color.LightGray;
             this.modernButtonStart.Location = new System.Drawing.Point(7, 3);
             this.modernButtonStart.Name = "modernButtonStart";
-            this.modernButtonStart.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonStart.Size = new System.Drawing.Size(95, 46);
             this.modernButtonStart.TabIndex = 8;
             this.modernButtonStart.Text = "Start";
             this.modernButtonStart.TextColor = System.Drawing.SystemColors.ControlText;
@@ -307,9 +309,9 @@ namespace CyberSave77
             this.modernButtonStop.ClickEffectEnabled = true;
             this.modernButtonStop.DefaultColor = System.Drawing.Color.White;
             this.modernButtonStop.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStop.Location = new System.Drawing.Point(115, 3);
+            this.modernButtonStop.Location = new System.Drawing.Point(118, 3);
             this.modernButtonStop.Name = "modernButtonStop";
-            this.modernButtonStop.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonStop.Size = new System.Drawing.Size(81, 46);
             this.modernButtonStop.TabIndex = 9;
             this.modernButtonStop.Text = "Stop";
             this.modernButtonStop.TextColor = System.Drawing.SystemColors.ControlText;
@@ -323,9 +325,9 @@ namespace CyberSave77
             this.modernButtonExit.ClickEffectEnabled = true;
             this.modernButtonExit.DefaultColor = System.Drawing.Color.White;
             this.modernButtonExit.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonExit.Location = new System.Drawing.Point(272, 3);
+            this.modernButtonExit.Location = new System.Drawing.Point(276, 3);
             this.modernButtonExit.Name = "modernButtonExit";
-            this.modernButtonExit.Size = new System.Drawing.Size(91, 46);
+            this.modernButtonExit.Size = new System.Drawing.Size(87, 46);
             this.modernButtonExit.TabIndex = 10;
             this.modernButtonExit.Text = "Exit";
             this.modernButtonExit.TextColor = System.Drawing.SystemColors.ControlText;
@@ -358,11 +360,12 @@ namespace CyberSave77
             // labelState
             // 
             this.labelState.AutoEllipsis = true;
+            this.labelState.BackColor = System.Drawing.Color.Transparent;
             this.labelState.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelState.ForeColor = System.Drawing.Color.Red;
-            this.labelState.Location = new System.Drawing.Point(16, 24);
+            this.labelState.Location = new System.Drawing.Point(12, 24);
             this.labelState.Name = "labelState";
-            this.labelState.Size = new System.Drawing.Size(292, 28);
+            this.labelState.Size = new System.Drawing.Size(266, 28);
             this.labelState.TabIndex = 17;
             this.labelState.Text = "CyberSave77 is not started";
             this.labelState.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -371,6 +374,7 @@ namespace CyberSave77
             // 
             this.panelSettingsRunDisable.AutoScroll = true;
             this.panelSettingsRunDisable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelSettingsRunDisable.Controls.Add(this.pictureBoxSvgMgr);
             this.panelSettingsRunDisable.Controls.Add(this.checkBoxEnableAutosave);
             this.panelSettingsRunDisable.Controls.Add(this.groupBoxAutosave);
             this.panelSettingsRunDisable.Controls.Add(this.pictureBoxAddSettings);
@@ -383,6 +387,21 @@ namespace CyberSave77
             this.panelSettingsRunDisable.Name = "panelSettingsRunDisable";
             this.panelSettingsRunDisable.Size = new System.Drawing.Size(354, 328);
             this.panelSettingsRunDisable.TabIndex = 18;
+            // 
+            // pictureBoxSvgMgr
+            // 
+            this.pictureBoxSvgMgr.Image = global::CyberSave77.Properties.Resources.diskette;
+            this.pictureBoxSvgMgr.Location = new System.Drawing.Point(281, 3);
+            this.pictureBoxSvgMgr.Name = "pictureBoxSvgMgr";
+            this.pictureBoxSvgMgr.Size = new System.Drawing.Size(35, 26);
+            this.pictureBoxSvgMgr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxSvgMgr.TabIndex = 16;
+            this.pictureBoxSvgMgr.TabStop = false;
+            this.pictureBoxSvgMgr.Click += new System.EventHandler(this.pictureBoxSvgMgr_Click);
+            this.pictureBoxSvgMgr.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxSvgMgr.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxSvgMgr.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxSvgMgr.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // checkBoxEnableAutosave
             // 
@@ -432,9 +451,9 @@ namespace CyberSave77
             // pictureBoxAddSettings
             // 
             this.pictureBoxAddSettings.Image = global::CyberSave77.Properties.Resources._021_settings;
-            this.pictureBoxAddSettings.Location = new System.Drawing.Point(309, 3);
+            this.pictureBoxAddSettings.Location = new System.Drawing.Point(317, 3);
             this.pictureBoxAddSettings.Name = "pictureBoxAddSettings";
-            this.pictureBoxAddSettings.Size = new System.Drawing.Size(37, 26);
+            this.pictureBoxAddSettings.Size = new System.Drawing.Size(35, 26);
             this.pictureBoxAddSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxAddSettings.TabIndex = 13;
             this.pictureBoxAddSettings.TabStop = false;
@@ -670,6 +689,7 @@ namespace CyberSave77
             this.groupBoxSettings.ResumeLayout(false);
             this.panelSettingsRunDisable.ResumeLayout(false);
             this.panelSettingsRunDisable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgMgr)).EndInit();
             this.groupBoxAutosave.ResumeLayout(false);
             this.groupBoxAutosave.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).EndInit();
@@ -735,6 +755,7 @@ namespace CyberSave77
         private System.Windows.Forms.Label labelSaveGameTimeDif;
         private System.Windows.Forms.Label labelState;
         private ModernButton modernButtonDebug;
+        private System.Windows.Forms.PictureBox pictureBoxSvgMgr;
     }
 }
 

@@ -262,5 +262,17 @@ namespace CyberSave77.Properties {
                 this["guiLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool svgmHideDetails {
+            get {
+                return ((bool)(this["svgmHideDetails"]));
+            }
+            set {
+                this["svgmHideDetails"] = value;
+            }
+        }
     }
 }

@@ -86,6 +86,12 @@
     <Compile Include="FormProcess.Designer.cs">
       <DependentUpon>FormProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSaveGameManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSaveGameManager.Designer.cs">
+      <DependentUpon>FormSaveGameManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormProcess.resx">
       <DependentUpon>FormProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSaveGameManager.resx">
+      <DependentUpon>FormSaveGameManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
@@ -146,6 +155,12 @@
   <ItemGroup>
     <None Include="Resources\021-settings.png" />
     <None Include="Resources\Cyberpunk2077_Wallpapers_TraumaTeam_1600x900_EN.png" />
+    <None Include="Resources\move.png" />
+    <None Include="Resources\up-arrow.png" />
+    <None Include="Resources\bottom.png" />
+    <None Include="Resources\list.png" />
+    <None Include="Resources\data-transfer.png" />
+    <None Include="Resources\diskette.png" />
     <Content Include="v_female_02.ico" />
   </ItemGroup>
   <ItemGroup>
