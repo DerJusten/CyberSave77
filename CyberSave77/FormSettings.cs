@@ -73,6 +73,8 @@ namespace CyberSave77
                 modernButtonAddToAutostart.Text = "Remove from Autostart";
             else
                 modernButtonAddToAutostart.Text = "Start with Windows";
+
+            checkBoxSvgmDisableConfirmation.Checked = Properties.Settings.Default.svgmDisableConfirmation;
         }
 
 
@@ -375,6 +377,17 @@ namespace CyberSave77
         private void modernButtonReset_MouseHover(object sender, EventArgs e)
         {
             setTooltip("Resets all the settings to default and restarts CyberSave77", modernButtonReset);
+        }
+
+        private void checkBoxSGMdisableConfirmation_MouseHover(object sender, EventArgs e)
+        {
+            setTooltip("won't disable dialogue for multiple selections", checkBoxSvgmDisableConfirmation);
+        }
+
+        private void checkBoxSGMdisableConfirmation_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.svgmDisableConfirmation = checkBoxSvgmDisableConfirmation.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

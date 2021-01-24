@@ -268,6 +268,10 @@ namespace CyberSave77
             SaveGameFile svg = listSVG.Where(x => x.panelName == pb.Parent.Name).FirstOrDefault();
             if (svg != null)
             {
+                if (Properties.Settings.Default.svgmDisableConfirmation == false)
+                    if (DialogResult.Yes != MessageBox.Show("Are you sure you want to delete " + new DirectoryInfo(svg.dirName).Name + "?", "Warning", MessageBoxButtons.YesNoCancel))
+                        return;
+
                 Directory.Delete(svg.dirName, true);
                 listSVG.Remove(svg);
                 loadView(listSVG, 0, 20);

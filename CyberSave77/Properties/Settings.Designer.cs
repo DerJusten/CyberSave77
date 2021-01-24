@@ -274,5 +274,17 @@ namespace CyberSave77.Properties {
                 this["svgmHideDetails"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool svgmDisableConfirmation {
+            get {
+                return ((bool)(this["svgmDisableConfirmation"]));
+            }
+            set {
+                this["svgmDisableConfirmation"] = value;
+            }
+        }
     }
 }

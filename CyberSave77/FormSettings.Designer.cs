@@ -68,6 +68,8 @@ namespace CyberSave77
             this.modernButtonAddToAutostart = new CyberSave77.ModernButton();
             this.modernButtonReset = new CyberSave77.ModernButton();
             this.modernButtonCreateBackup = new CyberSave77.ModernButton();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.checkBoxSvgmDisableConfirmation = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +82,7 @@ namespace CyberSave77
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAutosaveRetrySeconds)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -278,7 +281,7 @@ namespace CyberSave77
             this.groupBox3.Controls.Add(this.checkBoxTerminateStartAppOnExit);
             this.groupBox3.Location = new System.Drawing.Point(15, 187);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(403, 75);
+            this.groupBox3.Size = new System.Drawing.Size(403, 65);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Additional applications";
@@ -492,7 +495,7 @@ namespace CyberSave77
             this.groupBox8.Controls.Add(this.modernButtonAddToAutostart);
             this.groupBox8.Controls.Add(this.modernButtonReset);
             this.groupBox8.Controls.Add(this.modernButtonCreateBackup);
-            this.groupBox8.Location = new System.Drawing.Point(15, 377);
+            this.groupBox8.Location = new System.Drawing.Point(424, 463);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(403, 79);
             this.groupBox8.TabIndex = 19;
@@ -550,12 +553,35 @@ namespace CyberSave77
             this.modernButtonCreateBackup.Click += new System.EventHandler(this.modernButtonCreateBackup_Click);
             this.modernButtonCreateBackup.MouseHover += new System.EventHandler(this.modernButtonCreateBackup_MouseHover);
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.checkBoxSvgmDisableConfirmation);
+            this.groupBox9.Location = new System.Drawing.Point(15, 377);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(403, 80);
+            this.groupBox9.TabIndex = 20;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "SaveGameManager";
+            // 
+            // checkBoxSvgmDisableConfirmation
+            // 
+            this.checkBoxSvgmDisableConfirmation.AutoSize = true;
+            this.checkBoxSvgmDisableConfirmation.Location = new System.Drawing.Point(10, 35);
+            this.checkBoxSvgmDisableConfirmation.Name = "checkBoxSvgmDisableConfirmation";
+            this.checkBoxSvgmDisableConfirmation.Size = new System.Drawing.Size(207, 23);
+            this.checkBoxSvgmDisableConfirmation.TabIndex = 0;
+            this.checkBoxSvgmDisableConfirmation.Text = "disable confirmation dialogue";
+            this.checkBoxSvgmDisableConfirmation.UseVisualStyleBackColor = true;
+            this.checkBoxSvgmDisableConfirmation.CheckedChanged += new System.EventHandler(this.checkBoxSGMdisableConfirmation_CheckedChanged);
+            this.checkBoxSvgmDisableConfirmation.MouseHover += new System.EventHandler(this.checkBoxSGMdisableConfirmation_MouseHover);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(837, 468);
+            this.ClientSize = new System.Drawing.Size(837, 543);
+            this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
@@ -566,7 +592,7 @@ namespace CyberSave77
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(853, 507);
+            this.MaximumSize = new System.Drawing.Size(853, 600);
             this.Name = "FormSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Settings";
@@ -592,6 +618,8 @@ namespace CyberSave77
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox8.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -634,5 +662,7 @@ namespace CyberSave77
         private System.Windows.Forms.GroupBox groupBox8;
         private ModernButton modernButtonReset;
         private ModernButton modernButtonAddToAutostart;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.CheckBox checkBoxSvgmDisableConfirmation;
     }
 }
