@@ -21,7 +21,7 @@ namespace CyberSave77
             InitializeComponent();
             pathToSavegame = pathSavegame;
         }
-        private List<SaveGameFile> svgList;
+        private List<SaveGameFile> svgList, svgListUntouched;
         private List<Panel> pnList;
         private int lastIndex = 0;
         private static Image imgDel, imgMove;
@@ -102,6 +102,9 @@ namespace CyberSave77
             else
                 listdir = new DirectoryInfo(path).EnumerateDirectories().OrderByDescending(d => d.LastWriteTime).ToList();
 
+            if (textBoxSearchBar.Text != "" && textBoxSearchBar.Text != "Search...")
+                listdir = listdir.Where(x => x.Name.ToLower().Contains(textBoxSearchBar.Text.ToLower())).ToList();
+
             foreach (var dir in listdir)
             {
                 SaveGameFile svg = new SaveGameFile();
@@ -120,7 +123,7 @@ namespace CyberSave77
             }
             return listSaveGame.Where(d => d.DatFile != null).ToList();
         }
-      
+
 
         private void LoadView(int startIndex, int endIndex)
         {
@@ -134,7 +137,8 @@ namespace CyberSave77
             if (endIndex > svgList.Count())
                 endIndex = svgList.Count();
 
-            if (pnList.Count() < endIndex)
+
+            if (pnList.Count() < endIndex && endIndex != 0)
             {
                 for (int i = pnList.Count; i < endIndex; i++)
                 {
@@ -157,8 +161,8 @@ namespace CyberSave77
                 }
 
             }
-
-            lastIndex = endIndex;
+            if (endIndex > lastIndex)
+                lastIndex = endIndex;
             if (startIndex == 0)
                 panelDatagrid.Location = new Point(pnList[0].Location.X + pnList[0].Width + 50, 30);
             if (lastIndex == svgList.Count() - 1)
@@ -203,7 +207,7 @@ namespace CyberSave77
             lb.Name = "labelDir";
 
 
-            CreateLabelsForSaveGameInfo(6,index,lb);
+            CreateLabelsForSaveGameInfo(6, index, lb);
 
             pnList[index].BackColor = Color.White;
             pnList[index].BorderStyle = BorderStyle.Fixed3D;
@@ -214,7 +218,7 @@ namespace CyberSave77
 
         }
 
-        private void CreateLabelsForSaveGameInfo(int length,int index,Label lb)
+        private void CreateLabelsForSaveGameInfo(int length, int index, Label lb)
         {
             Label[] lbArr = new Label[length];
 
@@ -272,7 +276,7 @@ namespace CyberSave77
         {
 
             parent.BackColor = Color.White;
-            if(svgList[i].JsonData == null)
+            if (svgList[i].JsonData == null)
                 svgList[i].JsonData = LoadJsonData(svgList[i].MetaDataJson);
 
             foreach (Control item in parent.Controls)
@@ -455,7 +459,16 @@ namespace CyberSave77
 
         private void LoadAllFilesAndView(string path)
         {
-            svgList = LoadSaveGameFileList(path);
+            if (svgListUntouched == null)
+            {
+                svgListUntouched = LoadSaveGameFileList(path);
+                svgList = svgListUntouched;
+            }
+            else
+            {
+                svgList = FilterSvgList();
+            }
+
             int endIndex;
             if (Properties.Settings.Default.svgmLoadAll == true)
                 endIndex = svgList.Count();
@@ -465,8 +478,29 @@ namespace CyberSave77
                 endIndex = 20;
 
             LoadView(0, endIndex);
+
         }
 
+        private List<SaveGameFile> FilterSvgList()
+        {
+            List<SaveGameFile> listSaveGame = new List<SaveGameFile>();
+       
+
+            if (checkBoxFilterNonCustomSaves.Checked == true)
+               listSaveGame= svgListUntouched.Where(x => defaultSavegameNames.All(d => !GetDirectoryName(x.DirName).Contains(d))).OrderByDescending(d => d.LastWriteTime).ToList();
+            else
+                listSaveGame = svgListUntouched.OrderByDescending(d => d.LastWriteTime).ToList();
+
+            if (textBoxSearchBar.Text != "" && textBoxSearchBar.Text != "Search...")
+            {
+               listSaveGame = listSaveGame.Where(x => GetDirectoryName(x.DirName).ToLower().Contains(textBoxSearchBar.Text.ToLower())).ToList();
+            }
+
+            
+
+            return listSaveGame;
+
+        }
 
         private void modernButtonLoadMore_Click(object sender, EventArgs e)
         {
@@ -741,6 +775,41 @@ namespace CyberSave77
             if (pb.Image != null)
                 Process.Start(pb.ImageLocation);
         }
+
+        private void comboBoxPath_MouseHover(object sender, EventArgs e)
+        {
+            if (comboBoxPath.SelectedItem != null)
+            {
+                toolTip1.SetToolTip(comboBoxPath, comboBoxPath.SelectedValue.ToString());
+            }
+        }
+
+        private void textBoxSearchBar_Enter(object sender, EventArgs e)
+        {
+            if (textBoxSearchBar.Text == "Search...")
+            {
+                textBoxSearchBar.ForeColor = Color.Black;
+                textBoxSearchBar.Clear();
+            }
+        }
+
+        private void textBoxSearchBar_Leave(object sender, EventArgs e)
+        {
+            if(textBoxSearchBar.Text == "")
+            {
+                textBoxSearchBar.Text = "Search...";
+                textBoxSearchBar.ForeColor = Color.DarkGray;
+            }
+        }
+
+        private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxSearchBar.Text != "Search...")
+            {
+                LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
+            }
+        }
+
         private void pbMoveDirMouseClick(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
@@ -767,7 +836,7 @@ namespace CyberSave77
         internal DateTime LastWriteTime { get; set; }
 
         internal RootJson JsonData { get; set; }
-   
+
     }
 
 

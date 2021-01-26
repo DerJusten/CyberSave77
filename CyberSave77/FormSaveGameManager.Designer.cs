@@ -37,6 +37,9 @@ namespace CyberSave77
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.checkBoxSimulate = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.radioButtonOrderByName = new System.Windows.Forms.RadioButton();
+            this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
             this.checkBoxFilterNonCustomSaves = new System.Windows.Forms.CheckBox();
             this.labelSelected = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,15 +51,13 @@ namespace CyberSave77
             this.labelCount = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
-            this.radioButtonOrderByName = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
             this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
             this.modernButtonSelectAll = new CyberSave77.ModernButton();
             this.modernButtonHideDetails = new CyberSave77.ModernButton();
             this.modernButtonLoadMore = new CyberSave77.ModernButton();
             this.modernButtonScrollDown = new CyberSave77.ModernButton();
             this.modernButtonScrollUp = new CyberSave77.ModernButton();
+            this.textBoxSearchBar = new System.Windows.Forms.TextBox();
             this.panelDatagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelLeft.SuspendLayout();
@@ -117,12 +118,12 @@ namespace CyberSave77
             // 
             this.panelLeft.AutoScroll = true;
             this.panelLeft.BackColor = System.Drawing.Color.White;
-            this.panelLeft.Controls.Add(this.checkBoxSimulate);
             this.panelLeft.Controls.Add(this.label2);
-            this.panelLeft.Controls.Add(this.radioButtonOrderByName);
-            this.panelLeft.Controls.Add(this.radioButtonOrderByLastWriteTime);
             this.panelLeft.Controls.Add(this.checkBoxFilterNonCustomSaves);
+            this.panelLeft.Controls.Add(this.radioButtonOrderByName);
+            this.panelLeft.Controls.Add(this.textBoxSearchBar);
             this.panelLeft.Controls.Add(this.labelSelected);
+            this.panelLeft.Controls.Add(this.radioButtonOrderByLastWriteTime);
             this.panelLeft.Controls.Add(this.modernButtonEnableSelectionMode);
             this.panelLeft.Controls.Add(this.modernButtonSelectAll);
             this.panelLeft.Controls.Add(this.label1);
@@ -140,7 +141,7 @@ namespace CyberSave77
             // 
             this.checkBoxSimulate.AutoSize = true;
             this.checkBoxSimulate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxSimulate.Location = new System.Drawing.Point(8, 43);
+            this.checkBoxSimulate.Location = new System.Drawing.Point(166, 18);
             this.checkBoxSimulate.Name = "checkBoxSimulate";
             this.checkBoxSimulate.Size = new System.Drawing.Size(71, 19);
             this.checkBoxSimulate.TabIndex = 14;
@@ -148,11 +149,47 @@ namespace CyberSave77
             this.checkBoxSimulate.UseVisualStyleBackColor = true;
             this.checkBoxSimulate.Visible = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(258, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 15);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Sort by:";
+            // 
+            // radioButtonOrderByName
+            // 
+            this.radioButtonOrderByName.AutoSize = true;
+            this.radioButtonOrderByName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonOrderByName.Location = new System.Drawing.Point(412, 42);
+            this.radioButtonOrderByName.Name = "radioButtonOrderByName";
+            this.radioButtonOrderByName.Size = new System.Drawing.Size(57, 19);
+            this.radioButtonOrderByName.TabIndex = 16;
+            this.radioButtonOrderByName.Text = "Name";
+            this.radioButtonOrderByName.UseVisualStyleBackColor = true;
+            this.radioButtonOrderByName.CheckedChanged += new System.EventHandler(this.radioButtonOrderByName_CheckedChanged);
+            // 
+            // radioButtonOrderByLastWriteTime
+            // 
+            this.radioButtonOrderByLastWriteTime.AutoSize = true;
+            this.radioButtonOrderByLastWriteTime.Checked = true;
+            this.radioButtonOrderByLastWriteTime.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonOrderByLastWriteTime.Location = new System.Drawing.Point(307, 42);
+            this.radioButtonOrderByLastWriteTime.Name = "radioButtonOrderByLastWriteTime";
+            this.radioButtonOrderByLastWriteTime.Size = new System.Drawing.Size(99, 19);
+            this.radioButtonOrderByLastWriteTime.TabIndex = 15;
+            this.radioButtonOrderByLastWriteTime.TabStop = true;
+            this.radioButtonOrderByLastWriteTime.Text = "last write time";
+            this.radioButtonOrderByLastWriteTime.UseVisualStyleBackColor = true;
+            this.radioButtonOrderByLastWriteTime.CheckedChanged += new System.EventHandler(this.radioButtonOrderByLastWriteTime_CheckedChanged);
+            // 
             // checkBoxFilterNonCustomSaves
             // 
             this.checkBoxFilterNonCustomSaves.AutoSize = true;
             this.checkBoxFilterNonCustomSaves.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(371, 43);
+            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(475, 43);
             this.checkBoxFilterNonCustomSaves.Name = "checkBoxFilterNonCustomSaves";
             this.checkBoxFilterNonCustomSaves.Size = new System.Drawing.Size(150, 19);
             this.checkBoxFilterNonCustomSaves.TabIndex = 13;
@@ -171,17 +208,18 @@ namespace CyberSave77
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 20);
+            this.label1.Size = new System.Drawing.Size(228, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "SaveGame Directory";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panelLeftButtons
             // 
             this.panelLeftButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLeftButtons.Controls.Add(this.checkBoxSimulate);
             this.panelLeftButtons.Controls.Add(this.pictureBoxMove);
             this.panelLeftButtons.Controls.Add(this.modernButtonHideDetails);
             this.panelLeftButtons.Controls.Add(this.pictureBoxDelete);
@@ -224,11 +262,12 @@ namespace CyberSave77
             this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxPath.FormattingEnabled = true;
-            this.comboBoxPath.Location = new System.Drawing.Point(186, 9);
+            this.comboBoxPath.Location = new System.Drawing.Point(8, 31);
             this.comboBoxPath.Name = "comboBoxPath";
-            this.comboBoxPath.Size = new System.Drawing.Size(335, 28);
+            this.comboBoxPath.Size = new System.Drawing.Size(228, 28);
             this.comboBoxPath.TabIndex = 1;
             this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
+            this.comboBoxPath.MouseHover += new System.EventHandler(this.comboBoxPath_MouseHover);
             // 
             // panelSaveGames
             // 
@@ -266,42 +305,6 @@ namespace CyberSave77
             this.toolTip1.IsBalloon = true;
             this.toolTip1.ReshowDelay = 100;
             this.toolTip1.ShowAlways = true;
-            // 
-            // radioButtonOrderByLastWriteTime
-            // 
-            this.radioButtonOrderByLastWriteTime.AutoSize = true;
-            this.radioButtonOrderByLastWriteTime.Checked = true;
-            this.radioButtonOrderByLastWriteTime.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonOrderByLastWriteTime.Location = new System.Drawing.Point(184, 43);
-            this.radioButtonOrderByLastWriteTime.Name = "radioButtonOrderByLastWriteTime";
-            this.radioButtonOrderByLastWriteTime.Size = new System.Drawing.Size(99, 19);
-            this.radioButtonOrderByLastWriteTime.TabIndex = 15;
-            this.radioButtonOrderByLastWriteTime.TabStop = true;
-            this.radioButtonOrderByLastWriteTime.Text = "last write time";
-            this.radioButtonOrderByLastWriteTime.UseVisualStyleBackColor = true;
-            this.radioButtonOrderByLastWriteTime.CheckedChanged += new System.EventHandler(this.radioButtonOrderByLastWriteTime_CheckedChanged);
-            // 
-            // radioButtonOrderByName
-            // 
-            this.radioButtonOrderByName.AutoSize = true;
-            this.radioButtonOrderByName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonOrderByName.Location = new System.Drawing.Point(289, 43);
-            this.radioButtonOrderByName.Name = "radioButtonOrderByName";
-            this.radioButtonOrderByName.Size = new System.Drawing.Size(57, 19);
-            this.radioButtonOrderByName.TabIndex = 16;
-            this.radioButtonOrderByName.Text = "Name";
-            this.radioButtonOrderByName.UseVisualStyleBackColor = true;
-            this.radioButtonOrderByName.CheckedChanged += new System.EventHandler(this.radioButtonOrderByName_CheckedChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(135, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 15);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "Sort by:";
             // 
             // modernButtonEnableSelectionMode
             // 
@@ -402,6 +405,18 @@ namespace CyberSave77
             this.modernButtonScrollUp.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonScrollUp.Click += new System.EventHandler(this.modernButtonScrollUp_Click);
             // 
+            // textBoxSearchBar
+            // 
+            this.textBoxSearchBar.ForeColor = System.Drawing.Color.DarkGray;
+            this.textBoxSearchBar.Location = new System.Drawing.Point(261, 12);
+            this.textBoxSearchBar.Name = "textBoxSearchBar";
+            this.textBoxSearchBar.Size = new System.Drawing.Size(266, 25);
+            this.textBoxSearchBar.TabIndex = 13;
+            this.textBoxSearchBar.Text = "Search...";
+            this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
+            this.textBoxSearchBar.Enter += new System.EventHandler(this.textBoxSearchBar_Enter);
+            this.textBoxSearchBar.Leave += new System.EventHandler(this.textBoxSearchBar_Leave);
+            // 
             // FormSaveGameManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -426,6 +441,7 @@ namespace CyberSave77
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
             this.panelLeftButtons.ResumeLayout(false);
+            this.panelLeftButtons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
             this.panelRight.ResumeLayout(false);
@@ -461,5 +477,6 @@ namespace CyberSave77
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton radioButtonOrderByName;
         private System.Windows.Forms.RadioButton radioButtonOrderByLastWriteTime;
+        private System.Windows.Forms.TextBox textBoxSearchBar;
     }
 }
