@@ -75,6 +75,15 @@ namespace CyberSave77
                 modernButtonAddToAutostart.Text = "Start with Windows";
 
             checkBoxSvgmDisableConfirmation.Checked = Properties.Settings.Default.svgmDisableConfirmation;
+
+            if (Properties.Settings.Default.savegameCheckMode == 0)
+                radioButtonAsAndQs.Checked = true;
+            else if (Properties.Settings.Default.savegameCheckMode == 1)
+                radioButtonAsOnly.Checked = true;
+            else if (Properties.Settings.Default.savegameCheckMode == 2)
+                radioButtonQsOnly.Checked = true;
+
+            checkBoxSvgmLoadAll.Checked= Properties.Settings.Default.svgmLoadAll; 
         }
 
 
@@ -387,6 +396,30 @@ namespace CyberSave77
         private void checkBoxSGMdisableConfirmation_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.svgmDisableConfirmation = checkBoxSvgmDisableConfirmation.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void radioButtonAsAndQs_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.savegameCheckMode = 0;
+            Properties.Settings.Default.Save();
+        }
+
+        private void radioButtonAsOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.savegameCheckMode = 1;
+            Properties.Settings.Default.Save();
+        }
+
+        private void radioButtonQsOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.savegameCheckMode = 2;
+            Properties.Settings.Default.Save();
+        }
+
+        private void checkBoxSvgmLoadAll_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.svgmLoadAll = checkBoxSvgmLoadAll.Checked;
             Properties.Settings.Default.Save();
         }
     }

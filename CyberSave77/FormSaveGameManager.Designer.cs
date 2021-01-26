@@ -33,25 +33,30 @@ namespace CyberSave77
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSaveGameManager));
             this.panelDatagrid = new System.Windows.Forms.Panel();
             this.labelHint = new System.Windows.Forms.Label();
-            this.labelDirname = new System.Windows.Forms.Label();
+            this.labelDirNameDatagrid = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelLeft = new System.Windows.Forms.Panel();
+            this.checkBoxSimulate = new System.Windows.Forms.CheckBox();
+            this.checkBoxFilterNonCustomSaves = new System.Windows.Forms.CheckBox();
             this.labelSelected = new System.Windows.Forms.Label();
-            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
-            this.modernButtonSelectAll = new CyberSave77.ModernButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panelLeftButtons = new System.Windows.Forms.Panel();
             this.pictureBoxMove = new System.Windows.Forms.PictureBox();
-            this.modernButtonHideDetails = new CyberSave77.ModernButton();
             this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
-            this.modernButtonLoadMore = new CyberSave77.ModernButton();
-            this.modernButtonScrollDown = new CyberSave77.ModernButton();
-            this.modernButtonScrollUp = new CyberSave77.ModernButton();
             this.comboBoxPath = new System.Windows.Forms.ComboBox();
             this.panelSaveGames = new System.Windows.Forms.Panel();
             this.labelCount = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
+            this.radioButtonOrderByName = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
+            this.modernButtonSelectAll = new CyberSave77.ModernButton();
+            this.modernButtonHideDetails = new CyberSave77.ModernButton();
+            this.modernButtonLoadMore = new CyberSave77.ModernButton();
+            this.modernButtonScrollDown = new CyberSave77.ModernButton();
+            this.modernButtonScrollUp = new CyberSave77.ModernButton();
             this.panelDatagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelLeft.SuspendLayout();
@@ -65,7 +70,7 @@ namespace CyberSave77
             // 
             this.panelDatagrid.AutoScroll = true;
             this.panelDatagrid.Controls.Add(this.labelHint);
-            this.panelDatagrid.Controls.Add(this.labelDirname);
+            this.panelDatagrid.Controls.Add(this.labelDirNameDatagrid);
             this.panelDatagrid.Controls.Add(this.dataGridView1);
             this.panelDatagrid.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDatagrid.Location = new System.Drawing.Point(0, 0);
@@ -85,15 +90,15 @@ namespace CyberSave77
             this.labelHint.Text = "Click on a savegame for more information";
             this.labelHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelDirname
+            // labelDirNameDatagrid
             // 
-            this.labelDirname.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDirname.Location = new System.Drawing.Point(3, 24);
-            this.labelDirname.Name = "labelDirname";
-            this.labelDirname.Size = new System.Drawing.Size(479, 25);
-            this.labelDirname.TabIndex = 4;
-            this.labelDirname.Text = "-";
-            this.labelDirname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelDirNameDatagrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDirNameDatagrid.Location = new System.Drawing.Point(3, 24);
+            this.labelDirNameDatagrid.Name = "labelDirNameDatagrid";
+            this.labelDirNameDatagrid.Size = new System.Drawing.Size(479, 25);
+            this.labelDirNameDatagrid.TabIndex = 4;
+            this.labelDirNameDatagrid.Text = "-";
+            this.labelDirNameDatagrid.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // dataGridView1
             // 
@@ -112,6 +117,11 @@ namespace CyberSave77
             // 
             this.panelLeft.AutoScroll = true;
             this.panelLeft.BackColor = System.Drawing.Color.White;
+            this.panelLeft.Controls.Add(this.checkBoxSimulate);
+            this.panelLeft.Controls.Add(this.label2);
+            this.panelLeft.Controls.Add(this.radioButtonOrderByName);
+            this.panelLeft.Controls.Add(this.radioButtonOrderByLastWriteTime);
+            this.panelLeft.Controls.Add(this.checkBoxFilterNonCustomSaves);
             this.panelLeft.Controls.Add(this.labelSelected);
             this.panelLeft.Controls.Add(this.modernButtonEnableSelectionMode);
             this.panelLeft.Controls.Add(this.modernButtonSelectAll);
@@ -126,6 +136,30 @@ namespace CyberSave77
             this.panelLeft.Size = new System.Drawing.Size(737, 772);
             this.panelLeft.TabIndex = 4;
             // 
+            // checkBoxSimulate
+            // 
+            this.checkBoxSimulate.AutoSize = true;
+            this.checkBoxSimulate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxSimulate.Location = new System.Drawing.Point(8, 43);
+            this.checkBoxSimulate.Name = "checkBoxSimulate";
+            this.checkBoxSimulate.Size = new System.Drawing.Size(71, 19);
+            this.checkBoxSimulate.TabIndex = 14;
+            this.checkBoxSimulate.Text = "simulate";
+            this.checkBoxSimulate.UseVisualStyleBackColor = true;
+            this.checkBoxSimulate.Visible = false;
+            // 
+            // checkBoxFilterNonCustomSaves
+            // 
+            this.checkBoxFilterNonCustomSaves.AutoSize = true;
+            this.checkBoxFilterNonCustomSaves.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(371, 43);
+            this.checkBoxFilterNonCustomSaves.Name = "checkBoxFilterNonCustomSaves";
+            this.checkBoxFilterNonCustomSaves.Size = new System.Drawing.Size(150, 19);
+            this.checkBoxFilterNonCustomSaves.TabIndex = 13;
+            this.checkBoxFilterNonCustomSaves.Text = "filter non-custom saves";
+            this.checkBoxFilterNonCustomSaves.UseVisualStyleBackColor = true;
+            this.checkBoxFilterNonCustomSaves.CheckedChanged += new System.EventHandler(this.checkBoxFilterNonCustomSaves_CheckedChanged);
+            // 
             // labelSelected
             // 
             this.labelSelected.Location = new System.Drawing.Point(8, 698);
@@ -134,6 +168,140 @@ namespace CyberSave77
             this.labelSelected.TabIndex = 12;
             this.labelSelected.Text = "Selected: 999/999";
             this.labelSelected.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(152, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "SaveGame Directory";
+            // 
+            // panelLeftButtons
+            // 
+            this.panelLeftButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLeftButtons.Controls.Add(this.pictureBoxMove);
+            this.panelLeftButtons.Controls.Add(this.modernButtonHideDetails);
+            this.panelLeftButtons.Controls.Add(this.pictureBoxDelete);
+            this.panelLeftButtons.Controls.Add(this.modernButtonLoadMore);
+            this.panelLeftButtons.Controls.Add(this.modernButtonScrollDown);
+            this.panelLeftButtons.Controls.Add(this.modernButtonScrollUp);
+            this.panelLeftButtons.Location = new System.Drawing.Point(-2, 716);
+            this.panelLeftButtons.Name = "panelLeftButtons";
+            this.panelLeftButtons.Size = new System.Drawing.Size(737, 56);
+            this.panelLeftButtons.TabIndex = 2;
+            // 
+            // pictureBoxMove
+            // 
+            this.pictureBoxMove.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxMove.Image = global::CyberSave77.Properties.Resources.move;
+            this.pictureBoxMove.Location = new System.Drawing.Point(66, 7);
+            this.pictureBoxMove.Name = "pictureBoxMove";
+            this.pictureBoxMove.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxMove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxMove.TabIndex = 12;
+            this.pictureBoxMove.TabStop = false;
+            this.pictureBoxMove.Visible = false;
+            this.pictureBoxMove.Click += new System.EventHandler(this.pictureBoxMove_Click);
+            // 
+            // pictureBoxDelete
+            // 
+            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
+            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
+            this.pictureBoxDelete.Name = "pictureBoxDelete";
+            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDelete.TabIndex = 11;
+            this.pictureBoxDelete.TabStop = false;
+            this.pictureBoxDelete.Visible = false;
+            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
+            // 
+            // comboBoxPath
+            // 
+            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxPath.FormattingEnabled = true;
+            this.comboBoxPath.Location = new System.Drawing.Point(186, 9);
+            this.comboBoxPath.Name = "comboBoxPath";
+            this.comboBoxPath.Size = new System.Drawing.Size(335, 28);
+            this.comboBoxPath.TabIndex = 1;
+            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
+            // 
+            // panelSaveGames
+            // 
+            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSaveGames.AutoScroll = true;
+            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
+            this.panelSaveGames.Name = "panelSaveGames";
+            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
+            this.panelSaveGames.TabIndex = 0;
+            // 
+            // labelCount
+            // 
+            this.labelCount.Location = new System.Drawing.Point(672, 697);
+            this.labelCount.Name = "labelCount";
+            this.labelCount.Size = new System.Drawing.Size(63, 19);
+            this.labelCount.TabIndex = 8;
+            this.labelCount.Text = "999/999";
+            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Controls.Add(this.panelDatagrid);
+            this.panelRight.Location = new System.Drawing.Point(743, 0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(490, 772);
+            this.panelRight.TabIndex = 9;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 750;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            // 
+            // radioButtonOrderByLastWriteTime
+            // 
+            this.radioButtonOrderByLastWriteTime.AutoSize = true;
+            this.radioButtonOrderByLastWriteTime.Checked = true;
+            this.radioButtonOrderByLastWriteTime.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonOrderByLastWriteTime.Location = new System.Drawing.Point(184, 43);
+            this.radioButtonOrderByLastWriteTime.Name = "radioButtonOrderByLastWriteTime";
+            this.radioButtonOrderByLastWriteTime.Size = new System.Drawing.Size(99, 19);
+            this.radioButtonOrderByLastWriteTime.TabIndex = 15;
+            this.radioButtonOrderByLastWriteTime.TabStop = true;
+            this.radioButtonOrderByLastWriteTime.Text = "last write time";
+            this.radioButtonOrderByLastWriteTime.UseVisualStyleBackColor = true;
+            this.radioButtonOrderByLastWriteTime.CheckedChanged += new System.EventHandler(this.radioButtonOrderByLastWriteTime_CheckedChanged);
+            // 
+            // radioButtonOrderByName
+            // 
+            this.radioButtonOrderByName.AutoSize = true;
+            this.radioButtonOrderByName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonOrderByName.Location = new System.Drawing.Point(289, 43);
+            this.radioButtonOrderByName.Name = "radioButtonOrderByName";
+            this.radioButtonOrderByName.Size = new System.Drawing.Size(57, 19);
+            this.radioButtonOrderByName.TabIndex = 16;
+            this.radioButtonOrderByName.Text = "Name";
+            this.radioButtonOrderByName.UseVisualStyleBackColor = true;
+            this.radioButtonOrderByName.CheckedChanged += new System.EventHandler(this.radioButtonOrderByName_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(135, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 15);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Sort by:";
             // 
             // modernButtonEnableSelectionMode
             // 
@@ -168,43 +336,6 @@ namespace CyberSave77
             this.modernButtonSelectAll.Visible = false;
             this.modernButtonSelectAll.Click += new System.EventHandler(this.modernButtonSelectAll_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(152, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "SaveGame Directory";
-            // 
-            // panelLeftButtons
-            // 
-            this.panelLeftButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelLeftButtons.Controls.Add(this.pictureBoxMove);
-            this.panelLeftButtons.Controls.Add(this.modernButtonHideDetails);
-            this.panelLeftButtons.Controls.Add(this.pictureBoxDelete);
-            this.panelLeftButtons.Controls.Add(this.modernButtonLoadMore);
-            this.panelLeftButtons.Controls.Add(this.modernButtonScrollDown);
-            this.panelLeftButtons.Controls.Add(this.modernButtonScrollUp);
-            this.panelLeftButtons.Location = new System.Drawing.Point(-2, 716);
-            this.panelLeftButtons.Name = "panelLeftButtons";
-            this.panelLeftButtons.Size = new System.Drawing.Size(737, 56);
-            this.panelLeftButtons.TabIndex = 2;
-            // 
-            // pictureBoxMove
-            // 
-            this.pictureBoxMove.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxMove.Image = global::CyberSave77.Properties.Resources.move;
-            this.pictureBoxMove.Location = new System.Drawing.Point(66, 7);
-            this.pictureBoxMove.Name = "pictureBoxMove";
-            this.pictureBoxMove.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxMove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxMove.TabIndex = 12;
-            this.pictureBoxMove.TabStop = false;
-            this.pictureBoxMove.Visible = false;
-            this.pictureBoxMove.Click += new System.EventHandler(this.pictureBoxMove_Click);
-            // 
             // modernButtonHideDetails
             // 
             this.modernButtonHideDetails.BackColor = System.Drawing.Color.White;
@@ -220,19 +351,6 @@ namespace CyberSave77
             this.modernButtonHideDetails.TextColor = System.Drawing.SystemColors.ControlText;
             this.modernButtonHideDetails.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonHideDetails.Click += new System.EventHandler(this.modernButtonHideDetails_Click);
-            // 
-            // pictureBoxDelete
-            // 
-            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
-            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
-            this.pictureBoxDelete.Name = "pictureBoxDelete";
-            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxDelete.TabIndex = 11;
-            this.pictureBoxDelete.TabStop = false;
-            this.pictureBoxDelete.Visible = false;
-            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
             // 
             // modernButtonLoadMore
             // 
@@ -284,54 +402,6 @@ namespace CyberSave77
             this.modernButtonScrollUp.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonScrollUp.Click += new System.EventHandler(this.modernButtonScrollUp_Click);
             // 
-            // comboBoxPath
-            // 
-            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxPath.FormattingEnabled = true;
-            this.comboBoxPath.Location = new System.Drawing.Point(185, 21);
-            this.comboBoxPath.Name = "comboBoxPath";
-            this.comboBoxPath.Size = new System.Drawing.Size(335, 28);
-            this.comboBoxPath.TabIndex = 1;
-            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
-            // 
-            // panelSaveGames
-            // 
-            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSaveGames.AutoScroll = true;
-            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
-            this.panelSaveGames.Name = "panelSaveGames";
-            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
-            this.panelSaveGames.TabIndex = 0;
-            // 
-            // labelCount
-            // 
-            this.labelCount.Location = new System.Drawing.Point(672, 697);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(63, 19);
-            this.labelCount.TabIndex = 8;
-            this.labelCount.Text = "999/999";
-            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Controls.Add(this.panelDatagrid);
-            this.panelRight.Location = new System.Drawing.Point(743, 0);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(490, 772);
-            this.panelRight.TabIndex = 9;
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 750;
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ReshowDelay = 100;
-            this.toolTip1.ShowAlways = true;
-            // 
             // FormSaveGameManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -342,6 +412,7 @@ namespace CyberSave77
             this.Controls.Add(this.panelLeft);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1249, 805);
@@ -349,6 +420,7 @@ namespace CyberSave77
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SaveGameManager (Beta)";
             this.Load += new System.EventHandler(this.FormSaveGameManager_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSaveGameManager_KeyDown);
             this.panelDatagrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelLeft.ResumeLayout(false);
@@ -364,7 +436,7 @@ namespace CyberSave77
         #endregion
 
         private System.Windows.Forms.Panel panelDatagrid;
-        private System.Windows.Forms.Label labelDirname;
+        private System.Windows.Forms.Label labelDirNameDatagrid;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panelLeft;
         private ModernButton modernButtonLoadMore;
@@ -384,5 +456,10 @@ namespace CyberSave77
         private System.Windows.Forms.Label labelSelected;
         private System.Windows.Forms.Label labelHint;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox checkBoxFilterNonCustomSaves;
+        private System.Windows.Forms.CheckBox checkBoxSimulate;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RadioButton radioButtonOrderByName;
+        private System.Windows.Forms.RadioButton radioButtonOrderByLastWriteTime;
     }
 }

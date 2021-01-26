@@ -70,6 +70,12 @@ namespace CyberSave77
             this.modernButtonCreateBackup = new CyberSave77.ModernButton();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.checkBoxSvgmDisableConfirmation = new System.Windows.Forms.CheckBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.radioButtonQsOnly = new System.Windows.Forms.RadioButton();
+            this.radioButtonAsOnly = new System.Windows.Forms.RadioButton();
+            this.radioButtonAsAndQs = new System.Windows.Forms.RadioButton();
+            this.checkBoxSvgmLoadAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -83,6 +89,7 @@ namespace CyberSave77
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -279,7 +286,7 @@ namespace CyberSave77
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBoxTerminateStartAppOnExit);
-            this.groupBox3.Location = new System.Drawing.Point(15, 187);
+            this.groupBox3.Location = new System.Drawing.Point(15, 283);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(403, 65);
             this.groupBox3.TabIndex = 2;
@@ -476,7 +483,7 @@ namespace CyberSave77
             this.groupBox7.Controls.Add(this.numericUpDownAutosaveMaxRetries);
             this.groupBox7.Controls.Add(this.labelAutoQsRetry);
             this.groupBox7.Controls.Add(this.numericUpDownAutosaveRetrySeconds);
-            this.groupBox7.Location = new System.Drawing.Point(15, 268);
+            this.groupBox7.Location = new System.Drawing.Point(15, 354);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(403, 103);
             this.groupBox7.TabIndex = 18;
@@ -555,10 +562,11 @@ namespace CyberSave77
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.checkBoxSvgmLoadAll);
             this.groupBox9.Controls.Add(this.checkBoxSvgmDisableConfirmation);
-            this.groupBox9.Location = new System.Drawing.Point(15, 377);
+            this.groupBox9.Location = new System.Drawing.Point(15, 463);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(403, 80);
+            this.groupBox9.Size = new System.Drawing.Size(403, 79);
             this.groupBox9.TabIndex = 20;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "SaveGameManager";
@@ -566,7 +574,7 @@ namespace CyberSave77
             // checkBoxSvgmDisableConfirmation
             // 
             this.checkBoxSvgmDisableConfirmation.AutoSize = true;
-            this.checkBoxSvgmDisableConfirmation.Location = new System.Drawing.Point(10, 35);
+            this.checkBoxSvgmDisableConfirmation.Location = new System.Drawing.Point(6, 24);
             this.checkBoxSvgmDisableConfirmation.Name = "checkBoxSvgmDisableConfirmation";
             this.checkBoxSvgmDisableConfirmation.Size = new System.Drawing.Size(207, 23);
             this.checkBoxSvgmDisableConfirmation.TabIndex = 0;
@@ -575,12 +583,81 @@ namespace CyberSave77
             this.checkBoxSvgmDisableConfirmation.CheckedChanged += new System.EventHandler(this.checkBoxSGMdisableConfirmation_CheckedChanged);
             this.checkBoxSvgmDisableConfirmation.MouseHover += new System.EventHandler(this.checkBoxSGMdisableConfirmation_MouseHover);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.label1);
+            this.groupBox10.Controls.Add(this.radioButtonQsOnly);
+            this.groupBox10.Controls.Add(this.radioButtonAsOnly);
+            this.groupBox10.Controls.Add(this.radioButtonAsAndQs);
+            this.groupBox10.Location = new System.Drawing.Point(15, 187);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(403, 90);
+            this.groupBox10.TabIndex = 21;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Savegame files";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(272, 19);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Which savegame types should be checked?";
+            // 
+            // radioButtonQsOnly
+            // 
+            this.radioButtonQsOnly.AutoSize = true;
+            this.radioButtonQsOnly.Location = new System.Drawing.Point(308, 53);
+            this.radioButtonQsOnly.Name = "radioButtonQsOnly";
+            this.radioButtonQsOnly.Size = new System.Drawing.Size(89, 23);
+            this.radioButtonQsOnly.TabIndex = 2;
+            this.radioButtonQsOnly.Text = "Quicksave";
+            this.radioButtonQsOnly.UseVisualStyleBackColor = true;
+            this.radioButtonQsOnly.CheckedChanged += new System.EventHandler(this.radioButtonQsOnly_CheckedChanged);
+            // 
+            // radioButtonAsOnly
+            // 
+            this.radioButtonAsOnly.AutoSize = true;
+            this.radioButtonAsOnly.Location = new System.Drawing.Point(196, 53);
+            this.radioButtonAsOnly.Name = "radioButtonAsOnly";
+            this.radioButtonAsOnly.Size = new System.Drawing.Size(84, 23);
+            this.radioButtonAsOnly.TabIndex = 1;
+            this.radioButtonAsOnly.Text = "Autosave";
+            this.radioButtonAsOnly.UseVisualStyleBackColor = true;
+            this.radioButtonAsOnly.CheckedChanged += new System.EventHandler(this.radioButtonAsOnly_CheckedChanged);
+            // 
+            // radioButtonAsAndQs
+            // 
+            this.radioButtonAsAndQs.AutoSize = true;
+            this.radioButtonAsAndQs.Checked = true;
+            this.radioButtonAsAndQs.Location = new System.Drawing.Point(10, 53);
+            this.radioButtonAsAndQs.Name = "radioButtonAsAndQs";
+            this.radioButtonAsAndQs.Size = new System.Drawing.Size(164, 23);
+            this.radioButtonAsAndQs.TabIndex = 0;
+            this.radioButtonAsAndQs.TabStop = true;
+            this.radioButtonAsAndQs.Text = "Autosave + Quicksave";
+            this.radioButtonAsAndQs.UseVisualStyleBackColor = true;
+            this.radioButtonAsAndQs.CheckedChanged += new System.EventHandler(this.radioButtonAsAndQs_CheckedChanged);
+            // 
+            // checkBoxSvgmLoadAll
+            // 
+            this.checkBoxSvgmLoadAll.AutoSize = true;
+            this.checkBoxSvgmLoadAll.Location = new System.Drawing.Point(6, 53);
+            this.checkBoxSvgmLoadAll.Name = "checkBoxSvgmLoadAll";
+            this.checkBoxSvgmLoadAll.Size = new System.Drawing.Size(282, 23);
+            this.checkBoxSvgmLoadAll.TabIndex = 1;
+            this.checkBoxSvgmLoadAll.Text = "always load all savegames (UI may freeze)";
+            this.checkBoxSvgmLoadAll.UseVisualStyleBackColor = true;
+            this.checkBoxSvgmLoadAll.CheckedChanged += new System.EventHandler(this.checkBoxSvgmLoadAll_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(837, 543);
+            this.ClientSize = new System.Drawing.Size(837, 552);
+            this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -620,6 +697,8 @@ namespace CyberSave77
             this.groupBox8.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -664,5 +743,11 @@ namespace CyberSave77
         private ModernButton modernButtonAddToAutostart;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.CheckBox checkBoxSvgmDisableConfirmation;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButtonQsOnly;
+        private System.Windows.Forms.RadioButton radioButtonAsOnly;
+        private System.Windows.Forms.RadioButton radioButtonAsAndQs;
+        private System.Windows.Forms.CheckBox checkBoxSvgmLoadAll;
     }
 }

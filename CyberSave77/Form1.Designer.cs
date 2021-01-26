@@ -593,7 +593,6 @@ namespace CyberSave77
             this.listBoxProcess.Name = "listBoxProcess";
             this.listBoxProcess.Size = new System.Drawing.Size(294, 89);
             this.listBoxProcess.TabIndex = 6;
-            this.listBoxProcess.MouseHover += new System.EventHandler(this.listBoxProcess_MouseHover);
             // 
             // groupBox7
             // 

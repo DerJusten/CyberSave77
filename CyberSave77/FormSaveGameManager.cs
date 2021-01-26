@@ -21,12 +21,13 @@ namespace CyberSave77
             InitializeComponent();
             pathToSavegame = pathSavegame;
         }
-        private static List<SaveGameFile> listSVG;
-        private static Panel[] pArr;
-        private static int lastIndex = 0;
+        private List<SaveGameFile> svgList;
+        private List<Panel> pnList;
+        private int lastIndex = 0;
         private static Image imgDel, imgMove;
         private static bool selectionMode = false;
         private List<DirectoryInfo> pathToSavegame;
+        private List<string> defaultSavegameNames;
 
         private void FormSaveGameManager_Load(object sender, EventArgs e)
         {
@@ -40,12 +41,37 @@ namespace CyberSave77
             pictureBoxMove.MouseUp += pbDelMouseUp;
             pictureBoxMove.MouseLeave += pbDelMouseLeave;
             pictureBoxMove.MouseHover += pbDelMouseHover;
-            hideRightSide(Properties.Settings.Default.svgmHideDetails);
+            HideDatagridView(Properties.Settings.Default.svgmHideDetails);
             labelSelected.Text = "Selected: 0/0";
             labelHint.Parent = dataGridView1;
-            loadCombobox();
+            if (Properties.Settings.Default.svgmLoadAll == true)
+                modernButtonLoadMore.Visible = false;
+            LoadExcludeList();
+
+            LoadCombobox();
         }
-        private void loadCombobox()
+
+        private void LoadExcludeList()
+        {
+            defaultSavegameNames = new List<string>();
+            defaultSavegameNames.Add("AutoSave-0");
+            defaultSavegameNames.Add("AutoSave-1");
+            defaultSavegameNames.Add("AutoSave-2");
+            defaultSavegameNames.Add("AutoSave-3");
+            defaultSavegameNames.Add("AutoSave-4");
+            defaultSavegameNames.Add("AutoSave-5");
+            defaultSavegameNames.Add("AutoSave-6");
+            defaultSavegameNames.Add("AutoSave-7");
+            defaultSavegameNames.Add("AutoSave-8");
+            defaultSavegameNames.Add("AutoSave-9");
+            defaultSavegameNames.Add("QuickSave-0");
+            defaultSavegameNames.Add("QuickSave-1");
+            defaultSavegameNames.Add("QuickSave-2");
+            defaultSavegameNames.Add("EndGameSave");
+            defaultSavegameNames.Add("PointOfNoReturnSave");
+            defaultSavegameNames.Add("ManualSave");
+        }
+        private void LoadCombobox()
         {
 
             DataTable dt = new DataTable();
@@ -65,159 +91,149 @@ namespace CyberSave77
 
             comboBoxPath.SelectedIndex = 0;
         }
-        private List<SaveGameFile> loadFiles(string path)
+        private List<SaveGameFile> LoadSaveGameFileList(string path)
         {
 
-            var files = Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories);
             List<SaveGameFile> listSaveGame = new List<SaveGameFile>();
+            List<DirectoryInfo> listdir;
 
-
-            var listdir = new DirectoryInfo(path).GetDirectories().OrderByDescending(d => d.LastWriteTime).ToList();
+            if (checkBoxFilterNonCustomSaves.Checked == true)
+                listdir = new DirectoryInfo(path).EnumerateDirectories().Where(x => defaultSavegameNames.All(d => !x.Name.Contains(d))).OrderByDescending(d => d.LastWriteTime).ToList();
+            else
+                listdir = new DirectoryInfo(path).EnumerateDirectories().OrderByDescending(d => d.LastWriteTime).ToList();
 
             foreach (var dir in listdir)
             {
                 SaveGameFile svg = new SaveGameFile();
-                svg.dirName = dir.FullName;
+                svg.DirName = dir.FullName;
+                svg.LastWriteTime = dir.LastWriteTime;
                 foreach (var item in Directory.EnumerateFiles(dir.FullName))
                 {
                     if (item.EndsWith(".json") && Path.GetFileName(item).StartsWith("meta"))
-                        svg.metadata = item;
+                        svg.MetaDataJson = item;
                     else if (Path.GetFileName(item) == ("sav.dat"))
-                        svg.datFile = item;
+                        svg.DatFile = item;
                     else if (item.EndsWith(".png"))
-                        svg.thumb = item;
+                        svg.ThumbnailPath = item;
                 }
                 listSaveGame.Add(svg);
             }
-            return listSaveGame.Where(d => d.datFile != null).ToList();
+            return listSaveGame.Where(d => d.DatFile != null).ToList();
         }
-        private void cleanPanelSaveGames()
-        {
-            while (panelSaveGames.Controls.Count > 0)
-                foreach (Control item in panelSaveGames.Controls)
-                {
-                    panelSaveGames.Controls.Remove(item);
-                    if (item is PictureBox)
-                    {
-                        ((PictureBox)item).Image.Dispose();
-                    }
-                    item.Dispose();
-                }
-            panelSaveGames.Refresh();
-        }
+      
 
-        private void loadView(List<SaveGameFile> listSvg, int startIndex, int endIndex)
+        private void LoadView(int startIndex, int endIndex)
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            if (startIndex == 0)
-            {
-                cleanPanelSaveGames();
+            labelSelected.Text = "Selected 0/" + svgList.Count().ToString();
+            //cleanPanelSaveGames();
+            if (pnList == null)
+                pnList = new List<Panel>();
 
-                pArr = new Panel[listSvg.Count];
-                for (int i = 0; i < listSvg.Count; i++)
+            if (endIndex > svgList.Count())
+                endIndex = svgList.Count();
+
+            if (pnList.Count() < endIndex)
+            {
+                for (int i = pnList.Count; i < endIndex; i++)
                 {
-                    pArr[i] = new Panel();
+                    pnList.Add(new Panel());
+                    CreatePanel(i);
+
+                    LoadDataToPanelControls(pnList[i], i);
                 }
             }
-            if (endIndex > listSVG.Count())
-                endIndex = listSVG.Count();
-
-            for (int i = startIndex; i < endIndex; i++)
+            else if (pnList.Count() >= endIndex)
             {
-
-                PictureBox pb = new PictureBox();
-                Label lb = new Label();
-
-                panelSaveGames.Controls.Add(pArr[i]);
-                pArr[i].Controls.Add(pb);
-                pArr[i].Controls.Add(lb);
-                listSvg[i].panelName = pArr[i].Name = "pn" + i;
-
-                if (i == 0)
+                for (int i = pnList.Count() - 1; i >= endIndex; i--)
                 {
-                    pArr[i].Location = new Point(6, 6);
-
+                    pnList[i].Visible = false;
                 }
-                else
-                    pArr[i].Location = new Point(6, pArr[i - 1].Location.Y + pArr[i - 1].Height + 6);
-
-                pb.Location = new Point(3, 3);
-                pArr[i].Size = new Size(panelSaveGames.Width - pArr[i].Location.X - 23, 150);
-                pb.Size = new Size(300, 168);
-                pb.MouseClick += panel_MouseClick;
-                pb.MouseDoubleClick += pb_MouseDoubleClick;
-
-
-                lb.Location = new Point(pb.Location.X + pb.Width + 10, 3);
-                lb.AutoSize = true;
-                lb.Text = listSvg[i].dirName.Split('\\').LastOrDefault();
-
-
-                Label[] lbArr = new Label[6];
-
-                for (int j = 0; j < lbArr.Length; j++)
+                for (int i = startIndex; i < endIndex; i++)
                 {
-                    lbArr[j] = new Label();
-                    pArr[i].Controls.Add(lbArr[j]);
-                    if (j == 0)
-                        lbArr[j].Location = new Point(lb.Location.X, lb.Location.Y + lb.Height + 3);
-                    else if (j == 3)
-                        lbArr[j].Location = new Point(lbArr[0].Location.X + lbArr[0].Bounds.Right / 2, lb.Location.Y + lb.Height + 3);
-                    else
-                        lbArr[j].Location = new Point(lbArr[j - 1].Location.X, lbArr[j - 1].Location.Y + lbArr[j - 1].Height + 3);
-                    lbArr[j].AutoSize = true;
-                    lbArr[j].MouseClick += panel_MouseClick;
+                    pnList[i].Visible = true;
+                    LoadDataToPanelControls(pnList[i], i);
                 }
 
-                using (var stream = new FileStream(listSvg[i].thumb, FileMode.Open))
-                {
+            }
 
-                    pb.Image = Image.FromStream(stream);
-                    pb.SizeMode = PictureBoxSizeMode.Zoom;
-                    pb.ImageLocation = listSVG[i].thumb;
-                }
-
-                pArr[i].BackColor = Color.White;
-                pArr[i].BorderStyle = BorderStyle.Fixed3D;
-                pArr[i].MouseClick += panel_MouseClick;
-
-                RootJson rj = loadJsonFile(listSvg[i].metadata);
-                if (rj.Data != null)
-                {
-                    TimeSpan ts = new TimeSpan();
-                    ts = TimeSpan.FromSeconds(Convert.ToInt32(rj.Data.metadata.playTime));
-                    lb.Font = new Font(lb.Font, FontStyle.Bold);
-                    lbArr[0].Text = "Body: " + rj.Data.metadata.bodyGender;
-                    lbArr[1].Text = "Brain: " + rj.Data.metadata.brainGender;
-                    lbArr[2].Text = "Lifepath: " + rj.Data.metadata.lifePath;
-                    lbArr[3].Text = "Playtime: " + ts.TotalHours.ToString("N0") + ":" + ts.Minutes.ToString("D2") + ":" + ts.Seconds.ToString("D2");
-                    lbArr[4].Text = "Level: " + rj.Data.metadata.level;
-                    lbArr[5].Text = "Streetcred: " + rj.Data.metadata.streetCred;
-                }
-
-                createSmallPictureBoxes(pArr[i]);
-
-
-                lastIndex = i;
-
-
-            }//Ende for
+            lastIndex = endIndex;
             if (startIndex == 0)
-                panelDatagrid.Location = new Point(pArr[0].Location.X + pArr[0].Width + 50, 30);
-            if (lastIndex == listSVG.Count() - 1)
+                panelDatagrid.Location = new Point(pnList[0].Location.X + pnList[0].Width + 50, 30);
+            if (lastIndex == svgList.Count() - 1)
                 modernButtonLoadMore.Enabled = false;
             else
                 modernButtonLoadMore.Enabled = true;
 
 
             sw.Stop();
+            // MessageBox.Show(sw.Elapsed.TotalSeconds.ToString());
 
-
-            labelCount.Text = endIndex + "/" + listSVG.Count().ToString();
+            labelCount.Text = endIndex + "/" + svgList.Count().ToString();
 
         }
-        private void createSmallPictureBoxes(Panel parent)
+
+        private void CreatePanel(int index)
+        {
+            PictureBox pb = new PictureBox();
+            Label lb = new Label();
+
+            panelSaveGames.Controls.Add(pnList[index]);
+            pnList[index].Controls.Add(pb);
+            pnList[index].Controls.Add(lb);
+
+            if (index == 0)
+            {
+                pnList[index].Location = new Point(6, 6);
+            }
+            else
+                pnList[index].Location = new Point(6, pnList[index - 1].Location.Y + pnList[index - 1].Height + 6);
+
+            pb.Location = new Point(3, 3);
+            pnList[index].Size = new Size(panelSaveGames.Width - pnList[index].Location.X - 23, 150);
+            pb.Size = new Size(300, 168);
+            pb.MouseClick += panel_MouseClick;
+            pb.MouseDoubleClick += pb_MouseDoubleClick;
+            pb.Name = "pbThumb";
+
+
+            lb.Location = new Point(pb.Location.X + pb.Width + 10, 3);
+            lb.AutoSize = true;
+            lb.Name = "labelDir";
+
+
+            CreateLabelsForSaveGameInfo(6,index,lb);
+
+            pnList[index].BackColor = Color.White;
+            pnList[index].BorderStyle = BorderStyle.Fixed3D;
+            pnList[index].MouseClick += panel_MouseClick;
+
+            CreateSmallPictureBoxes(pnList[index]);
+
+
+        }
+
+        private void CreateLabelsForSaveGameInfo(int length,int index,Label lb)
+        {
+            Label[] lbArr = new Label[length];
+
+            for (int j = 0; j < lbArr.Length; j++)
+            {
+                lbArr[j] = new Label();
+                pnList[index].Controls.Add(lbArr[j]);
+                if (j == 0)
+                    lbArr[j].Location = new Point(lb.Location.X, lb.Location.Y + lb.Height + 3);
+                else if (j == lbArr.Length / 2)
+                    lbArr[j].Location = new Point(lbArr[0].Location.X + lbArr[0].Bounds.Right / 2, lb.Location.Y + lb.Height + 3);
+                else
+                    lbArr[j].Location = new Point(lbArr[j - 1].Location.X, lbArr[j - 1].Location.Y + lbArr[j - 1].Height + 3);
+                lbArr[j].AutoSize = true;
+                lbArr[j].MouseClick += panel_MouseClick;
+                lbArr[j].Name = "lb" + j;
+            }
+        }
+        private void CreateSmallPictureBoxes(Panel parent)
         {
             PictureBox pbDel = new PictureBox();
 
@@ -248,11 +264,58 @@ namespace CyberSave77
                 pbMoveDir.MouseLeave += new EventHandler(pbDelMouseLeave);
                 pbMoveDir.Location = new Point(pbDel.Location.X - pbMoveDir.Width - 5, pbDel.Location.Y);
                 pbMoveDir.MouseClick += new MouseEventHandler(pbMoveDirMouseClick);
-                toolTip1.SetToolTip(pbMoveDir, "Moves savegame to " + getTargetDir());
+                toolTip1.SetToolTip(pbMoveDir, "Moves savegame to " + GetTargetDir());
             }
         }
 
-        private string getTargetDir()
+        private void LoadDataToPanelControls(Panel parent, int i)
+        {
+
+            parent.BackColor = Color.White;
+            if(svgList[i].JsonData == null)
+                svgList[i].JsonData = LoadJsonData(svgList[i].MetaDataJson);
+
+            foreach (Control item in parent.Controls)
+            {
+                switch (item.Name)
+                {
+                    case "labelDir":
+                        item.Text = GetDirectoryName(svgList[i].DirName);
+                        break;
+                    case "lb0":
+                        item.Text = "Body: " + svgList[i].JsonData.Data.metadata.bodyGender;
+                        break;
+                    case "lb1":
+                        item.Text = "Brain: " + svgList[i].JsonData.Data.metadata.brainGender;
+                        break;
+                    case "lb2":
+                        item.Text = "Lifepath: " + svgList[i].JsonData.Data.metadata.lifePath;
+                        break;
+                    case "lb3":
+                        TimeSpan ts = new TimeSpan();
+                        ts = TimeSpan.FromSeconds(Convert.ToInt32(svgList[i].JsonData.Data.metadata.playTime));
+                        item.Text = "Playtime: " + ts.TotalHours.ToString("N0") + ":" + ts.Minutes.ToString("D2") + ":" + ts.Seconds.ToString("D2");
+                        break;
+                    case "lb4":
+                        item.Text = "Level: " + svgList[i].JsonData.Data.metadata.level;
+                        break;
+                    case "lb5":
+                        item.Text = "Streetcred: " + svgList[i].JsonData.Data.metadata.streetCred;
+                        break;
+                    case "pbThumb":
+                        using (var stream = new FileStream(svgList[i].ThumbnailPath, FileMode.Open))
+                        {
+
+                            ((PictureBox)item).Image = Image.FromStream(stream);
+                            ((PictureBox)item).SizeMode = PictureBoxSizeMode.Zoom;
+                            ((PictureBox)item).ImageLocation = svgList[i].ThumbnailPath;
+                        }
+                        break;
+                }
+            }
+        }
+
+        private string GetTargetDir()
         {
 
             if (comboBoxPath.SelectedValue.ToString() == Properties.Settings.Default.savegameDefaultPath)
@@ -261,21 +324,394 @@ namespace CyberSave77
                 return Properties.Settings.Default.savegameDefaultPath;
 
         }
+        private void DeleteDirectory(Panel pn)
+        {
+
+            SaveGameFile svg = GetSaveGameFileByPanelCtrl(pn);
+            if (svg != null)
+            {
+                if (Properties.Settings.Default.svgmDisableConfirmation == false)
+                    if (DialogResult.Yes != MessageBox.Show("Are you sure you want to delete " + new DirectoryInfo(svg.DirName).Name + "?", "Warning", MessageBoxButtons.YesNoCancel))
+                        return;
+                if (checkBoxSimulate.Checked == false)
+                    Directory.Delete(svg.DirName, true);
+
+                svgList.Remove(svg);
+                LoadView(0, lastIndex);
+            }
+        }
+
+
+        private void MoveDirectory(DirectoryInfo sourceDir)
+        {
+            try
+            {
+                string selectedDir = comboBoxPath.SelectedValue.ToString();
+                string targetDir = GetTargetDir();
+
+                string newDirName = Path.Combine(targetDir, sourceDir.Name);
+                if (!Directory.Exists(newDirName))
+                {
+                    if (checkBoxSimulate.Checked == false)
+                    {
+                        Directory.CreateDirectory(newDirName);
+                        DateTime lastWrite = sourceDir.LastWriteTime;
+
+                        var files = sourceDir.EnumerateFiles();
+
+                        foreach (var item in files)
+                        {
+
+                            File.Move(item.FullName, Path.Combine(newDirName, item.Name));
+                            //  File.SetCreationTime(Path.Combine(newDirName, item.Name), item.CreationTime);
+                        }
+
+                        Directory.SetCreationTime(newDirName, sourceDir.CreationTime);
+                        Directory.SetLastWriteTime(newDirName, lastWrite);
+                        Directory.Delete(sourceDir.FullName);
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("This shouldn't happen.\n" + error.Message);
+            }
+        }
+
+
+        private SaveGameFile GetSaveGameFileByPanelCtrl(Control ctrl)
+        {
+            //rework
+            Panel pn;
+            if (ctrl is Panel)
+                pn = (Panel)ctrl;
+            else
+            {
+                pn = (Panel)ctrl.Parent;
+            }
+
+            return svgList.Where(x => (pn.Controls["labelDir"] as Label).Text == GetDirectoryName(x.DirName)).FirstOrDefault();
+
+        }
+        private List<SaveGameFile> GetSaveGameFilesByPanelList(List<Panel> pn)
+        {
+            return svgList.Where(x => pn.Any(c => (c.Controls["labelDir"] as Label).Text == GetDirectoryName(x.DirName))).ToList(); ;
+        }
+
+
+        private string GetDirectoryName(string dir)
+        {
+            return new DirectoryInfo(dir).Name;
+        }
+        private void LoadDatagridViewData(Control sender)
+        {
+            labelHint.Visible = false;
+            SaveGameFile sgf = GetSaveGameFileByPanelCtrl((Control)sender);
+            RootJson jsonInfo = sgf.JsonData;
+            if (jsonInfo.Data != null)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Name");
+                dt.Columns.Add("Value");
+                string tmp = "";
+                foreach (PropertyInfo prop in typeof(Metadata).GetProperties())
+                {
+                    tmp += prop.Name + "\t" + prop.GetValue(jsonInfo.Data.metadata, null) + "\n";
+
+                    dt.Rows.Add(prop.Name, prop.GetValue(jsonInfo.Data.metadata, null));
+                }
+                dataGridView1.DataSource = dt;
+                dataGridView1.RowHeadersVisible = false;
+                labelDirNameDatagrid.Text = GetDirectoryName(sgf.DirName);
+
+            }
+        }
+
+        private void ControlIsSelected(Control sender)
+        {
+            Panel pn;
+            if (sender is Panel)
+                pn = (Panel)sender;
+            else
+            {
+                pn = (Panel)((Control)sender).Parent;
+            }
+            if (pn.BackColor == Color.White)
+                pn.BackColor = SystemColors.ActiveCaption;
+            else
+                pn.BackColor = Color.White;
+
+            labelSelected.Text = "Selected: " + pnList.Where(x => x.BackColor == SystemColors.ActiveCaption).Count().ToString() + "/ " + svgList.Count.ToString();
+        }
+
+        private RootJson LoadJsonData(string file)
+        {
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string json = sr.ReadToEnd();
+                return JsonConvert.DeserializeObject<RootJson>(json);
+            }
+        }
+
+        private void LoadAllFilesAndView(string path)
+        {
+            svgList = LoadSaveGameFileList(path);
+            int endIndex;
+            if (Properties.Settings.Default.svgmLoadAll == true)
+                endIndex = svgList.Count();
+            else if (lastIndex != 0)
+                endIndex = lastIndex;
+            else
+                endIndex = 20;
+
+            LoadView(0, endIndex);
+        }
+
+
+        private void modernButtonLoadMore_Click(object sender, EventArgs e)
+        {
+            LoadMoreSaveGames(50);
+        }
+        private void LoadMoreSaveGames(int limit)
+        {
+            if (svgList != null)
+            {
+                int endIndex;
+                // lastIndex++;
+                if (lastIndex + limit < svgList.Count())
+                    endIndex = lastIndex + limit;
+                else
+                    endIndex = svgList.Count();
+
+                if (lastIndex + 1 != svgList.Count())
+                    LoadView(lastIndex, endIndex);
+            }
+        }
+
+
+        private void HideDatagridView(bool hide)
+        {
+            if (hide == true)
+            {
+                panelRight.Visible = false;
+                this.Width = panelLeft.Right + 14;
+                modernButtonHideDetails.Text = "Show details";
+                Properties.Settings.Default.svgmHideDetails = true;
+            }
+            else
+            {
+                panelRight.Visible = true;
+                this.Width = panelRight.Width + panelLeft.Width + 25;
+                modernButtonHideDetails.Text = "Hide details";
+                Properties.Settings.Default.svgmHideDetails = false;
+            }
+        }
+
+        private void DeleteSelectdDirectorties()
+        {
+            if (svgList != null)
+            {
+                var selectedGames = GetSaveGameFilesByPanelList(pnList.Where(c => c.BackColor == SystemColors.ActiveCaption).ToList());
+
+                if (selectedGames.Count() > 0)
+                {
+                    DialogResult res = MessageBox.Show("Do you want to delete your selected savegames (" + selectedGames.Count().ToString() + ")?", "Warning", MessageBoxButtons.YesNoCancel);
+                    if (res == DialogResult.Yes)
+                    {
+                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
+                        {
+                            if (checkBoxSimulate.Checked == false)
+                                Directory.Delete(selectedGames[i].DirName, true);
+
+                            svgList.Remove(selectedGames[i]);
+                            pnList.Where(c => c.Visible == true).LastOrDefault().Visible = false;
+                        }
+
+                        LoadView(0, lastIndex);
+                    }
+                }
+            }
+        }
+
+        private void MoveSelectedDirectories()
+        {
+            if (svgList != null)
+            {
+                var selectedGames = GetSaveGameFilesByPanelList(pnList.Where(c => c.BackColor == SystemColors.ActiveCaption).ToList());
+
+                if (selectedGames.Count() > 0)
+                {
+                    string targetDir = GetTargetDir();
+
+                    DialogResult res = MessageBox.Show("Do you want to move your selected savegames(" + selectedGames.Count().ToString() + ") to" + targetDir + "?", "Warning", MessageBoxButtons.YesNoCancel);
+                    if (res == DialogResult.Yes)
+                    {
+                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
+                        {
+
+                            MoveDirectory(new DirectoryInfo(selectedGames[i].DirName));
+                            svgList.Remove(selectedGames[i]);
+                        }
+                        LoadView(0, lastIndex);
+                    }
+                }
+            }
+        }
+
+        //###################################################################################################################################################################################################
+        private void panel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (selectionMode == false)
+            {
+                LoadDatagridViewData((Control)sender);
+            }
+            else
+            {
+                ControlIsSelected((Control)sender);
+            }
+        }
+        private void comboBoxPath_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxPath.SelectedItem != null)
+            {
+
+                LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
+            }
+        }
+
+        private void modernButtonScrollUp_Click(object sender, EventArgs e)
+        {
+            panelSaveGames.VerticalScroll.Value = panelSaveGames.VerticalScroll.Minimum;
+            panelSaveGames.PerformLayout();
+        }
+
+        private void modernButtonScrollDown_Click(object sender, EventArgs e)
+        {
+            panelSaveGames.VerticalScroll.Value = panelSaveGames.VerticalScroll.Maximum;
+            panelSaveGames.PerformLayout();
+        }
+
+        private void modernButtonEnableSelectionMode_Click(object sender, EventArgs e)
+        {
+            if (selectionMode == false)
+            {
+                selectionMode = true;
+                modernButtonEnableSelectionMode.Text = "Disable selection mode";
+                labelSelected.Text = "Selected: 0/ " + svgList.Count().ToString();
+
+            }
+            else
+            {
+                selectionMode = false;
+                foreach (var item in pnList)
+                {
+                    item.BackColor = Color.White;
+                }
+                modernButtonEnableSelectionMode.Text = "Enable selection mode";
+                labelSelected.Text = "Selected: 0/0";
+            }
+
+            modernButtonSelectAll.Visible = selectionMode;
+            pictureBoxDelete.Visible = selectionMode;
+            labelSelected.Visible = selectionMode;
+
+            if (comboBoxPath.Items.Count > 1)
+                pictureBoxMove.Visible = selectionMode;
+        }
+        private void modernButtonSelectAll_Click(object sender, EventArgs e)
+        {
+            if (modernButtonSelectAll.Text == "Select all")
+            {
+                foreach (var item in pnList)
+                {
+                    item.BackColor = SystemColors.ActiveCaption;
+                }
+                modernButtonSelectAll.Text = "Deselect all";
+                labelSelected.Text = "Selected: " + pnList.Where(p => p.BackColor == SystemColors.ActiveCaption).Count().ToString() + "/" + svgList.Count().ToString();
+            }
+            else if (modernButtonSelectAll.Text == "Deselect all")
+            {
+                foreach (var item in pnList)
+                {
+                    item.BackColor = Color.White;
+                }
+                modernButtonSelectAll.Text = "Select all";
+                labelSelected.Text = "Selected: 0/" + svgList.Count().ToString();
+            }
+
+        }
+
+        private void pictureBoxDelete_Click(object sender, EventArgs e)
+        {
+            DeleteSelectdDirectorties();
+        }
+
+        private void pictureBoxMove_Click(object sender, EventArgs e)
+        {
+            MoveSelectedDirectories();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //listSVG.RemoveAt(0);
+            for (int i = 0; i < pnList.Where(c => c.Controls.Count > 0).Count(); i++)
+            {
+                LoadDataToPanelControls(pnList[i], i);
+            }
+        }
+
+        private void checkBoxFilterNonCustomSaves_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            svgList.RemoveAt(1);
+            LoadView(0, 20);
+            //pArr.Where(c => c.Visible == true).LastOrDefault().Visible = false;
+            //adjustPanels();
+        }
+
+
+
+        private void FormSaveGameManager_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D && e.Modifiers == Keys.Control)
+                checkBoxSimulate.Visible = !checkBoxSimulate.Visible;
+        }
+
+        private void radioButtonOrderByLastWriteTime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (svgList != null)
+            {
+                svgList = svgList.OrderByDescending(x => x.LastWriteTime).ToList();
+                LoadView(0, lastIndex);
+            }
+        }
+
+        private void radioButtonOrderByName_CheckedChanged(object sender, EventArgs e)
+        {
+            if (svgList != null)
+            {
+                svgList = svgList.OrderBy(x => GetDirectoryName(x.DirName)).ToList();
+                LoadView(0, lastIndex);
+            }
+
+        }
+
+        private void modernButtonHideDetails_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.svgmHideDetails = !Properties.Settings.Default.svgmHideDetails;
+            HideDatagridView(Properties.Settings.Default.svgmHideDetails);
+            Properties.Settings.Default.Save();
+        }
 
         private void pbDelClick(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
-            SaveGameFile svg = listSVG.Where(x => x.panelName == pb.Parent.Name).FirstOrDefault();
-            if (svg != null)
-            {
-                if (Properties.Settings.Default.svgmDisableConfirmation == false)
-                    if (DialogResult.Yes != MessageBox.Show("Are you sure you want to delete " + new DirectoryInfo(svg.dirName).Name + "?", "Warning", MessageBoxButtons.YesNoCancel))
-                        return;
 
-                Directory.Delete(svg.dirName, true);
-                listSVG.Remove(svg);
-                loadView(listSVG, 0, 20);
-            }
+            DeleteDirectory((Panel)pb.Parent);
         }
         private static void pbDelMouseDown(object sender, EventArgs e)
         {
@@ -308,288 +744,13 @@ namespace CyberSave77
         private void pbMoveDirMouseClick(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
-            SaveGameFile svg = listSVG.Where(x => x.panelName == pb.Parent.Name).FirstOrDefault();
+            SaveGameFile svg = GetSaveGameFileByPanelCtrl(pb);
             if (svg != null)
             {
-                moveDirectory(new DirectoryInfo(svg.dirName));
-                listSVG.Remove(svg);
-                loadView(listSVG, 0, 20);
+                MoveDirectory(new DirectoryInfo(svg.DirName));
+                svgList.Remove(svg);
+                LoadView(0, lastIndex);
             }
-        }
-
-        private void moveDirectory(DirectoryInfo sourceDir)
-        {
-            try
-            {
-
-
-                string selectedDir = comboBoxPath.SelectedValue.ToString();
-                string targetDir = getTargetDir();
-
-
-
-                string newDirName = Path.Combine(targetDir, sourceDir.Name);
-                if (!Directory.Exists(newDirName))
-                {
-                    Directory.CreateDirectory(newDirName);
-                    DateTime lastWrite = sourceDir.LastWriteTime;
-
-                    var files = sourceDir.EnumerateFiles();
-
-                    foreach (var item in files)
-                    {
-                        File.Move(item.FullName, Path.Combine(newDirName, item.Name));
-                        //  File.SetCreationTime(Path.Combine(newDirName, item.Name), item.CreationTime);
-                    }
-
-                    Directory.SetCreationTime(newDirName, sourceDir.CreationTime);
-                    Directory.SetLastWriteTime(newDirName, lastWrite);
-                    Directory.Delete(sourceDir.FullName);
-                }
-            }
-            catch (Exception error)
-            {
-                MessageBox.Show("This shouldn't happen.\n" + error.Message);
-            }
-        }
-
-
-
-        private void panel_MouseClick(object sender, MouseEventArgs e)
-        {
-
-            Panel pn;
-            if (sender is Panel)
-                pn = (Panel)sender;
-            else
-            {
-                var ctrl = (Control)sender;
-                pn = (Panel)ctrl.Parent;
-            }
-            if (selectionMode == false)
-            {
-                labelHint.Visible = false;
-                string name = pn.Name;
-
-                var match = listSVG.Where(l => l.panelName == pn.Name);
-                foreach (var item in match)
-                {
-                    RootJson jsonInfo = loadJsonFile(item.metadata);
-                    if (jsonInfo.Data != null)
-                    {
-                        DataTable dt = new DataTable();
-                        dt.Columns.Add("Name");
-                        dt.Columns.Add("Value");
-                        string tmp = "";
-                        foreach (PropertyInfo prop in typeof(Metadata).GetProperties())
-                        {
-                            tmp += prop.Name + "\t" + prop.GetValue(jsonInfo.Data.metadata, null) + "\n";
-
-                            dt.Rows.Add(prop.Name, prop.GetValue(jsonInfo.Data.metadata, null));
-                        }
-                        dataGridView1.DataSource = dt;
-                        dataGridView1.RowHeadersVisible = false;
-                        labelDirname.Text = new DirectoryInfo(item.dirName).Name;
-                    }
-                }
-            }
-            else
-            {
-                if (pn.BackColor == Color.White)
-                    pn.BackColor = SystemColors.ActiveCaption;
-                else
-                    pn.BackColor = Color.White;
-
-                labelSelected.Text = "Selected: " + pArr.Where(x => x.BackColor == SystemColors.ActiveCaption).Count().ToString() + "/ " + listSVG.Count.ToString();
-            }
-        }
-        private RootJson loadJsonFile(string file)
-        {
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string json = sr.ReadToEnd();
-                return JsonConvert.DeserializeObject<RootJson>(json);
-
-            }
-        }
-
-
-        private void loadFilesAndView(string path)
-        {
-            listSVG = loadFiles(path);
-
-            loadView(listSVG, 0, 20);
-        }
-
-
-
-        private void modernButtonLoadMore_Click(object sender, EventArgs e)
-        {
-            loadMoreSaveGames(50);
-        }
-        private void loadMoreSaveGames(int limit)
-        {
-            if (listSVG != null)
-            {
-                int endIndex;
-                lastIndex++;
-                if (lastIndex + limit < listSVG.Count())
-                    endIndex = lastIndex + limit;
-                else
-                    endIndex = listSVG.Count();
-
-                if (lastIndex + 1 != listSVG.Count())
-                    loadView(listSVG, lastIndex, endIndex);
-            }
-        }
-
-        private void panelRight_Paint(object sender, PaintEventArgs e)
-        {
-            //ControlPaint.DrawBorder(e.Graphics, this.panelRight.ClientRectangle, Color.Gray, ButtonBorderStyle.Solid);
-        }
-
-        private void comboBoxPath_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxPath.SelectedItem != null)
-            {
-
-                loadFilesAndView(comboBoxPath.SelectedValue.ToString());
-            }
-        }
-
-        private void modernButtonScrollUp_Click(object sender, EventArgs e)
-        {
-            panelSaveGames.VerticalScroll.Value = panelSaveGames.VerticalScroll.Minimum;
-            panelSaveGames.PerformLayout();
-        }
-
-        private void modernButtonScrollDown_Click(object sender, EventArgs e)
-        {
-            panelSaveGames.VerticalScroll.Value = panelSaveGames.VerticalScroll.Maximum;
-            panelSaveGames.PerformLayout();
-        }
-
-        private void modernButtonEnableSelectionMode_Click(object sender, EventArgs e)
-        {
-            if (selectionMode == false)
-            {
-                selectionMode = true;
-                modernButtonEnableSelectionMode.Text = "Disable selection mode";
-                labelSelected.Text = "Selected: 0/ " + listSVG.Count().ToString();
-
-            }
-            else
-            {
-                selectionMode = false;
-                foreach (var item in pArr)
-                {
-                    item.BackColor = Color.White;
-                }
-                modernButtonEnableSelectionMode.Text = "Enable selection mode";
-                labelSelected.Text = "Selected: 0/0";
-            }
-
-            modernButtonSelectAll.Visible = selectionMode;
-            pictureBoxDelete.Visible = selectionMode;
-            labelSelected.Visible = selectionMode;
-
-            if (comboBoxPath.Items.Count > 1)
-                pictureBoxMove.Visible = selectionMode;
-        }
-
-        private void modernButtonSelectAll_Click(object sender, EventArgs e)
-        {
-            if (modernButtonSelectAll.Text == "Select all")
-            {
-                foreach (var item in pArr)
-                {
-                    item.BackColor = SystemColors.ActiveCaption;
-                }
-                modernButtonSelectAll.Text = "Deselect all";
-                labelSelected.Text = "Selected: " + (lastIndex + 1).ToString() + "/" + listSVG.Count().ToString();
-            }
-            else if (modernButtonSelectAll.Text == "Deselect all")
-            {
-                foreach (var item in pArr)
-                {
-                    item.BackColor = Color.White;
-                }
-                modernButtonSelectAll.Text = "Select all";
-                labelSelected.Text = "Selected: 0/" + listSVG.Count().ToString();
-            }
-
-        }
-
-        private void hideRightSide(bool hide)
-        {
-            if (hide == true)
-            {
-                panelRight.Visible = false;
-                this.Width = panelLeft.Right + 14;
-                modernButtonHideDetails.Text = "Show details";
-                Properties.Settings.Default.svgmHideDetails = true;
-            }
-            else
-            {
-                panelRight.Visible = true;
-                this.Width = panelRight.Width + panelLeft.Width + 25;
-                modernButtonHideDetails.Text = "Hide details";
-                Properties.Settings.Default.svgmHideDetails = false;
-            }
-        }
-
-        private void pictureBoxDelete_Click(object sender, EventArgs e)
-        {
-            if (listSVG != null)
-            {
-                var selectedGames = listSVG.Where(x => pArr.Any(d => d.BackColor == SystemColors.ActiveCaption && d.Name == x.panelName)).ToList();
-
-                if (selectedGames.Count() > 0)
-                {
-                    DialogResult res = MessageBox.Show("Do you want to delete your selected savegames (" + selectedGames.Count().ToString() + ")?", "Warning", MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.Yes)
-                    {
-                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
-                        {
-                            Directory.Delete(selectedGames[i].dirName, true);
-                            listSVG.Remove(selectedGames[i]);
-                        }
-
-                        loadView(listSVG, 0, 20);
-                    }
-                }
-            }
-        }
-
-        private void pictureBoxMove_Click(object sender, EventArgs e)
-        {
-            if (listSVG != null)
-            {
-                var selectedGames = listSVG.Where(x => pArr.Any(d => d.BackColor == SystemColors.ActiveCaption && d.Name == x.panelName)).ToList();
-
-                if (selectedGames.Count() > 0)
-                {
-                    string targetDir = getTargetDir();
-
-                    DialogResult res = MessageBox.Show("Do you want to move your selected savegames(" + selectedGames.Count().ToString() + ") to" + targetDir + "?", "Warning", MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.Yes)
-                    {
-                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
-                        {
-                            moveDirectory(new DirectoryInfo(selectedGames[i].dirName));
-                            listSVG.Remove(selectedGames[i]);
-                        }
-                        loadView(listSVG, 0, 20);
-                    }
-                }
-            }
-        }
-
-        private void modernButtonHideDetails_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.svgmHideDetails = !Properties.Settings.Default.svgmHideDetails;
-            hideRightSide(Properties.Settings.Default.svgmHideDetails);
-            Properties.Settings.Default.Save();
         }
     }
     public class RootJson
@@ -599,11 +760,14 @@ namespace CyberSave77
     }
     public class SaveGameFile
     {
-        internal string metadata { get; set; }
-        internal string datFile { get; set; }
-        internal string thumb { get; set; }
-        internal string dirName { get; set; }
-        internal string panelName { get; set; }
+        internal string MetaDataJson { get; set; }
+        internal string DatFile { get; set; }
+        internal string ThumbnailPath { get; set; }
+        internal string DirName { get; set; }
+        internal DateTime LastWriteTime { get; set; }
+
+        internal RootJson JsonData { get; set; }
+   
     }
 
 

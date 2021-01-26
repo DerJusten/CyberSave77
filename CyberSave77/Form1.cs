@@ -33,7 +33,7 @@ namespace CyberSave77
         private System.Timers.Timer timerAutoQuickSave;
         private static CyberSave77Settings settings;
         private static bool bDebug = false;
-        private static string version = "(v0.22)";
+        private static string version = "(v0.23)";
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -93,12 +93,12 @@ namespace CyberSave77
             {
                 if (!Directory.Exists(settings.SavegamePathDefault))
                 {
-                    MessageBox.Show("Path not found.");
+                    MessageBox.Show("Default savegame path not found.");
                     return;
                 }
                 else if (string.IsNullOrEmpty(settings.SavegamePathHistory))
                 {
-                    MessageBox.Show("Invalid Extra savegame path");
+                    MessageBox.Show("Invalid history savegame path");
                     return;
                 }
             }
@@ -130,6 +130,10 @@ namespace CyberSave77
 
             DirectoryInfo dirInfoDefault = new DirectoryInfo(settings.SavegamePathDefault);
             DirectoryInfo dirInfoHistory = new DirectoryInfo(settings.SavegamePathHistory);
+            List<string> savegameFilter = new List<string>();
+
+
+
 
             bgwCheckProcess.ReportProgress(0, "Check for new savegames...");
 
@@ -146,7 +150,8 @@ namespace CyberSave77
                 var uniqueDirsByDate = allDirectories.GroupBy(c => c.CreationTime).Where(g => g.Count() == 1).SelectMany(c => c);
 
                 //Filter unique dirs by their name to exclude ManualSaves and other dirs
-                var uniqueDirsFiltered = uniqueDirsByDate.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();// || d.Name.Contains("PointOfNoReturnSave") || d.Name.Contains("EndGameSave")).ToList();
+                //   var uniqueDirsFiltered = uniqueDirsByDate.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();
+                var uniqueDirsFiltered = uniqueDirsByDate.Where(d => settings.SavegameCheckNames.Any(x => d.Name.Contains(x))).ToList();
 
                 if (lastSaveGameCreationDate == new DateTime() && allDirectories.Count() > 0)
                 {
@@ -171,9 +176,11 @@ namespace CyberSave77
                 }
             }
             else
-
             {
-                var listDefaultSaveGames = allDirectories.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();// || d.Name.Contains("PointOfNoReturnSave") || d.Name.Contains("EndGameSave"));
+
+                var listDefaultSaveGames = allDirectories.Where(d => settings.SavegameCheckNames.Any(x => d.Name.Contains(x))).ToList();
+
+                //var listDefaultSaveGames = allDirectories.Where(d => d.Name.Contains("AutoSave") || d.Name.Contains("QuickSave")).ToList();// || d.Name.Contains("PointOfNoReturnSave") || d.Name.Contains("EndGameSave"));
                 var listHistorySaveGames = dirInfoHistory.EnumerateDirectories();
 
                 //Get all dirs with a different CreationTime (since all copied saves have the same creation time as the original ones)
@@ -305,12 +312,12 @@ namespace CyberSave77
                     else
                         newDirName = Path.Combine(settings.SavegamePathHistory, item.Name.Substring(0, item.Name.IndexOf("-")) + "-" + item.CreationTime.ToString("dd-MM-yy_HH-mm-ss"));
 
-                    if (!Directory.Exists(newDirName) && settings.copyDirs == true)
+                    if (!Directory.Exists(newDirName) && settings.CopyDirs == true)
                     {
                         Directory.CreateDirectory(newDirName);
                     }
 
-                    if (settings.copyDirs == true)
+                    if (settings.CopyDirs == true)
                     {
                         foreach (var saveFiles in Directory.EnumerateFiles(item.FullName))
                         {
@@ -479,6 +486,7 @@ namespace CyberSave77
 
                             timerSaveGame.Stop();
                             timerAutoQuickSave.Stop();
+                            checkSaveGame();
                             CancelTimer = true;
                             return;
                         }
@@ -708,7 +716,7 @@ namespace CyberSave77
                     Properties.Settings.Default.Save();
                 }
             }
-           
+
             this.Text = "CyberSave77 " + version;
             textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.DoubleBuffered = true;
@@ -1308,7 +1316,7 @@ namespace CyberSave77
             settings = new CyberSave77Settings();
             settings.ProcessName = Properties.Settings.Default.processName;
             settings.SavegamePathDefault = Properties.Settings.Default.savegameDefaultPath;
-            settings.SavegamePathHistory = Properties.Settings.Default.savegameDefaultPath;
+            settings.SavegamePathHistory = Properties.Settings.Default.savegameHistoryPath;
             settings.IntervalAutoQuickSave = Properties.Settings.Default.intervalAutoQuickSaveMinutes;
             settings.IntervalProcessCheck = 10;
             settings.IntervalSaveGameCheck = 10 * 1000;
@@ -1317,7 +1325,7 @@ namespace CyberSave77
             settings.EnableAutoQuickSave = Properties.Settings.Default.enableAutoQuicksave;
             settings.EnableSaveHameHistory = Properties.Settings.Default.enableExtraSavegames;
             settings.TimeDifferenceBtwSavegames = Properties.Settings.Default.timeDifferenceSaveGames;
-            settings.copyDirs = false;
+            settings.CopyDirs = false;
             if (settings.EnableApplicationsOnStart == true)
             {
                 foreach (var item in readProcessInfoFromJson())
@@ -1366,11 +1374,6 @@ namespace CyberSave77
 
 
             }
-
-        }
-
-        private void listBoxProcess_MouseHover(object sender, EventArgs e)
-        {
 
         }
 
@@ -1436,6 +1439,7 @@ namespace CyberSave77
             DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
             DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
             List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
+;
             if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
                 listDirInfo.Add(dirInfoDefault);
             else
@@ -1444,8 +1448,11 @@ namespace CyberSave77
                 listDirInfo.Add(dirInfoHistory);
             }
 
+
             using (FormSaveGameManager fsgm = new FormSaveGameManager(listDirInfo))
                 fsgm.ShowDialog();
+
+           GC.Collect();
         }
     }
 
@@ -1463,7 +1470,26 @@ namespace CyberSave77
         public bool EnableSaveHameHistory { get; set; }
         public bool EnableAutoQuickSave { get; set; }
         public bool KillStartedApplicationsOnExit { get; set; }
-        public bool copyDirs { get; set; } = true;
+        public bool CopyDirs { get; set; } = true;
+        public int SavegameCheckMode { get; set; } = 0;
+        private List<string> _dirnames;
+        public List<string> SavegameCheckNames
+        {
+            get
+            {
+                _dirnames = new List<string>();
+                if (SavegameCheckMode == 1)
+                    _dirnames.Add("AutoSave");
+                else if (SavegameCheckMode == 2)
+                    _dirnames.Add("QuickSave");
+                else
+                {
+                    _dirnames.Add("AutoSave");
+                    _dirnames.Add("QuickSave");
+                }
+                return _dirnames;
+            }
+        }
         public List<ProcessStartInfo> ApplicationsToStartList { get; set; }
     }
     public class JsonRegexNameSchema

@@ -286,5 +286,29 @@ namespace CyberSave77.Properties {
                 this["svgmDisableConfirmation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int savegameCheckMode {
+            get {
+                return ((int)(this["savegameCheckMode"]));
+            }
+            set {
+                this["savegameCheckMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool svgmLoadAll {
+            get {
+                return ((bool)(this["svgmLoadAll"]));
+            }
+            set {
+                this["svgmLoadAll"] = value;
+            }
+        }
     }
 }
