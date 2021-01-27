@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace CyberSave77
 {
@@ -24,7 +25,7 @@ namespace CyberSave77
         private List<SaveGameFile> svgList, svgListUntouched;
         private List<Panel> pnList;
         private int lastIndex = 0;
-        private static Image imgDel, imgMove;
+        private static Image imgDel, imgMove, imgCopy, imgEdit;
         private static bool selectionMode = false;
         private List<DirectoryInfo> pathToSavegame;
         private List<string> defaultSavegameNames;
@@ -33,6 +34,8 @@ namespace CyberSave77
         {
             imgMove = Properties.Resources.move;
             imgDel = Properties.Resources._097_delete_3;
+            imgCopy = Properties.Resources.add_file;
+            imgEdit = Properties.Resources.edit;
             pictureBoxDelete.MouseDown += pbDelMouseDown;
             pictureBoxDelete.MouseUp += pbDelMouseUp;
             pictureBoxDelete.MouseLeave += pbDelMouseLeave;
@@ -41,6 +44,12 @@ namespace CyberSave77
             pictureBoxMove.MouseUp += pbDelMouseUp;
             pictureBoxMove.MouseLeave += pbDelMouseLeave;
             pictureBoxMove.MouseHover += pbDelMouseHover;
+
+            pictureBoxCopySelected.MouseDown += pbDelMouseDown;
+            pictureBoxCopySelected.MouseUp += pbDelMouseUp;
+            pictureBoxCopySelected.MouseLeave += pbDelMouseLeave;
+            pictureBoxCopySelected.MouseHover += pbDelMouseHover;
+
             HideDatagridView(Properties.Settings.Default.svgmHideDetails);
             labelSelected.Text = "Selected: 0/0";
             labelHint.Parent = dataGridView1;
@@ -163,7 +172,7 @@ namespace CyberSave77
             }
             if (endIndex > lastIndex)
                 lastIndex = endIndex;
-            if (startIndex == 0)
+            if (startIndex == 0 && pnList.Count > 0)
                 panelDatagrid.Location = new Point(pnList[0].Location.X + pnList[0].Width + 50, 30);
             if (lastIndex == svgList.Count() - 1)
                 modernButtonLoadMore.Enabled = false;
@@ -182,11 +191,12 @@ namespace CyberSave77
         {
             PictureBox pb = new PictureBox();
             Label lb = new Label();
+            TextBox tb = new TextBox();
 
             panelSaveGames.Controls.Add(pnList[index]);
             pnList[index].Controls.Add(pb);
             pnList[index].Controls.Add(lb);
-
+            pnList[index].Controls.Add(tb);
             if (index == 0)
             {
                 pnList[index].Location = new Point(6, 6);
@@ -205,6 +215,17 @@ namespace CyberSave77
             lb.Location = new Point(pb.Location.X + pb.Width + 10, 3);
             lb.AutoSize = true;
             lb.Name = "labelDir";
+            lb.Font = new Font(lb.Font, FontStyle.Bold);
+            lb.MouseDoubleClick += labelDir_MouseDoubleClick;
+
+            tb.Location = lb.Location;
+            //tb.Size = new Size(100, 19);
+            tb.Name = "tbDir";
+            tb.Visible = false;
+            tb.KeyDown += tbDir_KeyDown;
+            tb.Leave += tbDir_Leave;
+            //tb.BorderStyle = BorderStyle.None;
+            //tb.SendToBack();
 
 
             CreateLabelsForSaveGameInfo(6, index, lb);
@@ -215,6 +236,30 @@ namespace CyberSave77
 
             CreateSmallPictureBoxes(pnList[index]);
 
+
+        }
+
+        private bool RenameDirectory(string oldName, string newName)
+        {
+            if (comboBoxPath.SelectedValue != null)
+            {
+                oldName = Path.Combine(comboBoxPath.SelectedValue.ToString(), oldName);
+                newName = Path.Combine(comboBoxPath.SelectedValue.ToString(), newName);
+                if (Directory.Exists(oldName) && !Directory.Exists(newName))
+                {
+                    if (checkBoxSimulate.Checked == false)
+                    {
+                        Directory.Move(oldName, newName);
+                        Directory.SetCreationTime(newName, new DirectoryInfo(oldName).CreationTime);
+                        Directory.SetLastWriteTime(newName, new DirectoryInfo(oldName).LastWriteTime);
+                    }
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
 
         }
 
@@ -244,16 +289,40 @@ namespace CyberSave77
             pbDel.Image = imgDel;
             pbDel.SizeMode = PictureBoxSizeMode.Zoom;
             pbDel.BackColor = Color.Transparent;
-            pbDel.Size = new Size(40, 30);
+            pbDel.Size = new Size(36, 30);
             pbDel.Parent = parent;
             pbDel.Click += new EventHandler(pbDelClick);
             pbDel.MouseDown += new MouseEventHandler(pbDelMouseDown);
             pbDel.MouseUp += new MouseEventHandler(pbDelMouseUp);
             pbDel.MouseHover += new EventHandler(pbDelMouseHover);
             pbDel.MouseLeave += new EventHandler(pbDelMouseLeave);
-            pbDel.Location = new Point(parent.Width - pbDel.Width - 5, parent.Height - pbDel.Height - 5);
+            pbDel.Location = new Point(parent.Width - pbDel.Width - 3, parent.Height - pbDel.Height - 5);
 
-            if (comboBoxPath.Items.Count > 1)
+            PictureBox pbCopy = new PictureBox();
+            pbCopy.Image = imgCopy;
+            pbCopy.SizeMode = PictureBoxSizeMode.Zoom;
+            pbCopy.BackColor = Color.Transparent;
+            pbCopy.Size = pbDel.Size;
+            pbCopy.Parent = parent;
+            pbCopy.MouseDown += new MouseEventHandler(pbDelMouseDown);
+            pbCopy.MouseUp += new MouseEventHandler(pbDelMouseUp);
+            pbCopy.MouseHover += new EventHandler(pbDelMouseHover);
+            pbCopy.MouseLeave += new EventHandler(pbDelMouseLeave);
+            pbCopy.Click += new EventHandler(pbCopyClick);
+
+            PictureBox pbEdit = new PictureBox();
+            pbEdit.Image = imgEdit;
+            pbEdit.SizeMode = PictureBoxSizeMode.Zoom;
+            pbEdit.BackColor = Color.Transparent;
+            pbEdit.Size = pbDel.Size;
+            pbEdit.Parent = parent;
+            pbEdit.MouseDown += new MouseEventHandler(pbDelMouseDown);
+            pbEdit.MouseUp += new MouseEventHandler(pbDelMouseUp);
+            pbEdit.MouseHover += new EventHandler(pbDelMouseHover);
+            pbEdit.MouseLeave += new EventHandler(pbDelMouseLeave);
+            pbEdit.Click += new EventHandler(pbEditClick);
+
+            if (comboBoxPath.Items.Count <= 2)
             {
                 PictureBox pbMoveDir = new PictureBox();
                 pbMoveDir.Image = imgMove;
@@ -266,10 +335,21 @@ namespace CyberSave77
                 pbMoveDir.MouseUp += new MouseEventHandler(pbDelMouseUp);
                 pbMoveDir.MouseHover += new EventHandler(pbDelMouseHover);
                 pbMoveDir.MouseLeave += new EventHandler(pbDelMouseLeave);
-                pbMoveDir.Location = new Point(pbDel.Location.X - pbMoveDir.Width - 5, pbDel.Location.Y);
+                pbMoveDir.Location = new Point(pbDel.Location.X - pbMoveDir.Width - 3, pbDel.Location.Y);
                 pbMoveDir.MouseClick += new MouseEventHandler(pbMoveDirMouseClick);
                 toolTip1.SetToolTip(pbMoveDir, "Moves savegame to " + GetTargetDir());
+
+
+                pbCopy.Location = new Point(pbMoveDir.Location.X - pbCopy.Width - 3, pbDel.Location.Y);
+                pbEdit.Location = new Point(pbCopy.Location.X - pbCopy.Width - 3, pbDel.Location.Y);
             }
+            else
+            {
+                pbCopy.Location = new Point(pbDel.Location.X - pbCopy.Width - 3, pbDel.Location.Y);
+                pbEdit.Location = new Point(pbCopy.Location.X - pbEdit.Width - 3, pbDel.Location.Y);
+            }
+
+
         }
 
         private void LoadDataToPanelControls(Panel parent, int i)
@@ -318,7 +398,25 @@ namespace CyberSave77
                 }
             }
         }
-
+        private void ResetTbDir(TextBox tb)
+        {
+            Panel pn = (Panel)tb.Parent;
+            Label lb = (Label)pn.Controls["labelDir"];
+            tb.Visible = false;
+            lb.Visible = true;
+            tb.Clear();
+        }  
+        
+        private void ResetTbDirByControl(Control ctrl)
+        {
+            Panel pn;
+            if (ctrl is Panel)
+                pn = (Panel)ctrl;
+            else
+                pn = (Panel)ctrl.Parent;
+            if (pn.Controls["tbDir"].Visible == true)
+                ResetTbDir((TextBox)pn.Controls["tbDir"]);
+        }
         private string GetTargetDir()
         {
 
@@ -484,19 +582,19 @@ namespace CyberSave77
         private List<SaveGameFile> FilterSvgList()
         {
             List<SaveGameFile> listSaveGame = new List<SaveGameFile>();
-       
+
 
             if (checkBoxFilterNonCustomSaves.Checked == true)
-               listSaveGame= svgListUntouched.Where(x => defaultSavegameNames.All(d => !GetDirectoryName(x.DirName).Contains(d))).OrderByDescending(d => d.LastWriteTime).ToList();
+                listSaveGame = svgListUntouched.Where(x => defaultSavegameNames.All(d => !GetDirectoryName(x.DirName).Contains(d))).OrderByDescending(d => d.LastWriteTime).ToList();
             else
                 listSaveGame = svgListUntouched.OrderByDescending(d => d.LastWriteTime).ToList();
 
             if (textBoxSearchBar.Text != "" && textBoxSearchBar.Text != "Search...")
             {
-               listSaveGame = listSaveGame.Where(x => GetDirectoryName(x.DirName).ToLower().Contains(textBoxSearchBar.Text.ToLower())).ToList();
+                listSaveGame = listSaveGame.Where(x => GetDirectoryName(x.DirName).ToLower().Contains(textBoxSearchBar.Text.ToLower())).ToList();
             }
 
-            
+
 
             return listSaveGame;
 
@@ -592,6 +690,44 @@ namespace CyberSave77
             }
         }
 
+        private void CopyDirectories(DirectoryInfo sourceDir,string destDir)
+        {
+            destDir = Path.Combine(destDir, sourceDir.Name);
+            if(!Directory.Exists(destDir))
+            {
+                Directory.CreateDirectory(destDir);
+                foreach (var item in sourceDir.EnumerateFiles())
+                {
+                    File.Copy(item.FullName, Path.Combine(destDir,item.Name),false);
+                }
+                Directory.SetCreationTime(destDir, sourceDir.CreationTime);
+                Directory.SetLastWriteTime(destDir, sourceDir.LastWriteTime);
+            }
+        }
+
+        private void CopySelectedDirectories()
+        {
+            if (svgList != null)
+            {
+                var selectedGames = GetSaveGameFilesByPanelList(pnList.Where(c => c.BackColor == SystemColors.ActiveCaption).ToList());
+
+                if (selectedGames.Count() > 0)
+                {
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+                    if(fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
+                        {
+
+                            CopyDirectories(new DirectoryInfo(selectedGames[i].DirName), fbd.SelectedPath);
+                        }
+                        MessageBox.Show("Copied " + selectedGames.Count().ToString() +" savegames to " + fbd.SelectedPath);
+                    }
+                }
+            }
+        }
+
         //###################################################################################################################################################################################################
         private void panel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -603,12 +739,14 @@ namespace CyberSave77
             {
                 ControlIsSelected((Control)sender);
             }
+            ResetTbDirByControl((Control)sender);
         }
         private void comboBoxPath_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxPath.SelectedItem != null)
             {
-
+                svgList = null;
+                svgListUntouched = null;
                 LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
             }
         }
@@ -647,6 +785,7 @@ namespace CyberSave77
 
             modernButtonSelectAll.Visible = selectionMode;
             pictureBoxDelete.Visible = selectionMode;
+            pictureBoxCopySelected.Visible = selectionMode;
             labelSelected.Visible = selectionMode;
 
             if (comboBoxPath.Items.Count > 1)
@@ -679,7 +818,62 @@ namespace CyberSave77
         {
             DeleteSelectdDirectorties();
         }
+        private void labelDir_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Label lb = (Label)sender;
+            Panel pn = (Panel)lb.Parent;
+            TextBox tb = (TextBox)pn.Controls["tbDir"];
+            tb.Size = new Size(tb.Width, 16);
+            tb.Visible = true;
+            lb.Visible = false;
+            tb.Focus();
+        }
 
+        private void tbDir_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Escape || e.KeyCode == Keys.Enter)
+            {
+
+                e.SuppressKeyPress = true;
+                TextBox tb = (TextBox)sender;
+                Panel pn = (Panel)tb.Parent;
+                Label lb = (Label)pn.Controls["labelDir"];
+
+                Regex reg = new Regex(@"^[a-zA-Z 0-9\.\,\+\-_\*]*$");
+                if (reg.IsMatch(tb.Text))
+                {
+                    tb.BackColor = Color.White;
+                }
+                else
+                {
+                   tb.BackColor = Color.LightCoral;
+                    return;
+                }
+
+                if (e.KeyCode == Keys.Enter && !string.IsNullOrEmpty(tb.Text))
+                {
+                    if (RenameDirectory(lb.Text, tb.Text) == true)
+                    {
+                        int i = svgListUntouched.IndexOf(svgListUntouched.Where(x => GetDirectoryName(x.DirName) == lb.Text).FirstOrDefault());
+                        svgListUntouched[i].DirName = Path.Combine(comboBoxPath.SelectedValue.ToString(), tb.Text);
+                        lb.Text = tb.Text;
+                    }
+                }
+                tb.Clear();                
+                tb.Visible = false;
+                lb.Visible = true;
+            }
+        }
+        private void tbDir_Leave(object sender, EventArgs e)
+        {
+
+            TextBox tb = (TextBox)sender;
+            if (tb.Visible == true)
+            {
+                ResetTbDir(tb);
+            }
+        }
         private void pictureBoxMove_Click(object sender, EventArgs e)
         {
             MoveSelectedDirectories();
@@ -795,11 +989,16 @@ namespace CyberSave77
 
         private void textBoxSearchBar_Leave(object sender, EventArgs e)
         {
-            if(textBoxSearchBar.Text == "")
+            if (textBoxSearchBar.Text == "")
             {
                 textBoxSearchBar.Text = "Search...";
                 textBoxSearchBar.ForeColor = Color.DarkGray;
             }
+        }
+
+        private void pictureBoxCopySelected_Click(object sender, EventArgs e)
+        {
+            CopySelectedDirectories();
         }
 
         private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
@@ -819,6 +1018,29 @@ namespace CyberSave77
                 MoveDirectory(new DirectoryInfo(svg.DirName));
                 svgList.Remove(svg);
                 LoadView(0, lastIndex);
+            }
+        }
+
+        private void pbEditClick(object sender, EventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            Panel pn = (Panel)pb.Parent;
+            TextBox tb = (TextBox)pn.Controls["tbDir"];
+            Label lb = (Label)pn.Controls["labelDir"];
+            lb.Visible = false;
+            tb.Visible = true;
+            tb.Focus();
+        }
+
+        private void pbCopyClick(object sender, EventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            Panel pn = (Panel)pb.Parent;
+
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if(fbd.ShowDialog() == DialogResult.OK)
+            {
+                CopyDirectories(new DirectoryInfo(GetSaveGameFileByPanelCtrl(pn).DirName), fbd.SelectedPath);
             }
         }
     }

@@ -36,28 +36,29 @@ namespace CyberSave77
             this.labelDirNameDatagrid = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelLeft = new System.Windows.Forms.Panel();
-            this.checkBoxSimulate = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButtonOrderByName = new System.Windows.Forms.RadioButton();
-            this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
             this.checkBoxFilterNonCustomSaves = new System.Windows.Forms.CheckBox();
+            this.radioButtonOrderByName = new System.Windows.Forms.RadioButton();
+            this.textBoxSearchBar = new System.Windows.Forms.TextBox();
             this.labelSelected = new System.Windows.Forms.Label();
+            this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
+            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
+            this.modernButtonSelectAll = new CyberSave77.ModernButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panelLeftButtons = new System.Windows.Forms.Panel();
+            this.checkBoxSimulate = new System.Windows.Forms.CheckBox();
             this.pictureBoxMove = new System.Windows.Forms.PictureBox();
+            this.modernButtonHideDetails = new CyberSave77.ModernButton();
             this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
+            this.modernButtonLoadMore = new CyberSave77.ModernButton();
+            this.modernButtonScrollDown = new CyberSave77.ModernButton();
+            this.modernButtonScrollUp = new CyberSave77.ModernButton();
             this.comboBoxPath = new System.Windows.Forms.ComboBox();
             this.panelSaveGames = new System.Windows.Forms.Panel();
             this.labelCount = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
-            this.modernButtonSelectAll = new CyberSave77.ModernButton();
-            this.modernButtonHideDetails = new CyberSave77.ModernButton();
-            this.modernButtonLoadMore = new CyberSave77.ModernButton();
-            this.modernButtonScrollDown = new CyberSave77.ModernButton();
-            this.modernButtonScrollUp = new CyberSave77.ModernButton();
-            this.textBoxSearchBar = new System.Windows.Forms.TextBox();
+            this.pictureBoxCopySelected = new System.Windows.Forms.PictureBox();
             this.panelDatagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelLeft.SuspendLayout();
@@ -65,6 +66,7 @@ namespace CyberSave77
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
             this.panelRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).BeginInit();
             this.SuspendLayout();
             // 
             // panelDatagrid
@@ -137,18 +139,6 @@ namespace CyberSave77
             this.panelLeft.Size = new System.Drawing.Size(737, 772);
             this.panelLeft.TabIndex = 4;
             // 
-            // checkBoxSimulate
-            // 
-            this.checkBoxSimulate.AutoSize = true;
-            this.checkBoxSimulate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxSimulate.Location = new System.Drawing.Point(166, 18);
-            this.checkBoxSimulate.Name = "checkBoxSimulate";
-            this.checkBoxSimulate.Size = new System.Drawing.Size(71, 19);
-            this.checkBoxSimulate.TabIndex = 14;
-            this.checkBoxSimulate.Text = "simulate";
-            this.checkBoxSimulate.UseVisualStyleBackColor = true;
-            this.checkBoxSimulate.Visible = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -158,6 +148,18 @@ namespace CyberSave77
             this.label2.Size = new System.Drawing.Size(47, 15);
             this.label2.TabIndex = 17;
             this.label2.Text = "Sort by:";
+            // 
+            // checkBoxFilterNonCustomSaves
+            // 
+            this.checkBoxFilterNonCustomSaves.AutoSize = true;
+            this.checkBoxFilterNonCustomSaves.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(475, 43);
+            this.checkBoxFilterNonCustomSaves.Name = "checkBoxFilterNonCustomSaves";
+            this.checkBoxFilterNonCustomSaves.Size = new System.Drawing.Size(150, 19);
+            this.checkBoxFilterNonCustomSaves.TabIndex = 13;
+            this.checkBoxFilterNonCustomSaves.Text = "filter non-custom saves";
+            this.checkBoxFilterNonCustomSaves.UseVisualStyleBackColor = true;
+            this.checkBoxFilterNonCustomSaves.CheckedChanged += new System.EventHandler(this.checkBoxFilterNonCustomSaves_CheckedChanged);
             // 
             // radioButtonOrderByName
             // 
@@ -170,6 +172,27 @@ namespace CyberSave77
             this.radioButtonOrderByName.Text = "Name";
             this.radioButtonOrderByName.UseVisualStyleBackColor = true;
             this.radioButtonOrderByName.CheckedChanged += new System.EventHandler(this.radioButtonOrderByName_CheckedChanged);
+            // 
+            // textBoxSearchBar
+            // 
+            this.textBoxSearchBar.ForeColor = System.Drawing.Color.DarkGray;
+            this.textBoxSearchBar.Location = new System.Drawing.Point(261, 12);
+            this.textBoxSearchBar.Name = "textBoxSearchBar";
+            this.textBoxSearchBar.Size = new System.Drawing.Size(266, 25);
+            this.textBoxSearchBar.TabIndex = 13;
+            this.textBoxSearchBar.Text = "Search...";
+            this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
+            this.textBoxSearchBar.Enter += new System.EventHandler(this.textBoxSearchBar_Enter);
+            this.textBoxSearchBar.Leave += new System.EventHandler(this.textBoxSearchBar_Leave);
+            // 
+            // labelSelected
+            // 
+            this.labelSelected.Location = new System.Drawing.Point(8, 698);
+            this.labelSelected.Name = "labelSelected";
+            this.labelSelected.Size = new System.Drawing.Size(121, 16);
+            this.labelSelected.TabIndex = 12;
+            this.labelSelected.Text = "Selected: 999/999";
+            this.labelSelected.Visible = false;
             // 
             // radioButtonOrderByLastWriteTime
             // 
@@ -184,127 +207,6 @@ namespace CyberSave77
             this.radioButtonOrderByLastWriteTime.Text = "last write time";
             this.radioButtonOrderByLastWriteTime.UseVisualStyleBackColor = true;
             this.radioButtonOrderByLastWriteTime.CheckedChanged += new System.EventHandler(this.radioButtonOrderByLastWriteTime_CheckedChanged);
-            // 
-            // checkBoxFilterNonCustomSaves
-            // 
-            this.checkBoxFilterNonCustomSaves.AutoSize = true;
-            this.checkBoxFilterNonCustomSaves.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(475, 43);
-            this.checkBoxFilterNonCustomSaves.Name = "checkBoxFilterNonCustomSaves";
-            this.checkBoxFilterNonCustomSaves.Size = new System.Drawing.Size(150, 19);
-            this.checkBoxFilterNonCustomSaves.TabIndex = 13;
-            this.checkBoxFilterNonCustomSaves.Text = "filter non-custom saves";
-            this.checkBoxFilterNonCustomSaves.UseVisualStyleBackColor = true;
-            this.checkBoxFilterNonCustomSaves.CheckedChanged += new System.EventHandler(this.checkBoxFilterNonCustomSaves_CheckedChanged);
-            // 
-            // labelSelected
-            // 
-            this.labelSelected.Location = new System.Drawing.Point(8, 698);
-            this.labelSelected.Name = "labelSelected";
-            this.labelSelected.Size = new System.Drawing.Size(121, 16);
-            this.labelSelected.TabIndex = 12;
-            this.labelSelected.Text = "Selected: 999/999";
-            this.labelSelected.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(8, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "SaveGame Directory";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // panelLeftButtons
-            // 
-            this.panelLeftButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelLeftButtons.Controls.Add(this.checkBoxSimulate);
-            this.panelLeftButtons.Controls.Add(this.pictureBoxMove);
-            this.panelLeftButtons.Controls.Add(this.modernButtonHideDetails);
-            this.panelLeftButtons.Controls.Add(this.pictureBoxDelete);
-            this.panelLeftButtons.Controls.Add(this.modernButtonLoadMore);
-            this.panelLeftButtons.Controls.Add(this.modernButtonScrollDown);
-            this.panelLeftButtons.Controls.Add(this.modernButtonScrollUp);
-            this.panelLeftButtons.Location = new System.Drawing.Point(-2, 716);
-            this.panelLeftButtons.Name = "panelLeftButtons";
-            this.panelLeftButtons.Size = new System.Drawing.Size(737, 56);
-            this.panelLeftButtons.TabIndex = 2;
-            // 
-            // pictureBoxMove
-            // 
-            this.pictureBoxMove.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxMove.Image = global::CyberSave77.Properties.Resources.move;
-            this.pictureBoxMove.Location = new System.Drawing.Point(66, 7);
-            this.pictureBoxMove.Name = "pictureBoxMove";
-            this.pictureBoxMove.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxMove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxMove.TabIndex = 12;
-            this.pictureBoxMove.TabStop = false;
-            this.pictureBoxMove.Visible = false;
-            this.pictureBoxMove.Click += new System.EventHandler(this.pictureBoxMove_Click);
-            // 
-            // pictureBoxDelete
-            // 
-            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
-            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
-            this.pictureBoxDelete.Name = "pictureBoxDelete";
-            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxDelete.TabIndex = 11;
-            this.pictureBoxDelete.TabStop = false;
-            this.pictureBoxDelete.Visible = false;
-            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
-            // 
-            // comboBoxPath
-            // 
-            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxPath.FormattingEnabled = true;
-            this.comboBoxPath.Location = new System.Drawing.Point(8, 31);
-            this.comboBoxPath.Name = "comboBoxPath";
-            this.comboBoxPath.Size = new System.Drawing.Size(228, 28);
-            this.comboBoxPath.TabIndex = 1;
-            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
-            this.comboBoxPath.MouseHover += new System.EventHandler(this.comboBoxPath_MouseHover);
-            // 
-            // panelSaveGames
-            // 
-            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSaveGames.AutoScroll = true;
-            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
-            this.panelSaveGames.Name = "panelSaveGames";
-            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
-            this.panelSaveGames.TabIndex = 0;
-            // 
-            // labelCount
-            // 
-            this.labelCount.Location = new System.Drawing.Point(672, 697);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(63, 19);
-            this.labelCount.TabIndex = 8;
-            this.labelCount.Text = "999/999";
-            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Controls.Add(this.panelDatagrid);
-            this.panelRight.Location = new System.Drawing.Point(743, 0);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(490, 772);
-            this.panelRight.TabIndex = 9;
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 750;
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ReshowDelay = 100;
-            this.toolTip1.ShowAlways = true;
             // 
             // modernButtonEnableSelectionMode
             // 
@@ -339,6 +241,57 @@ namespace CyberSave77
             this.modernButtonSelectAll.Visible = false;
             this.modernButtonSelectAll.Click += new System.EventHandler(this.modernButtonSelectAll_Click);
             // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(8, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(228, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "SaveGame Directory";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panelLeftButtons
+            // 
+            this.panelLeftButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelLeftButtons.Controls.Add(this.pictureBoxCopySelected);
+            this.panelLeftButtons.Controls.Add(this.checkBoxSimulate);
+            this.panelLeftButtons.Controls.Add(this.pictureBoxMove);
+            this.panelLeftButtons.Controls.Add(this.modernButtonHideDetails);
+            this.panelLeftButtons.Controls.Add(this.pictureBoxDelete);
+            this.panelLeftButtons.Controls.Add(this.modernButtonLoadMore);
+            this.panelLeftButtons.Controls.Add(this.modernButtonScrollDown);
+            this.panelLeftButtons.Controls.Add(this.modernButtonScrollUp);
+            this.panelLeftButtons.Location = new System.Drawing.Point(-2, 716);
+            this.panelLeftButtons.Name = "panelLeftButtons";
+            this.panelLeftButtons.Size = new System.Drawing.Size(737, 56);
+            this.panelLeftButtons.TabIndex = 2;
+            // 
+            // checkBoxSimulate
+            // 
+            this.checkBoxSimulate.AutoSize = true;
+            this.checkBoxSimulate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxSimulate.Location = new System.Drawing.Point(235, 18);
+            this.checkBoxSimulate.Name = "checkBoxSimulate";
+            this.checkBoxSimulate.Size = new System.Drawing.Size(71, 19);
+            this.checkBoxSimulate.TabIndex = 14;
+            this.checkBoxSimulate.Text = "simulate";
+            this.checkBoxSimulate.UseVisualStyleBackColor = true;
+            this.checkBoxSimulate.Visible = false;
+            // 
+            // pictureBoxMove
+            // 
+            this.pictureBoxMove.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxMove.Image = global::CyberSave77.Properties.Resources.move;
+            this.pictureBoxMove.Location = new System.Drawing.Point(66, 7);
+            this.pictureBoxMove.Name = "pictureBoxMove";
+            this.pictureBoxMove.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxMove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxMove.TabIndex = 12;
+            this.pictureBoxMove.TabStop = false;
+            this.pictureBoxMove.Visible = false;
+            this.pictureBoxMove.Click += new System.EventHandler(this.pictureBoxMove_Click);
+            // 
             // modernButtonHideDetails
             // 
             this.modernButtonHideDetails.BackColor = System.Drawing.Color.White;
@@ -354,6 +307,19 @@ namespace CyberSave77
             this.modernButtonHideDetails.TextColor = System.Drawing.SystemColors.ControlText;
             this.modernButtonHideDetails.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonHideDetails.Click += new System.EventHandler(this.modernButtonHideDetails_Click);
+            // 
+            // pictureBoxDelete
+            // 
+            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
+            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
+            this.pictureBoxDelete.Name = "pictureBoxDelete";
+            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDelete.TabIndex = 11;
+            this.pictureBoxDelete.TabStop = false;
+            this.pictureBoxDelete.Visible = false;
+            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
             // 
             // modernButtonLoadMore
             // 
@@ -405,17 +371,67 @@ namespace CyberSave77
             this.modernButtonScrollUp.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonScrollUp.Click += new System.EventHandler(this.modernButtonScrollUp_Click);
             // 
-            // textBoxSearchBar
+            // comboBoxPath
             // 
-            this.textBoxSearchBar.ForeColor = System.Drawing.Color.DarkGray;
-            this.textBoxSearchBar.Location = new System.Drawing.Point(261, 12);
-            this.textBoxSearchBar.Name = "textBoxSearchBar";
-            this.textBoxSearchBar.Size = new System.Drawing.Size(266, 25);
-            this.textBoxSearchBar.TabIndex = 13;
-            this.textBoxSearchBar.Text = "Search...";
-            this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
-            this.textBoxSearchBar.Enter += new System.EventHandler(this.textBoxSearchBar_Enter);
-            this.textBoxSearchBar.Leave += new System.EventHandler(this.textBoxSearchBar_Leave);
+            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxPath.FormattingEnabled = true;
+            this.comboBoxPath.Location = new System.Drawing.Point(8, 31);
+            this.comboBoxPath.Name = "comboBoxPath";
+            this.comboBoxPath.Size = new System.Drawing.Size(228, 28);
+            this.comboBoxPath.TabIndex = 1;
+            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
+            this.comboBoxPath.MouseHover += new System.EventHandler(this.comboBoxPath_MouseHover);
+            // 
+            // panelSaveGames
+            // 
+            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSaveGames.AutoScroll = true;
+            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
+            this.panelSaveGames.Name = "panelSaveGames";
+            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
+            this.panelSaveGames.TabIndex = 0;
+            // 
+            // labelCount
+            // 
+            this.labelCount.Location = new System.Drawing.Point(672, 697);
+            this.labelCount.Name = "labelCount";
+            this.labelCount.Size = new System.Drawing.Size(63, 19);
+            this.labelCount.TabIndex = 8;
+            this.labelCount.Text = "999/999";
+            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Controls.Add(this.panelDatagrid);
+            this.panelRight.Location = new System.Drawing.Point(743, 0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(490, 772);
+            this.panelRight.TabIndex = 9;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 750;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            // 
+            // pictureBoxCopySelected
+            // 
+            this.pictureBoxCopySelected.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxCopySelected.Image = global::CyberSave77.Properties.Resources.add_file;
+            this.pictureBoxCopySelected.Location = new System.Drawing.Point(119, 7);
+            this.pictureBoxCopySelected.Name = "pictureBoxCopySelected";
+            this.pictureBoxCopySelected.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxCopySelected.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCopySelected.TabIndex = 15;
+            this.pictureBoxCopySelected.TabStop = false;
+            this.pictureBoxCopySelected.Visible = false;
+            this.pictureBoxCopySelected.Click += new System.EventHandler(this.pictureBoxCopySelected_Click);
             // 
             // FormSaveGameManager
             // 
@@ -445,6 +461,7 @@ namespace CyberSave77
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
             this.panelRight.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -478,5 +495,6 @@ namespace CyberSave77
         private System.Windows.Forms.RadioButton radioButtonOrderByName;
         private System.Windows.Forms.RadioButton radioButtonOrderByLastWriteTime;
         private System.Windows.Forms.TextBox textBoxSearchBar;
+        private System.Windows.Forms.PictureBox pictureBoxCopySelected;
     }
 }

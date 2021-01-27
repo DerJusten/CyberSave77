@@ -161,6 +161,8 @@
     <None Include="Resources\list.png" />
     <None Include="Resources\data-transfer.png" />
     <None Include="Resources\diskette.png" />
+    <None Include="Resources\add-file.png" />
+    <None Include="Resources\file%283%29.png" />
     <Content Include="v_female_02.ico" />
   </ItemGroup>
   <ItemGroup>
