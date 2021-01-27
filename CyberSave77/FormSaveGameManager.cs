@@ -692,47 +692,6 @@ namespace CyberSave77
             }
         }
 
-        private void CopyDirectories(DirectoryInfo sourceDir, string destDir)
-        {
-            destDir = Path.Combine(destDir, sourceDir.Name);
-            if (!Directory.Exists(destDir))
-            {
-                if (checkBoxSimulate.Checked == false)
-                {
-                    Directory.CreateDirectory(destDir);
-                    foreach (var item in sourceDir.EnumerateFiles())
-                    {
-                        File.Copy(item.FullName, Path.Combine(destDir, item.Name), false);
-                    }
-                    Directory.SetCreationTime(destDir, sourceDir.CreationTime);
-                    Directory.SetLastWriteTime(destDir, sourceDir.LastWriteTime);
-                }
-            }
-        }
-
-        private void CopySelectedDirectories()
-        {
-            if (svgList != null)
-            {
-                var selectedGames = GetSaveGameFilesByPanelList(pnList.Where(c => c.BackColor == SystemColors.ActiveCaption).ToList());
-
-                if (selectedGames.Count() > 0)
-                {
-                    FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                    {
-                        for (int i = selectedGames.Count() - 1; i >= 0; i--)
-                        {
-
-                            CopyDirectories(new DirectoryInfo(selectedGames[i].DirName), fbd.SelectedPath);
-                        }
-                        MessageBox.Show("Copied " + selectedGames.Count().ToString() + " savegames to " + fbd.SelectedPath);
-                    }
-                }
-            }
-        }
-
         //###################################################################################################################################################################################################
         private void panel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1001,11 +960,6 @@ namespace CyberSave77
             }
         }
 
-        private void pictureBoxCopySelected_Click(object sender, EventArgs e)
-        {
-           CopySelectedDirectories();
-        }
-
         private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
         {
             if (textBoxSearchBar.Text != "Search...")
@@ -1023,29 +977,6 @@ namespace CyberSave77
                 MoveDirectory(new DirectoryInfo(svg.DirName));
                 svgList.Remove(svg);
                 LoadView(0, lastIndex);
-            }
-        }
-
-        private void pbEditClick(object sender, EventArgs e)
-        {
-            PictureBox pb = (PictureBox)sender;
-            Panel pn = (Panel)pb.Parent;
-            TextBox tb = (TextBox)pn.Controls["tbDir"];
-            Label lb = (Label)pn.Controls["labelDir"];
-            lb.Visible = false;
-            tb.Visible = true;
-            tb.Focus();
-        }
-
-        private void pbCopyClick(object sender, EventArgs e)
-        {
-            PictureBox pb = (PictureBox)sender;
-            Panel pn = (Panel)pb.Parent;
-
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if(fbd.ShowDialog() == DialogResult.OK)
-            {
-               CopyDirectories(new DirectoryInfo(GetSaveGameFileByPanelCtrl(pn).DirName), fbd.SelectedPath);
             }
         }
     }
