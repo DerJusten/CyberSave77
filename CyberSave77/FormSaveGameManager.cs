@@ -309,7 +309,7 @@ namespace CyberSave77
             pbCopy.MouseHover += new EventHandler(pbDelMouseHover);
             pbCopy.MouseLeave += new EventHandler(pbDelMouseLeave);
             pbCopy.Click += new EventHandler(pbCopyClick);
-            toolTip1.SetToolTip(pbCopy, "Copy savegame");
+            toolTip1.SetToolTip(pbCopy, "Copy your savegame");
 
             PictureBox pbEdit = new PictureBox();
             pbEdit.Image = imgEdit;
@@ -332,7 +332,7 @@ namespace CyberSave77
                 pbMoveDir.BackColor = Color.Transparent;
                 pbMoveDir.Size = pbDel.Size;
                 pbMoveDir.Parent = parent;
-                //pbMoveDir.Click += new EventHandler(pbDelClick);
+                pbMoveDir.Click += new EventHandler(pbDelClick);
                 pbMoveDir.MouseDown += new MouseEventHandler(pbDelMouseDown);
                 pbMoveDir.MouseUp += new MouseEventHandler(pbDelMouseUp);
                 pbMoveDir.MouseHover += new EventHandler(pbDelMouseHover);
@@ -407,8 +407,8 @@ namespace CyberSave77
             tb.Visible = false;
             lb.Visible = true;
             tb.Clear();
-        }  
-        
+        }
+
         private void ResetTbDirByControl(Control ctrl)
         {
             Panel pn;
@@ -691,7 +691,6 @@ namespace CyberSave77
                 }
             }
         }
-
         private void CopyDirectories(DirectoryInfo sourceDir, string destDir)
         {
             destDir = Path.Combine(destDir, sourceDir.Name);
@@ -732,7 +731,6 @@ namespace CyberSave77
                 }
             }
         }
-
         //###################################################################################################################################################################################################
         private void panel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -852,7 +850,7 @@ namespace CyberSave77
                 }
                 else
                 {
-                   tb.BackColor = Color.LightCoral;
+                    tb.BackColor = Color.LightCoral;
                     return;
                 }
 
@@ -865,7 +863,7 @@ namespace CyberSave77
                         lb.Text = tb.Text;
                     }
                 }
-                tb.Clear();                
+                tb.Clear();
                 tb.Visible = false;
                 lb.Visible = true;
             }
@@ -1001,11 +999,6 @@ namespace CyberSave77
             }
         }
 
-        private void pictureBoxCopySelected_Click(object sender, EventArgs e)
-        {
-           CopySelectedDirectories();
-        }
-
         private void textBoxSearchBar_TextChanged(object sender, EventArgs e)
         {
             if (textBoxSearchBar.Text != "Search...")
@@ -1043,10 +1036,15 @@ namespace CyberSave77
             Panel pn = (Panel)pb.Parent;
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if(fbd.ShowDialog() == DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
-               CopyDirectories(new DirectoryInfo(GetSaveGameFileByPanelCtrl(pn).DirName), fbd.SelectedPath);
+                CopyDirectories(new DirectoryInfo(GetSaveGameFileByPanelCtrl(pn).DirName), fbd.SelectedPath);
             }
+        }
+
+        private void pictureBoxCopySelected_Click(object sender, EventArgs e)
+        {
+            CopySelectedDirectories();
         }
     }
     public class RootJson
