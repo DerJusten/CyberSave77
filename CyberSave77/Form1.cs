@@ -121,6 +121,7 @@ namespace CyberSave77
                 modernButtonStart.Enabled = false;
                 modernButtonStop.Enabled = true;
                 startToolStripMenuItem.Text = "Stop";
+                if(bgwCheckProcess.IsBusy == false)
                 bgwCheckProcess.RunWorkerAsync(settings);
             }
         }
@@ -750,17 +751,37 @@ namespace CyberSave77
                 if (Directory.Exists(path))
                 {
                     Properties.Settings.Default.savegameDefaultPath = path;
-                    if (string.IsNullOrEmpty(Properties.Settings.Default.savegameHistoryPath))
-                    {
-                        string sgHistoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\CD Projekt Red\SaveGameHistory");
-                        Properties.Settings.Default.savegameHistoryPath = sgHistoryPath;
-                    }
-                    Properties.Settings.Default.Save();
+
+
                 }
                 else
-                    MessageBox.Show("Couldn't find save game directory (expcted " + path + ")");
-            }
+                {
+                    MessageBox.Show("Couldn't find save game directory (expcted " + path + "). Please select the directory where your savegames are stored.");
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        Properties.Settings.Default.savegameDefaultPath = fbd.SelectedPath;
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        Application.ExitThread();
+                        return;
+                    }
+                }
 
+                Properties.Settings.Default.Save();
+            }
+            if (string.IsNullOrEmpty(Properties.Settings.Default.savegameHistoryPath))
+            {
+                string parentDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\CD Projekt Red");
+                if (Directory.Exists(parentDir))
+                {
+                    string sgHistoryPath = Path.Combine(parentDir,"SaveGameHistory");
+                    Properties.Settings.Default.savegameHistoryPath = sgHistoryPath;
+                }
+                Properties.Settings.Default.Save();
+            }
 
             checkBoxAutostart.Checked = Properties.Settings.Default.autostartBgw;
             checkBoxCloseToTray.Checked = Properties.Settings.Default.closeToTray;
@@ -1439,7 +1460,7 @@ namespace CyberSave77
             DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
             DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
             List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
-;
+
             if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
                 listDirInfo.Add(dirInfoDefault);
             else
@@ -1452,7 +1473,7 @@ namespace CyberSave77
             using (FormSaveGameManager fsgm = new FormSaveGameManager(listDirInfo))
                 fsgm.ShowDialog();
 
-           GC.Collect();
+            GC.Collect();
         }
     }
 

@@ -283,7 +283,7 @@ namespace CyberSave77
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 13);
             this.label9.TabIndex = 15;
-            this.label9.Text = "DJ [200121]";
+            this.label9.Text = "DJ [270121]";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // modernButtonStart

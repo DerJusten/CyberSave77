@@ -69,13 +69,13 @@ namespace CyberSave77
             this.modernButtonReset = new CyberSave77.ModernButton();
             this.modernButtonCreateBackup = new CyberSave77.ModernButton();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.checkBoxSvgmLoadAll = new System.Windows.Forms.CheckBox();
             this.checkBoxSvgmDisableConfirmation = new System.Windows.Forms.CheckBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.radioButtonQsOnly = new System.Windows.Forms.RadioButton();
             this.radioButtonAsOnly = new System.Windows.Forms.RadioButton();
             this.radioButtonAsAndQs = new System.Windows.Forms.RadioButton();
-            this.checkBoxSvgmLoadAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -177,9 +177,9 @@ namespace CyberSave77
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(9, 75);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(149, 19);
+            this.label5.Size = new System.Drawing.Size(150, 19);
             this.label5.TabIndex = 16;
-            this.label5.Text = "Savegame history path";
+            this.label5.Text = "History savegame path";
             // 
             // textBoxPathExtraSavegames
             // 
@@ -571,6 +571,17 @@ namespace CyberSave77
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "SaveGameManager";
             // 
+            // checkBoxSvgmLoadAll
+            // 
+            this.checkBoxSvgmLoadAll.AutoSize = true;
+            this.checkBoxSvgmLoadAll.Location = new System.Drawing.Point(6, 53);
+            this.checkBoxSvgmLoadAll.Name = "checkBoxSvgmLoadAll";
+            this.checkBoxSvgmLoadAll.Size = new System.Drawing.Size(344, 23);
+            this.checkBoxSvgmLoadAll.TabIndex = 1;
+            this.checkBoxSvgmLoadAll.Text = "always load all savegames (takes a moment to load)";
+            this.checkBoxSvgmLoadAll.UseVisualStyleBackColor = true;
+            this.checkBoxSvgmLoadAll.CheckedChanged += new System.EventHandler(this.checkBoxSvgmLoadAll_CheckedChanged);
+            // 
             // checkBoxSvgmDisableConfirmation
             // 
             this.checkBoxSvgmDisableConfirmation.AutoSize = true;
@@ -639,17 +650,6 @@ namespace CyberSave77
             this.radioButtonAsAndQs.Text = "Autosave + Quicksave";
             this.radioButtonAsAndQs.UseVisualStyleBackColor = true;
             this.radioButtonAsAndQs.CheckedChanged += new System.EventHandler(this.radioButtonAsAndQs_CheckedChanged);
-            // 
-            // checkBoxSvgmLoadAll
-            // 
-            this.checkBoxSvgmLoadAll.AutoSize = true;
-            this.checkBoxSvgmLoadAll.Location = new System.Drawing.Point(6, 53);
-            this.checkBoxSvgmLoadAll.Name = "checkBoxSvgmLoadAll";
-            this.checkBoxSvgmLoadAll.Size = new System.Drawing.Size(282, 23);
-            this.checkBoxSvgmLoadAll.TabIndex = 1;
-            this.checkBoxSvgmLoadAll.Text = "always load all savegames (UI may freeze)";
-            this.checkBoxSvgmLoadAll.UseVisualStyleBackColor = true;
-            this.checkBoxSvgmLoadAll.CheckedChanged += new System.EventHandler(this.checkBoxSvgmLoadAll_CheckedChanged);
             // 
             // FormSettings
             // 

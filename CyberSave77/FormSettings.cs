@@ -89,7 +89,8 @@ namespace CyberSave77
 
         private void textBoxCustomNameSchema_TextChanged(object sender, EventArgs e)
         {
-            Regex reg = new Regex("[\\<>:\"\\/\\|\\?\\*]");
+          //  Regex reg = new Regex("[\\<>:\"\\/\\|\\?\\*]");
+            Regex reg = new Regex(@"^[a-zA-Z 0-9\.\,\+\-_\*]*$");
             if (!reg.IsMatch(textBoxCustomNameSchema.Text))
             {
                 textBoxCustomNameSchema.BackColor = Color.White;
