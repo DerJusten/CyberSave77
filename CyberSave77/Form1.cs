@@ -33,7 +33,9 @@ namespace CyberSave77
         private System.Timers.Timer timerAutoQuickSave;
         private static CyberSave77Settings settings;
         private static bool bDebug = false;
-        private static string version = "(v0.23)";
+        private static string version = "(v0.23a)";
+        private static FormSaveGameManager fsgm;
+        public static bool fsgmIsOpen = false;
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -64,7 +66,7 @@ namespace CyberSave77
         {
 
 
-            startBackgroundWorker();
+
         }
 
         private void startBackgroundWorker()
@@ -118,11 +120,11 @@ namespace CyberSave77
             else
             {
                 panelSettingsRunDisable.Enabled = false;
-                modernButtonStart.Enabled = false;
-                modernButtonStop.Enabled = true;
+                pictureBoxStart.Enabled = false;
+                pictureBoxStop.Enabled = true;
                 startToolStripMenuItem.Text = "Stop";
-                if(bgwCheckProcess.IsBusy == false)
-                bgwCheckProcess.RunWorkerAsync(settings);
+                if (bgwCheckProcess.IsBusy == false)
+                    bgwCheckProcess.RunWorkerAsync(settings);
             }
         }
 
@@ -777,7 +779,7 @@ namespace CyberSave77
                 string parentDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\CD Projekt Red");
                 if (Directory.Exists(parentDir))
                 {
-                    string sgHistoryPath = Path.Combine(parentDir,"SaveGameHistory");
+                    string sgHistoryPath = Path.Combine(parentDir, "SaveGameHistory");
                     Properties.Settings.Default.savegameHistoryPath = sgHistoryPath;
                 }
                 Properties.Settings.Default.Save();
@@ -809,8 +811,8 @@ namespace CyberSave77
                 labelState.ForeColor = Color.Red;
                 textBoxLog.AppendText("CyberSave77 has been stopped" + Environment.NewLine);
                 panelSettingsRunDisable.Enabled = true;
-                modernButtonStart.Enabled = true;
-                modernButtonStop.Enabled = false;
+                pictureBoxStart.Enabled = true;
+                pictureBoxStop.Enabled = false;
                 startToolStripMenuItem.Text = "Start";
                 lastSaveGameCreationDate = new DateTime();
                 bDebug = false;
@@ -951,12 +953,7 @@ namespace CyberSave77
         }
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending == false)
-            {
-                bgwCheckProcess.ReportProgress(0, "Please wait...");
-                bgwCheckProcess.CancelAsync();
 
-            }
         }
 
         private void loadListboxProcess()
@@ -968,19 +965,48 @@ namespace CyberSave77
                     listBoxProcess.Items.Add(item.friendlyName);
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+
+
+        private void OpenSaveGameManager()
         {
-            //var test = readProcessInfoFromJson();
-            //listBoxProcess.Items.Clear();
-            //foreach (var item in test)
-            //{
-            //    if (!string.IsNullOrEmpty(item.friendlyName))
-            //        listBoxProcess.Items.Add(item.friendlyName);
-            //}
+            if (fsgmIsOpen == false)
+            {
+                DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
+                DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
+                List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
 
-            // editProcessInfoInJson("test3");
+                if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
+                    listDirInfo.Add(dirInfoDefault);
+                else
+                {
+                    listDirInfo.Add(dirInfoDefault);
+                    listDirInfo.Add(dirInfoHistory);
+                }
+
+
+                if (fsgm == null || fsgm.IsDisposed == true)
+                    fsgm = new FormSaveGameManager(listDirInfo);
+                int widthSvgm;
+                if (Properties.Settings.Default.svgmHideDetails == true)
+                    widthSvgm = 751;
+                else
+                    widthSvgm = fsgm.Width;
+
+                if (Screen.FromControl(this).Bounds.Width > this.Right + widthSvgm)
+                    fsgm.Location = new Point(this.Right, this.Location.Y);
+                else
+                    fsgm.StartPosition = FormStartPosition.CenterParent;
+
+                fsgm.Show();
+            }
+
         }
+        public static void CloseSaveGameManager()
+        {
 
+            fsgm.Dispose();
+            GC.Collect();
+        }
 
 
         private void pictureBox_MouseHover(object sender, EventArgs e)
@@ -988,21 +1014,30 @@ namespace CyberSave77
             PictureBox pb = (PictureBox)sender;
             pb.BackColor = Color.LightGray;
 
-            string tooltip;
+            string tooltip = string.Empty;
             if (pb.Name != "pictureBoxAddSettings")
             {
-                if (pb.Name == "pictureBoxAdd")
+                if (pb.Name == pictureBoxAdd.Name)
                     tooltip = "Add a custom process to your start list";
-                else if (pb.Name == "pictureBoxEdit")
+                else if (pb.Name == pictureBoxEdit.Name)
                     tooltip = "Edit your selected process";
-                else if (pb.Name == "pictureBoxSvgMgr")
+                else if (pb.Name == pictureBoxSvgmBig.Name)
                     tooltip = "Opens SaveGameManager";
-                else
+                else if (pb.Name == pictureBoxStart.Name)
+                    tooltip = "Start checking for process " + Properties.Settings.Default.processName;
+                else if (pb.Name == pictureBoxStop.Name)
+                    tooltip = "Stop process checking";
+                else if (pb.Name == pictureBoxDelete.Name)
                     tooltip = "Delete your selected process";
+                else if (pb.Name == pictureBoxExit.Name)
+                    tooltip = "Exit CyberSave77";
 
-                toolTip1.SetToolTip(pb, tooltip);
-                toolTip1.ShowAlways = true;
-                toolTip1.IsBalloon = true;
+                if (!string.IsNullOrEmpty(tooltip))
+                {
+                    toolTip1.SetToolTip(pb, tooltip);
+                    toolTip1.ShowAlways = true;
+                    toolTip1.IsBalloon = true;
+                }
             }
         }
 
@@ -1010,6 +1045,7 @@ namespace CyberSave77
         {
             PictureBox pb = (PictureBox)sender;
             pb.BackColor = Color.White;
+
             pb.BorderStyle = BorderStyle.None;
         }
 
@@ -1140,7 +1176,7 @@ namespace CyberSave77
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            exitApp();
+
         }
 
         private void exitApp()
@@ -1355,7 +1391,7 @@ namespace CyberSave77
                 }
                 settings.ApplicationsToStartList = pInfo;
             }
-            modernButtonStop.Enabled = true;
+            pictureBoxStop.Enabled = true;
             bgwCheckProcess.RunWorkerAsync(settings);
         }
 
@@ -1457,23 +1493,27 @@ namespace CyberSave77
 
         private void pictureBoxSvgMgr_Click(object sender, EventArgs e)
         {
-            DirectoryInfo dirInfoDefault = new DirectoryInfo(Properties.Settings.Default.savegameDefaultPath);
-            DirectoryInfo dirInfoHistory = new DirectoryInfo(Properties.Settings.Default.savegameHistoryPath);
-            List<DirectoryInfo> listDirInfo = new List<DirectoryInfo>();
+            OpenSaveGameManager();
+        }
 
-            if (string.Compare(dirInfoDefault.FullName, dirInfoHistory.FullName, StringComparison.InvariantCultureIgnoreCase) == 0)
-                listDirInfo.Add(dirInfoDefault);
-            else
+        private void pictureBoxStart_Click(object sender, EventArgs e)
+        {
+            startBackgroundWorker();
+        }
+
+        private void pictureBoxStop_Click(object sender, EventArgs e)
+        {
+            if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending == false)
             {
-                listDirInfo.Add(dirInfoDefault);
-                listDirInfo.Add(dirInfoHistory);
+                bgwCheckProcess.ReportProgress(0, "Please wait...");
+                bgwCheckProcess.CancelAsync();
+
             }
+        }
 
-
-            using (FormSaveGameManager fsgm = new FormSaveGameManager(listDirInfo))
-                fsgm.ShowDialog();
-
-            GC.Collect();
+        private void pictureBoxExit_Click(object sender, EventArgs e)
+        {
+            exitApp();
         }
     }
 

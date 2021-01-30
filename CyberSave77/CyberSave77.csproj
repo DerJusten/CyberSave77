@@ -41,6 +41,7 @@
     <StartupObject>CyberSave77.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -163,6 +164,14 @@
     <None Include="Resources\diskette.png" />
     <None Include="Resources\add-file.png" />
     <None Include="Resources\file%283%29.png" />
+    <None Include="Resources\034-refresh.png" />
+    <None Include="Resources\032-repeat-1.png" />
+    <None Include="Resources\135-stop.png" />
+    <None Include="Resources\117-play-button.png" />
+    <None Include="Resources\089-exit.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\027-diskette.png" />
+    <None Include="Resources\floppy-disk.png" />
     <Content Include="v_female_02.ico" />
   </ItemGroup>
   <ItemGroup>

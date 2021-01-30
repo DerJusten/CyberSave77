@@ -49,19 +49,14 @@ namespace CyberSave77
             this.panelButton = new System.Windows.Forms.Panel();
             this.modernButtonDebug = new CyberSave77.ModernButton();
             this.label9 = new System.Windows.Forms.Label();
-            this.modernButtonStart = new CyberSave77.ModernButton();
-            this.modernButtonStop = new CyberSave77.ModernButton();
-            this.modernButtonExit = new CyberSave77.ModernButton();
             this.panelSettings = new CyberSave77.DrawPanel();
             this.groupBoxSettings = new System.Windows.Forms.GroupBox();
             this.labelState = new System.Windows.Forms.Label();
             this.panelSettingsRunDisable = new System.Windows.Forms.Panel();
-            this.pictureBoxSvgMgr = new System.Windows.Forms.PictureBox();
             this.checkBoxEnableAutosave = new System.Windows.Forms.CheckBox();
             this.groupBoxAutosave = new System.Windows.Forms.GroupBox();
             this.numericUpDownTryAutoQuickSave = new System.Windows.Forms.NumericUpDown();
             this.labelAutosve = new System.Windows.Forms.Label();
-            this.pictureBoxAddSettings = new System.Windows.Forms.PictureBox();
             this.checkBoxEnableSaveGameHistory = new System.Windows.Forms.CheckBox();
             this.groupBoxExtraSavegames = new System.Windows.Forms.GroupBox();
             this.numericUpDownMinSaveGames = new System.Windows.Forms.NumericUpDown();
@@ -69,15 +64,20 @@ namespace CyberSave77
             this.checkBoxEnableAppsOnStart = new System.Windows.Forms.CheckBox();
             this.groupBoxAddApplication = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
-            this.pictureBoxEdit = new System.Windows.Forms.PictureBox();
-            this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
             this.listBoxProcess = new System.Windows.Forms.ListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.checkBoxCloseToTray = new System.Windows.Forms.CheckBox();
             this.checkBoxAutostart = new System.Windows.Forms.CheckBox();
             this.checkBoxHideStatusLog = new System.Windows.Forms.CheckBox();
             this.checkBoxMinimizeToTray = new System.Windows.Forms.CheckBox();
+            this.pictureBoxExit = new System.Windows.Forms.PictureBox();
+            this.pictureBoxSvgmBig = new System.Windows.Forms.PictureBox();
+            this.pictureBoxStop = new System.Windows.Forms.PictureBox();
+            this.pictureBoxStart = new System.Windows.Forms.PictureBox();
+            this.pictureBoxAddSettings = new System.Windows.Forms.PictureBox();
+            this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
+            this.pictureBoxEdit = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
             this.cmsNotifyIcon.SuspendLayout();
             this.panelAll.SuspendLayout();
             this.panelCredit.SuspendLayout();
@@ -86,17 +86,20 @@ namespace CyberSave77
             this.panelSettings.SuspendLayout();
             this.groupBoxSettings.SuspendLayout();
             this.panelSettingsRunDisable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgMgr)).BeginInit();
             this.groupBoxAutosave.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).BeginInit();
             this.groupBoxExtraSavegames.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinSaveGames)).BeginInit();
             this.groupBoxAddApplication.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgmBig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
-            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // bgwCheckProcess
@@ -246,11 +249,12 @@ namespace CyberSave77
             // 
             // panelButton
             // 
+            this.panelButton.Controls.Add(this.pictureBoxExit);
+            this.panelButton.Controls.Add(this.pictureBoxSvgmBig);
+            this.panelButton.Controls.Add(this.pictureBoxStop);
             this.panelButton.Controls.Add(this.modernButtonDebug);
+            this.panelButton.Controls.Add(this.pictureBoxStart);
             this.panelButton.Controls.Add(this.label9);
-            this.panelButton.Controls.Add(this.modernButtonStart);
-            this.panelButton.Controls.Add(this.modernButtonStop);
-            this.panelButton.Controls.Add(this.modernButtonExit);
             this.panelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelButton.Location = new System.Drawing.Point(0, 454);
             this.panelButton.Name = "panelButton";
@@ -264,9 +268,9 @@ namespace CyberSave77
             this.modernButtonDebug.ClickEffectEnabled = true;
             this.modernButtonDebug.DefaultColor = System.Drawing.Color.White;
             this.modernButtonDebug.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonDebug.Location = new System.Drawing.Point(205, 3);
+            this.modernButtonDebug.Location = new System.Drawing.Point(7, 50);
             this.modernButtonDebug.Name = "modernButtonDebug";
-            this.modernButtonDebug.Size = new System.Drawing.Size(67, 46);
+            this.modernButtonDebug.Size = new System.Drawing.Size(166, 22);
             this.modernButtonDebug.TabIndex = 15;
             this.modernButtonDebug.Text = "Debug";
             this.modernButtonDebug.TextColor = System.Drawing.SystemColors.ControlText;
@@ -285,54 +289,7 @@ namespace CyberSave77
             this.label9.TabIndex = 15;
             this.label9.Text = "DJ [270121]";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // modernButtonStart
-            // 
-            this.modernButtonStart.BackColor = System.Drawing.Color.White;
-            this.modernButtonStart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonStart.ClickEffectEnabled = true;
-            this.modernButtonStart.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonStart.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStart.Location = new System.Drawing.Point(7, 3);
-            this.modernButtonStart.Name = "modernButtonStart";
-            this.modernButtonStart.Size = new System.Drawing.Size(95, 46);
-            this.modernButtonStart.TabIndex = 8;
-            this.modernButtonStart.Text = "Start";
-            this.modernButtonStart.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonStart.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonStart.Click += new System.EventHandler(this.buttonStart_Click);
-            // 
-            // modernButtonStop
-            // 
-            this.modernButtonStop.BackColor = System.Drawing.Color.White;
-            this.modernButtonStop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonStop.ClickEffectEnabled = true;
-            this.modernButtonStop.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonStop.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonStop.Location = new System.Drawing.Point(118, 3);
-            this.modernButtonStop.Name = "modernButtonStop";
-            this.modernButtonStop.Size = new System.Drawing.Size(81, 46);
-            this.modernButtonStop.TabIndex = 9;
-            this.modernButtonStop.Text = "Stop";
-            this.modernButtonStop.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonStop.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonStop.Click += new System.EventHandler(this.buttonCancel_Click);
-            // 
-            // modernButtonExit
-            // 
-            this.modernButtonExit.BackColor = System.Drawing.Color.White;
-            this.modernButtonExit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonExit.ClickEffectEnabled = true;
-            this.modernButtonExit.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonExit.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonExit.Location = new System.Drawing.Point(276, 3);
-            this.modernButtonExit.Name = "modernButtonExit";
-            this.modernButtonExit.Size = new System.Drawing.Size(87, 46);
-            this.modernButtonExit.TabIndex = 10;
-            this.modernButtonExit.Text = "Exit";
-            this.modernButtonExit.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonExit.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonExit.Click += new System.EventHandler(this.buttonExit_Click);
+            this.label9.Visible = false;
             // 
             // panelSettings
             // 
@@ -365,7 +322,7 @@ namespace CyberSave77
             this.labelState.ForeColor = System.Drawing.Color.Red;
             this.labelState.Location = new System.Drawing.Point(12, 24);
             this.labelState.Name = "labelState";
-            this.labelState.Size = new System.Drawing.Size(266, 28);
+            this.labelState.Size = new System.Drawing.Size(302, 28);
             this.labelState.TabIndex = 17;
             this.labelState.Text = "CyberSave77 is not started";
             this.labelState.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -374,7 +331,6 @@ namespace CyberSave77
             // 
             this.panelSettingsRunDisable.AutoScroll = true;
             this.panelSettingsRunDisable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelSettingsRunDisable.Controls.Add(this.pictureBoxSvgMgr);
             this.panelSettingsRunDisable.Controls.Add(this.checkBoxEnableAutosave);
             this.panelSettingsRunDisable.Controls.Add(this.groupBoxAutosave);
             this.panelSettingsRunDisable.Controls.Add(this.pictureBoxAddSettings);
@@ -387,21 +343,6 @@ namespace CyberSave77
             this.panelSettingsRunDisable.Name = "panelSettingsRunDisable";
             this.panelSettingsRunDisable.Size = new System.Drawing.Size(354, 328);
             this.panelSettingsRunDisable.TabIndex = 18;
-            // 
-            // pictureBoxSvgMgr
-            // 
-            this.pictureBoxSvgMgr.Image = global::CyberSave77.Properties.Resources.diskette;
-            this.pictureBoxSvgMgr.Location = new System.Drawing.Point(281, 3);
-            this.pictureBoxSvgMgr.Name = "pictureBoxSvgMgr";
-            this.pictureBoxSvgMgr.Size = new System.Drawing.Size(35, 26);
-            this.pictureBoxSvgMgr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxSvgMgr.TabIndex = 16;
-            this.pictureBoxSvgMgr.TabStop = false;
-            this.pictureBoxSvgMgr.Click += new System.EventHandler(this.pictureBoxSvgMgr_Click);
-            this.pictureBoxSvgMgr.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBoxSvgMgr.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pictureBoxSvgMgr.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
-            this.pictureBoxSvgMgr.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // checkBoxEnableAutosave
             // 
@@ -447,21 +388,6 @@ namespace CyberSave77
             this.labelAutosve.TabIndex = 4;
             this.labelAutosve.Text = "Create a Quicksave every (min)";
             this.labelAutosve.MouseHover += new System.EventHandler(this.labelAutosve_MouseHover);
-            // 
-            // pictureBoxAddSettings
-            // 
-            this.pictureBoxAddSettings.Image = global::CyberSave77.Properties.Resources._021_settings;
-            this.pictureBoxAddSettings.Location = new System.Drawing.Point(317, 3);
-            this.pictureBoxAddSettings.Name = "pictureBoxAddSettings";
-            this.pictureBoxAddSettings.Size = new System.Drawing.Size(35, 26);
-            this.pictureBoxAddSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxAddSettings.TabIndex = 13;
-            this.pictureBoxAddSettings.TabStop = false;
-            this.pictureBoxAddSettings.Click += new System.EventHandler(this.pictureBoxAddSettings_Click);
-            this.pictureBoxAddSettings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBoxAddSettings.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pictureBoxAddSettings.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
-            this.pictureBoxAddSettings.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // checkBoxEnableSaveGameHistory
             // 
@@ -538,52 +464,6 @@ namespace CyberSave77
             this.label3.TabIndex = 12;
             this.label3.Text = "Applications";
             // 
-            // pictureBoxAdd
-            // 
-            this.pictureBoxAdd.Image = global::CyberSave77.Properties.Resources._132_add;
-            this.pictureBoxAdd.Location = new System.Drawing.Point(304, 46);
-            this.pictureBoxAdd.Name = "pictureBoxAdd";
-            this.pictureBoxAdd.Size = new System.Drawing.Size(37, 26);
-            this.pictureBoxAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxAdd.TabIndex = 11;
-            this.pictureBoxAdd.TabStop = false;
-            this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
-            this.pictureBoxAdd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBoxAdd.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pictureBoxAdd.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
-            this.pictureBoxAdd.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
-            // 
-            // pictureBoxEdit
-            // 
-            this.pictureBoxEdit.Image = global::CyberSave77.Properties.Resources._092_edit;
-            this.pictureBoxEdit.Location = new System.Drawing.Point(304, 78);
-            this.pictureBoxEdit.Name = "pictureBoxEdit";
-            this.pictureBoxEdit.Size = new System.Drawing.Size(37, 26);
-            this.pictureBoxEdit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxEdit.TabIndex = 10;
-            this.pictureBoxEdit.TabStop = false;
-            this.pictureBoxEdit.Click += new System.EventHandler(this.pictureBoxEdit_Click);
-            this.pictureBoxEdit.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBoxEdit.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pictureBoxEdit.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
-            this.pictureBoxEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
-            // 
-            // pictureBoxDelete
-            // 
-            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
-            this.pictureBoxDelete.Location = new System.Drawing.Point(304, 111);
-            this.pictureBoxDelete.Name = "pictureBoxDelete";
-            this.pictureBoxDelete.Size = new System.Drawing.Size(37, 26);
-            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxDelete.TabIndex = 9;
-            this.pictureBoxDelete.TabStop = false;
-            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
-            this.pictureBoxDelete.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
-            this.pictureBoxDelete.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBoxDelete.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pictureBoxDelete.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
-            this.pictureBoxDelete.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
-            // 
             // listBoxProcess
             // 
             this.listBoxProcess.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -655,6 +535,127 @@ namespace CyberSave77
             this.checkBoxMinimizeToTray.CheckedChanged += new System.EventHandler(this.checkBoxMinimizeToTray_CheckedChanged);
             this.checkBoxMinimizeToTray.MouseHover += new System.EventHandler(this.checkBoxMinimizeToTray_MouseHover);
             // 
+            // pictureBoxExit
+            // 
+            this.pictureBoxExit.Image = global::CyberSave77.Properties.Resources.close;
+            this.pictureBoxExit.Location = new System.Drawing.Point(313, 3);
+            this.pictureBoxExit.Name = "pictureBoxExit";
+            this.pictureBoxExit.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxExit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxExit.TabIndex = 20;
+            this.pictureBoxExit.TabStop = false;
+            this.pictureBoxExit.Click += new System.EventHandler(this.pictureBoxExit_Click);
+            this.pictureBoxExit.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxExit.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxExit.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxExit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxSvgmBig
+            // 
+            this.pictureBoxSvgmBig.Image = global::CyberSave77.Properties.Resources.floppy_disk;
+            this.pictureBoxSvgmBig.Location = new System.Drawing.Point(207, 3);
+            this.pictureBoxSvgmBig.Name = "pictureBoxSvgmBig";
+            this.pictureBoxSvgmBig.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxSvgmBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxSvgmBig.TabIndex = 17;
+            this.pictureBoxSvgmBig.TabStop = false;
+            this.pictureBoxSvgmBig.Click += new System.EventHandler(this.pictureBoxSvgMgr_Click);
+            this.pictureBoxSvgmBig.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxSvgmBig.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxSvgmBig.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxSvgmBig.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxStop
+            // 
+            this.pictureBoxStop.Image = global::CyberSave77.Properties.Resources._135_stop;
+            this.pictureBoxStop.Location = new System.Drawing.Point(107, 3);
+            this.pictureBoxStop.Name = "pictureBoxStop";
+            this.pictureBoxStop.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxStop.TabIndex = 19;
+            this.pictureBoxStop.TabStop = false;
+            this.pictureBoxStop.Click += new System.EventHandler(this.pictureBoxStop_Click);
+            this.pictureBoxStop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxStop.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxStop.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxStop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxStart
+            // 
+            this.pictureBoxStart.Image = global::CyberSave77.Properties.Resources._117_play_button;
+            this.pictureBoxStart.Location = new System.Drawing.Point(23, 3);
+            this.pictureBoxStart.Name = "pictureBoxStart";
+            this.pictureBoxStart.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxStart.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxStart.TabIndex = 18;
+            this.pictureBoxStart.TabStop = false;
+            this.pictureBoxStart.Click += new System.EventHandler(this.pictureBoxStart_Click);
+            this.pictureBoxStart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxStart.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxStart.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxStart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxAddSettings
+            // 
+            this.pictureBoxAddSettings.Image = global::CyberSave77.Properties.Resources._021_settings;
+            this.pictureBoxAddSettings.Location = new System.Drawing.Point(317, 3);
+            this.pictureBoxAddSettings.Name = "pictureBoxAddSettings";
+            this.pictureBoxAddSettings.Size = new System.Drawing.Size(35, 26);
+            this.pictureBoxAddSettings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxAddSettings.TabIndex = 13;
+            this.pictureBoxAddSettings.TabStop = false;
+            this.pictureBoxAddSettings.Click += new System.EventHandler(this.pictureBoxAddSettings_Click);
+            this.pictureBoxAddSettings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxAddSettings.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxAddSettings.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxAddSettings.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxAdd
+            // 
+            this.pictureBoxAdd.Image = global::CyberSave77.Properties.Resources._132_add;
+            this.pictureBoxAdd.Location = new System.Drawing.Point(304, 46);
+            this.pictureBoxAdd.Name = "pictureBoxAdd";
+            this.pictureBoxAdd.Size = new System.Drawing.Size(37, 26);
+            this.pictureBoxAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxAdd.TabIndex = 11;
+            this.pictureBoxAdd.TabStop = false;
+            this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
+            this.pictureBoxAdd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxAdd.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxAdd.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxAdd.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxEdit
+            // 
+            this.pictureBoxEdit.Image = global::CyberSave77.Properties.Resources._092_edit;
+            this.pictureBoxEdit.Location = new System.Drawing.Point(304, 78);
+            this.pictureBoxEdit.Name = "pictureBoxEdit";
+            this.pictureBoxEdit.Size = new System.Drawing.Size(37, 26);
+            this.pictureBoxEdit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxEdit.TabIndex = 10;
+            this.pictureBoxEdit.TabStop = false;
+            this.pictureBoxEdit.Click += new System.EventHandler(this.pictureBoxEdit_Click);
+            this.pictureBoxEdit.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxEdit.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxEdit.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // pictureBoxDelete
+            // 
+            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
+            this.pictureBoxDelete.Location = new System.Drawing.Point(304, 111);
+            this.pictureBoxDelete.Name = "pictureBoxDelete";
+            this.pictureBoxDelete.Size = new System.Drawing.Size(37, 26);
+            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDelete.TabIndex = 9;
+            this.pictureBoxDelete.TabStop = false;
+            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
+            this.pictureBoxDelete.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
+            this.pictureBoxDelete.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBoxDelete.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBoxDelete.MouseHover += new System.EventHandler(this.pictureBox_MouseHover);
+            this.pictureBoxDelete.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -688,21 +689,24 @@ namespace CyberSave77
             this.groupBoxSettings.ResumeLayout(false);
             this.panelSettingsRunDisable.ResumeLayout(false);
             this.panelSettingsRunDisable.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgMgr)).EndInit();
             this.groupBoxAutosave.ResumeLayout(false);
             this.groupBoxAutosave.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTryAutoQuickSave)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).EndInit();
             this.groupBoxExtraSavegames.ResumeLayout(false);
             this.groupBoxExtraSavegames.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinSaveGames)).EndInit();
             this.groupBoxAddApplication.ResumeLayout(false);
             this.groupBoxAddApplication.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSvgmBig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAddSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -735,9 +739,6 @@ namespace CyberSave77
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Panel panelSettingsRunDisable;
-        private ModernButton modernButtonStart;
-        private ModernButton modernButtonStop;
-        private ModernButton modernButtonExit;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBoxAddSettings;
@@ -754,7 +755,10 @@ namespace CyberSave77
         private System.Windows.Forms.Label labelSaveGameTimeDif;
         private System.Windows.Forms.Label labelState;
         private ModernButton modernButtonDebug;
-        private System.Windows.Forms.PictureBox pictureBoxSvgMgr;
+        private System.Windows.Forms.PictureBox pictureBoxSvgmBig;
+        private System.Windows.Forms.PictureBox pictureBoxStop;
+        private System.Windows.Forms.PictureBox pictureBoxStart;
+        private System.Windows.Forms.PictureBox pictureBoxExit;
     }
 }
 

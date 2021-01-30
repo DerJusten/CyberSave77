@@ -42,31 +42,33 @@ namespace CyberSave77
             this.textBoxSearchBar = new System.Windows.Forms.TextBox();
             this.labelSelected = new System.Windows.Forms.Label();
             this.radioButtonOrderByLastWriteTime = new System.Windows.Forms.RadioButton();
-            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
-            this.modernButtonSelectAll = new CyberSave77.ModernButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panelLeftButtons = new System.Windows.Forms.Panel();
             this.checkBoxSimulate = new System.Windows.Forms.CheckBox();
-            this.pictureBoxMove = new System.Windows.Forms.PictureBox();
-            this.modernButtonHideDetails = new CyberSave77.ModernButton();
-            this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
-            this.modernButtonLoadMore = new CyberSave77.ModernButton();
-            this.modernButtonScrollDown = new CyberSave77.ModernButton();
-            this.modernButtonScrollUp = new CyberSave77.ModernButton();
             this.comboBoxPath = new System.Windows.Forms.ComboBox();
             this.panelSaveGames = new System.Windows.Forms.Panel();
             this.labelCount = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pictureBoxRefresh = new System.Windows.Forms.PictureBox();
             this.pictureBoxCopySelected = new System.Windows.Forms.PictureBox();
+            this.pictureBoxMove = new System.Windows.Forms.PictureBox();
+            this.pictureBoxDelete = new System.Windows.Forms.PictureBox();
+            this.modernButtonEnableSelectionMode = new CyberSave77.ModernButton();
+            this.modernButtonSelectAll = new CyberSave77.ModernButton();
+            this.modernButtonHideDetails = new CyberSave77.ModernButton();
+            this.modernButtonLoadMore = new CyberSave77.ModernButton();
+            this.modernButtonScrollDown = new CyberSave77.ModernButton();
+            this.modernButtonScrollUp = new CyberSave77.ModernButton();
             this.panelDatagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelLeft.SuspendLayout();
             this.panelLeftButtons.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRefresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).BeginInit();
-            this.panelRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).BeginInit();
             this.SuspendLayout();
             // 
             // panelDatagrid
@@ -120,6 +122,7 @@ namespace CyberSave77
             // 
             this.panelLeft.AutoScroll = true;
             this.panelLeft.BackColor = System.Drawing.Color.White;
+            this.panelLeft.Controls.Add(this.pictureBoxRefresh);
             this.panelLeft.Controls.Add(this.label2);
             this.panelLeft.Controls.Add(this.checkBoxFilterNonCustomSaves);
             this.panelLeft.Controls.Add(this.radioButtonOrderByName);
@@ -153,7 +156,7 @@ namespace CyberSave77
             // 
             this.checkBoxFilterNonCustomSaves.AutoSize = true;
             this.checkBoxFilterNonCustomSaves.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(475, 43);
+            this.checkBoxFilterNonCustomSaves.Location = new System.Drawing.Point(469, 43);
             this.checkBoxFilterNonCustomSaves.Name = "checkBoxFilterNonCustomSaves";
             this.checkBoxFilterNonCustomSaves.Size = new System.Drawing.Size(150, 19);
             this.checkBoxFilterNonCustomSaves.TabIndex = 13;
@@ -165,7 +168,7 @@ namespace CyberSave77
             // 
             this.radioButtonOrderByName.AutoSize = true;
             this.radioButtonOrderByName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonOrderByName.Location = new System.Drawing.Point(412, 42);
+            this.radioButtonOrderByName.Location = new System.Drawing.Point(408, 42);
             this.radioButtonOrderByName.Name = "radioButtonOrderByName";
             this.radioButtonOrderByName.Size = new System.Drawing.Size(57, 19);
             this.radioButtonOrderByName.TabIndex = 16;
@@ -178,7 +181,7 @@ namespace CyberSave77
             this.textBoxSearchBar.ForeColor = System.Drawing.Color.DarkGray;
             this.textBoxSearchBar.Location = new System.Drawing.Point(261, 12);
             this.textBoxSearchBar.Name = "textBoxSearchBar";
-            this.textBoxSearchBar.Size = new System.Drawing.Size(266, 25);
+            this.textBoxSearchBar.Size = new System.Drawing.Size(256, 25);
             this.textBoxSearchBar.TabIndex = 13;
             this.textBoxSearchBar.Text = "Search...";
             this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
@@ -207,39 +210,6 @@ namespace CyberSave77
             this.radioButtonOrderByLastWriteTime.Text = "last write time";
             this.radioButtonOrderByLastWriteTime.UseVisualStyleBackColor = true;
             this.radioButtonOrderByLastWriteTime.CheckedChanged += new System.EventHandler(this.radioButtonOrderByLastWriteTime_CheckedChanged);
-            // 
-            // modernButtonEnableSelectionMode
-            // 
-            this.modernButtonEnableSelectionMode.BackColor = System.Drawing.Color.White;
-            this.modernButtonEnableSelectionMode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonEnableSelectionMode.ClickEffectEnabled = true;
-            this.modernButtonEnableSelectionMode.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonEnableSelectionMode.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonEnableSelectionMode.Location = new System.Drawing.Point(565, 3);
-            this.modernButtonEnableSelectionMode.Name = "modernButtonEnableSelectionMode";
-            this.modernButtonEnableSelectionMode.Size = new System.Drawing.Size(163, 22);
-            this.modernButtonEnableSelectionMode.TabIndex = 10;
-            this.modernButtonEnableSelectionMode.Text = "Enable selection mode";
-            this.modernButtonEnableSelectionMode.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonEnableSelectionMode.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonEnableSelectionMode.Click += new System.EventHandler(this.modernButtonEnableSelectionMode_Click);
-            // 
-            // modernButtonSelectAll
-            // 
-            this.modernButtonSelectAll.BackColor = System.Drawing.Color.White;
-            this.modernButtonSelectAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.modernButtonSelectAll.ClickEffectEnabled = true;
-            this.modernButtonSelectAll.DefaultColor = System.Drawing.Color.White;
-            this.modernButtonSelectAll.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonSelectAll.Location = new System.Drawing.Point(625, 34);
-            this.modernButtonSelectAll.Name = "modernButtonSelectAll";
-            this.modernButtonSelectAll.Size = new System.Drawing.Size(103, 22);
-            this.modernButtonSelectAll.TabIndex = 11;
-            this.modernButtonSelectAll.Text = "Select all";
-            this.modernButtonSelectAll.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonSelectAll.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.modernButtonSelectAll.Visible = false;
-            this.modernButtonSelectAll.Click += new System.EventHandler(this.modernButtonSelectAll_Click);
             // 
             // label1
             // 
@@ -279,6 +249,80 @@ namespace CyberSave77
             this.checkBoxSimulate.UseVisualStyleBackColor = true;
             this.checkBoxSimulate.Visible = false;
             // 
+            // comboBoxPath
+            // 
+            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxPath.FormattingEnabled = true;
+            this.comboBoxPath.Location = new System.Drawing.Point(8, 31);
+            this.comboBoxPath.Name = "comboBoxPath";
+            this.comboBoxPath.Size = new System.Drawing.Size(228, 28);
+            this.comboBoxPath.TabIndex = 1;
+            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
+            this.comboBoxPath.MouseHover += new System.EventHandler(this.comboBoxPath_MouseHover);
+            // 
+            // panelSaveGames
+            // 
+            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSaveGames.AutoScroll = true;
+            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
+            this.panelSaveGames.Name = "panelSaveGames";
+            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
+            this.panelSaveGames.TabIndex = 0;
+            // 
+            // labelCount
+            // 
+            this.labelCount.Location = new System.Drawing.Point(672, 697);
+            this.labelCount.Name = "labelCount";
+            this.labelCount.Size = new System.Drawing.Size(63, 19);
+            this.labelCount.TabIndex = 8;
+            this.labelCount.Text = "999/999";
+            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // panelRight
+            // 
+            this.panelRight.Controls.Add(this.panelDatagrid);
+            this.panelRight.Location = new System.Drawing.Point(743, 0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(490, 772);
+            this.panelRight.TabIndex = 9;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 750;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            // 
+            // pictureBoxRefresh
+            // 
+            this.pictureBoxRefresh.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxRefresh.Image = global::CyberSave77.Properties.Resources._032_repeat_1;
+            this.pictureBoxRefresh.Location = new System.Drawing.Point(523, 12);
+            this.pictureBoxRefresh.Name = "pictureBoxRefresh";
+            this.pictureBoxRefresh.Size = new System.Drawing.Size(26, 25);
+            this.pictureBoxRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxRefresh.TabIndex = 18;
+            this.pictureBoxRefresh.TabStop = false;
+            this.pictureBoxRefresh.Click += new System.EventHandler(this.pictureBoxRefresh_Click);
+            // 
+            // pictureBoxCopySelected
+            // 
+            this.pictureBoxCopySelected.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxCopySelected.Image = global::CyberSave77.Properties.Resources.add_file;
+            this.pictureBoxCopySelected.Location = new System.Drawing.Point(119, 7);
+            this.pictureBoxCopySelected.Name = "pictureBoxCopySelected";
+            this.pictureBoxCopySelected.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxCopySelected.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCopySelected.TabIndex = 15;
+            this.pictureBoxCopySelected.TabStop = false;
+            this.pictureBoxCopySelected.Visible = false;
+            this.pictureBoxCopySelected.Click += new System.EventHandler(this.pictureBoxCopySelected_Click);
+            // 
             // pictureBoxMove
             // 
             this.pictureBoxMove.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -291,6 +335,52 @@ namespace CyberSave77
             this.pictureBoxMove.TabStop = false;
             this.pictureBoxMove.Visible = false;
             this.pictureBoxMove.Click += new System.EventHandler(this.pictureBoxMove_Click);
+            // 
+            // pictureBoxDelete
+            // 
+            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
+            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
+            this.pictureBoxDelete.Name = "pictureBoxDelete";
+            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
+            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxDelete.TabIndex = 11;
+            this.pictureBoxDelete.TabStop = false;
+            this.pictureBoxDelete.Visible = false;
+            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
+            // 
+            // modernButtonEnableSelectionMode
+            // 
+            this.modernButtonEnableSelectionMode.BackColor = System.Drawing.Color.White;
+            this.modernButtonEnableSelectionMode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonEnableSelectionMode.ClickEffectEnabled = true;
+            this.modernButtonEnableSelectionMode.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonEnableSelectionMode.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonEnableSelectionMode.Location = new System.Drawing.Point(565, 3);
+            this.modernButtonEnableSelectionMode.Name = "modernButtonEnableSelectionMode";
+            this.modernButtonEnableSelectionMode.Size = new System.Drawing.Size(163, 22);
+            this.modernButtonEnableSelectionMode.TabIndex = 10;
+            this.modernButtonEnableSelectionMode.Text = "Enable selection mode";
+            this.modernButtonEnableSelectionMode.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonEnableSelectionMode.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonEnableSelectionMode.Click += new System.EventHandler(this.modernButtonEnableSelectionMode_Click);
+            // 
+            // modernButtonSelectAll
+            // 
+            this.modernButtonSelectAll.BackColor = System.Drawing.Color.White;
+            this.modernButtonSelectAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.modernButtonSelectAll.ClickEffectEnabled = true;
+            this.modernButtonSelectAll.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonSelectAll.HoverColor = System.Drawing.Color.LightGray;
+            this.modernButtonSelectAll.Location = new System.Drawing.Point(625, 34);
+            this.modernButtonSelectAll.Name = "modernButtonSelectAll";
+            this.modernButtonSelectAll.Size = new System.Drawing.Size(103, 22);
+            this.modernButtonSelectAll.TabIndex = 11;
+            this.modernButtonSelectAll.Text = "Select all";
+            this.modernButtonSelectAll.TextColor = System.Drawing.SystemColors.ControlText;
+            this.modernButtonSelectAll.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonSelectAll.Visible = false;
+            this.modernButtonSelectAll.Click += new System.EventHandler(this.modernButtonSelectAll_Click);
             // 
             // modernButtonHideDetails
             // 
@@ -307,19 +397,6 @@ namespace CyberSave77
             this.modernButtonHideDetails.TextColor = System.Drawing.SystemColors.ControlText;
             this.modernButtonHideDetails.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonHideDetails.Click += new System.EventHandler(this.modernButtonHideDetails_Click);
-            // 
-            // pictureBoxDelete
-            // 
-            this.pictureBoxDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxDelete.Image = global::CyberSave77.Properties.Resources._097_delete_3;
-            this.pictureBoxDelete.Location = new System.Drawing.Point(13, 7);
-            this.pictureBoxDelete.Name = "pictureBoxDelete";
-            this.pictureBoxDelete.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxDelete.TabIndex = 11;
-            this.pictureBoxDelete.TabStop = false;
-            this.pictureBoxDelete.Visible = false;
-            this.pictureBoxDelete.Click += new System.EventHandler(this.pictureBoxDelete_Click);
             // 
             // modernButtonLoadMore
             // 
@@ -371,68 +448,6 @@ namespace CyberSave77
             this.modernButtonScrollUp.TextFont = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonScrollUp.Click += new System.EventHandler(this.modernButtonScrollUp_Click);
             // 
-            // comboBoxPath
-            // 
-            this.comboBoxPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxPath.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxPath.FormattingEnabled = true;
-            this.comboBoxPath.Location = new System.Drawing.Point(8, 31);
-            this.comboBoxPath.Name = "comboBoxPath";
-            this.comboBoxPath.Size = new System.Drawing.Size(228, 28);
-            this.comboBoxPath.TabIndex = 1;
-            this.comboBoxPath.SelectedIndexChanged += new System.EventHandler(this.comboBoxPath_SelectedIndexChanged);
-            this.comboBoxPath.MouseHover += new System.EventHandler(this.comboBoxPath_MouseHover);
-            // 
-            // panelSaveGames
-            // 
-            this.panelSaveGames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSaveGames.AutoScroll = true;
-            this.panelSaveGames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSaveGames.Location = new System.Drawing.Point(8, 66);
-            this.panelSaveGames.Name = "panelSaveGames";
-            this.panelSaveGames.Size = new System.Drawing.Size(720, 632);
-            this.panelSaveGames.TabIndex = 0;
-            // 
-            // labelCount
-            // 
-            this.labelCount.Location = new System.Drawing.Point(672, 697);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(63, 19);
-            this.labelCount.TabIndex = 8;
-            this.labelCount.Text = "999/999";
-            this.labelCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // panelRight
-            // 
-            this.panelRight.Controls.Add(this.panelDatagrid);
-            this.panelRight.Location = new System.Drawing.Point(743, 0);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(490, 772);
-            this.panelRight.TabIndex = 9;
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 5000;
-            this.toolTip1.InitialDelay = 750;
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ReshowDelay = 100;
-            this.toolTip1.ShowAlways = true;
-            // 
-            // pictureBoxCopySelected
-            // 
-            this.pictureBoxCopySelected.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxCopySelected.Image = global::CyberSave77.Properties.Resources.add_file;
-            this.pictureBoxCopySelected.Location = new System.Drawing.Point(119, 7);
-            this.pictureBoxCopySelected.Name = "pictureBoxCopySelected";
-            this.pictureBoxCopySelected.Size = new System.Drawing.Size(47, 35);
-            this.pictureBoxCopySelected.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCopySelected.TabIndex = 15;
-            this.pictureBoxCopySelected.TabStop = false;
-            this.pictureBoxCopySelected.Visible = false;
-            this.pictureBoxCopySelected.Click += new System.EventHandler(this.pictureBoxCopySelected_Click);
-            // 
             // FormSaveGameManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -448,8 +463,9 @@ namespace CyberSave77
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1249, 805);
             this.Name = "FormSaveGameManager";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "SaveGameManager (Beta)";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormSaveGameManager_FormClosed);
             this.Load += new System.EventHandler(this.FormSaveGameManager_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSaveGameManager_KeyDown);
             this.panelDatagrid.ResumeLayout(false);
@@ -458,10 +474,11 @@ namespace CyberSave77
             this.panelLeft.PerformLayout();
             this.panelLeftButtons.ResumeLayout(false);
             this.panelLeftButtons.PerformLayout();
+            this.panelRight.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRefresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMove)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDelete)).EndInit();
-            this.panelRight.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCopySelected)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -496,5 +513,6 @@ namespace CyberSave77
         private System.Windows.Forms.RadioButton radioButtonOrderByLastWriteTime;
         private System.Windows.Forms.TextBox textBoxSearchBar;
         private System.Windows.Forms.PictureBox pictureBoxCopySelected;
+        private System.Windows.Forms.PictureBox pictureBoxRefresh;
     }
 }

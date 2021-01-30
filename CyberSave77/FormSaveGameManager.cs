@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CyberSave77
 {
@@ -32,24 +33,15 @@ namespace CyberSave77
 
         private void FormSaveGameManager_Load(object sender, EventArgs e)
         {
+            Form1.fsgmIsOpen = true;
             imgMove = Properties.Resources.move;
             imgDel = Properties.Resources._097_delete_3;
             imgCopy = Properties.Resources.add_file;
             imgEdit = Properties.Resources.edit;
-            pictureBoxDelete.MouseDown += pbDelMouseDown;
-            pictureBoxDelete.MouseUp += pbDelMouseUp;
-            pictureBoxDelete.MouseLeave += pbDelMouseLeave;
-            pictureBoxDelete.MouseHover += pbDelMouseHover;
-            pictureBoxMove.MouseDown += pbDelMouseDown;
-            pictureBoxMove.MouseUp += pbDelMouseUp;
-            pictureBoxMove.MouseLeave += pbDelMouseLeave;
-            pictureBoxMove.MouseHover += pbDelMouseHover;
 
-            pictureBoxCopySelected.MouseDown += pbDelMouseDown;
-            pictureBoxCopySelected.MouseUp += pbDelMouseUp;
-            pictureBoxCopySelected.MouseLeave += pbDelMouseLeave;
-            pictureBoxCopySelected.MouseHover += pbDelMouseHover;
-
+            
+            LoadPictureBoxEvents();
+            LoadToolTips();
             HideDatagridView(Properties.Settings.Default.svgmHideDetails);
             labelSelected.Text = "Selected: 0/0";
             labelHint.Parent = dataGridView1;
@@ -60,6 +52,32 @@ namespace CyberSave77
             LoadCombobox();
         }
 
+        private void LoadToolTips()
+        {
+            toolTip1.SetToolTip(pictureBoxRefresh, "Refresh");
+        }
+        private void LoadPictureBoxEvents()
+        {
+            pictureBoxDelete.MouseDown += pbDelMouseDown;
+            pictureBoxDelete.MouseUp += pbDelMouseUp;
+            pictureBoxDelete.MouseLeave += pbDelMouseLeave;
+            pictureBoxDelete.MouseHover += pbDelMouseHover;
+
+            pictureBoxMove.MouseDown += pbDelMouseDown;
+            pictureBoxMove.MouseUp += pbDelMouseUp;
+            pictureBoxMove.MouseLeave += pbDelMouseLeave;
+            pictureBoxMove.MouseHover += pbDelMouseHover;
+
+            pictureBoxCopySelected.MouseDown += pbDelMouseDown;
+            pictureBoxCopySelected.MouseUp += pbDelMouseUp;
+            pictureBoxCopySelected.MouseLeave += pbDelMouseLeave;
+            pictureBoxCopySelected.MouseHover += pbDelMouseHover;
+
+            pictureBoxRefresh.MouseDown += pbDelMouseDown;
+            pictureBoxRefresh.MouseUp += pbDelMouseUp;
+            pictureBoxRefresh.MouseLeave += pbDelMouseLeave;
+            pictureBoxRefresh.MouseHover += pbDelMouseHover;
+        }
         private void LoadExcludeList()
         {
             defaultSavegameNames = new List<string>();
@@ -438,8 +456,11 @@ namespace CyberSave77
                     if (DialogResult.Yes != MessageBox.Show("Are you sure you want to delete " + new DirectoryInfo(svg.DirName).Name + "?", "Warning", MessageBoxButtons.YesNoCancel))
                         return;
                 if (checkBoxSimulate.Checked == false)
-                    Directory.Delete(svg.DirName, true);
-
+                {
+                    //Directory keeps reappearing when using this method (maybe Windows Defender?)
+                    //Directory.Delete(svg.DirName, true);
+                    FileSystem.DeleteDirectory(svg.DirName, UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);
+                }
                 svgList.Remove(svg);
                 LoadView(0, lastIndex);
             }
@@ -751,6 +772,7 @@ namespace CyberSave77
                 svgList = null;
                 svgListUntouched = null;
                 LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
+               
             }
         }
 
@@ -1005,6 +1027,22 @@ namespace CyberSave77
             {
                 LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
             }
+        }
+
+        private void pictureBoxRefresh_Click(object sender, EventArgs e)
+        {
+            if (comboBoxPath.SelectedItem != null)
+            {
+                svgList = null;
+                svgListUntouched = null;
+                LoadAllFilesAndView(comboBoxPath.SelectedValue.ToString());
+            }
+        }
+
+        private void FormSaveGameManager_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form1.fsgmIsOpen = false;
+            Form1.CloseSaveGameManager();
         }
 
         private void pbMoveDirMouseClick(object sender, EventArgs e)
