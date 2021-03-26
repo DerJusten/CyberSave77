@@ -350,7 +350,7 @@ namespace CyberSave77
                 pbMoveDir.BackColor = Color.Transparent;
                 pbMoveDir.Size = pbDel.Size;
                 pbMoveDir.Parent = parent;
-                pbMoveDir.Click += new EventHandler(pbDelClick);
+                pbMoveDir.Click += new EventHandler(pbMoveDirMouseClick);
                 pbMoveDir.MouseDown += new MouseEventHandler(pbDelMouseDown);
                 pbMoveDir.MouseUp += new MouseEventHandler(pbDelMouseUp);
                 pbMoveDir.MouseHover += new EventHandler(pbDelMouseHover);

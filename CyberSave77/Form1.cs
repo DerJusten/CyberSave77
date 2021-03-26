@@ -122,6 +122,8 @@ namespace CyberSave77
                 panelSettingsRunDisable.Enabled = false;
                 pictureBoxStart.Enabled = false;
                 pictureBoxStop.Enabled = true;
+                pictureBoxStart.BackColor = Color.Gray;
+                pictureBoxStop.BackColor = Color.White;
                 startToolStripMenuItem.Text = "Stop";
                 if (bgwCheckProcess.IsBusy == false)
                     bgwCheckProcess.RunWorkerAsync(settings);
@@ -813,6 +815,8 @@ namespace CyberSave77
                 panelSettingsRunDisable.Enabled = true;
                 pictureBoxStart.Enabled = true;
                 pictureBoxStop.Enabled = false;
+                pictureBoxStop.BackColor = Color.Gray;
+                pictureBoxStart.BackColor = Color.White;
                 startToolStripMenuItem.Text = "Start";
                 lastSaveGameCreationDate = new DateTime();
                 bDebug = false;
@@ -998,6 +1002,7 @@ namespace CyberSave77
                     fsgm.StartPosition = FormStartPosition.CenterParent;
 
                 fsgm.Show();
+                pictureBoxSvgmBig.BorderStyle = BorderStyle.None;
             }
 
         }
@@ -1012,31 +1017,34 @@ namespace CyberSave77
         private void pictureBox_MouseHover(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
-            pb.BackColor = Color.LightGray;
-
-            string tooltip = string.Empty;
-            if (pb.Name != "pictureBoxAddSettings")
+            if (pb.Enabled == true)
             {
-                if (pb.Name == pictureBoxAdd.Name)
-                    tooltip = "Add a custom process to your start list";
-                else if (pb.Name == pictureBoxEdit.Name)
-                    tooltip = "Edit your selected process";
-                else if (pb.Name == pictureBoxSvgmBig.Name)
-                    tooltip = "Opens SaveGameManager";
-                else if (pb.Name == pictureBoxStart.Name)
-                    tooltip = "Start checking for process " + Properties.Settings.Default.processName;
-                else if (pb.Name == pictureBoxStop.Name)
-                    tooltip = "Stop process checking";
-                else if (pb.Name == pictureBoxDelete.Name)
-                    tooltip = "Delete your selected process";
-                else if (pb.Name == pictureBoxExit.Name)
-                    tooltip = "Exit CyberSave77";
+                pb.BackColor = Color.LightGray;
 
-                if (!string.IsNullOrEmpty(tooltip))
+                string tooltip = string.Empty;
+                if (pb.Name != "pictureBoxAddSettings")
                 {
-                    toolTip1.SetToolTip(pb, tooltip);
-                    toolTip1.ShowAlways = true;
-                    toolTip1.IsBalloon = true;
+                    if (pb.Name == pictureBoxAdd.Name)
+                        tooltip = "Add a custom process to your start list";
+                    else if (pb.Name == pictureBoxEdit.Name)
+                        tooltip = "Edit your selected process";
+                    else if (pb.Name == pictureBoxSvgmBig.Name)
+                        tooltip = "Opens SaveGameManager";
+                    else if (pb.Name == pictureBoxStart.Name)
+                        tooltip = "Start checking for process " + Properties.Settings.Default.processName;
+                    else if (pb.Name == pictureBoxStop.Name)
+                        tooltip = "Stop process checking";
+                    else if (pb.Name == pictureBoxDelete.Name)
+                        tooltip = "Delete your selected process";
+                    else if (pb.Name == pictureBoxExit.Name)
+                        tooltip = "Exit CyberSave77";
+
+                    if (!string.IsNullOrEmpty(tooltip))
+                    {
+                        toolTip1.SetToolTip(pb, tooltip);
+                        toolTip1.ShowAlways = true;
+                        toolTip1.IsBalloon = true;
+                    }
                 }
             }
         }
@@ -1044,6 +1052,7 @@ namespace CyberSave77
         private void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
+            if(pb.Enabled == true)
             pb.BackColor = Color.White;
 
             pb.BorderStyle = BorderStyle.None;
@@ -1057,12 +1066,14 @@ namespace CyberSave77
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
+            if(pb.Enabled == true)
             pb.BorderStyle = BorderStyle.Fixed3D;
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
+            if(pb.Enabled == true)
             pb.BorderStyle = BorderStyle.None;
         }
 
@@ -1505,6 +1516,7 @@ namespace CyberSave77
         {
             if (bgwCheckProcess.IsBusy && bgwCheckProcess.CancellationPending == false)
             {
+                
                 bgwCheckProcess.ReportProgress(0, "Please wait...");
                 bgwCheckProcess.CancelAsync();
 

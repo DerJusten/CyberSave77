@@ -172,6 +172,10 @@
     <None Include="Resources\close.png" />
     <None Include="Resources\027-diskette.png" />
     <None Include="Resources\floppy-disk.png" />
+    <None Include="Resources\floppy-disk-white.png" />
+    <None Include="Resources\135-stop-white.png" />
+    <None Include="Resources\117-play-button-white.png" />
+    <None Include="Resources\close-white.png" />
     <Content Include="v_female_02.ico" />
   </ItemGroup>
   <ItemGroup>

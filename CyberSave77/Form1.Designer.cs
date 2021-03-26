@@ -138,31 +138,33 @@ namespace CyberSave77
             // 
             // cmsNotifyIcon
             // 
+            this.cmsNotifyIcon.BackColor = System.Drawing.Color.White;
             this.cmsNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.startToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.cmsNotifyIcon.Name = "cmsNotifyIcon";
-            this.cmsNotifyIcon.Size = new System.Drawing.Size(104, 70);
+            this.cmsNotifyIcon.ShowImageMargin = false;
+            this.cmsNotifyIcon.Size = new System.Drawing.Size(79, 70);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -267,14 +269,15 @@ namespace CyberSave77
             this.modernButtonDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.modernButtonDebug.ClickEffectEnabled = true;
             this.modernButtonDebug.DefaultColor = System.Drawing.Color.White;
+            this.modernButtonDebug.Font = new System.Drawing.Font("Segoe UI", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonDebug.HoverColor = System.Drawing.Color.LightGray;
-            this.modernButtonDebug.Location = new System.Drawing.Point(7, 50);
+            this.modernButtonDebug.Location = new System.Drawing.Point(23, 55);
             this.modernButtonDebug.Name = "modernButtonDebug";
-            this.modernButtonDebug.Size = new System.Drawing.Size(166, 22);
+            this.modernButtonDebug.Size = new System.Drawing.Size(134, 17);
             this.modernButtonDebug.TabIndex = 15;
             this.modernButtonDebug.Text = "Debug";
             this.modernButtonDebug.TextColor = System.Drawing.SystemColors.ControlText;
-            this.modernButtonDebug.TextFont = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modernButtonDebug.TextFont = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modernButtonDebug.Visible = false;
             this.modernButtonDebug.Click += new System.EventHandler(this.modernButtonDebug_Click);
             // 
@@ -537,10 +540,10 @@ namespace CyberSave77
             // 
             // pictureBoxExit
             // 
-            this.pictureBoxExit.Image = global::CyberSave77.Properties.Resources.close;
+            this.pictureBoxExit.Image = global::CyberSave77.Properties.Resources.close_white;
             this.pictureBoxExit.Location = new System.Drawing.Point(313, 3);
             this.pictureBoxExit.Name = "pictureBoxExit";
-            this.pictureBoxExit.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxExit.Size = new System.Drawing.Size(50, 50);
             this.pictureBoxExit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxExit.TabIndex = 20;
             this.pictureBoxExit.TabStop = false;
@@ -552,10 +555,10 @@ namespace CyberSave77
             // 
             // pictureBoxSvgmBig
             // 
-            this.pictureBoxSvgmBig.Image = global::CyberSave77.Properties.Resources.floppy_disk;
+            this.pictureBoxSvgmBig.Image = global::CyberSave77.Properties.Resources.floppy_disk_white;
             this.pictureBoxSvgmBig.Location = new System.Drawing.Point(207, 3);
             this.pictureBoxSvgmBig.Name = "pictureBoxSvgmBig";
-            this.pictureBoxSvgmBig.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxSvgmBig.Size = new System.Drawing.Size(50, 50);
             this.pictureBoxSvgmBig.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxSvgmBig.TabIndex = 17;
             this.pictureBoxSvgmBig.TabStop = false;
@@ -567,10 +570,12 @@ namespace CyberSave77
             // 
             // pictureBoxStop
             // 
-            this.pictureBoxStop.Image = global::CyberSave77.Properties.Resources._135_stop;
+            this.pictureBoxStop.BackColor = System.Drawing.Color.Gray;
+            this.pictureBoxStop.Enabled = false;
+            this.pictureBoxStop.Image = global::CyberSave77.Properties.Resources._135_stop_white;
             this.pictureBoxStop.Location = new System.Drawing.Point(107, 3);
             this.pictureBoxStop.Name = "pictureBoxStop";
-            this.pictureBoxStop.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxStop.Size = new System.Drawing.Size(50, 50);
             this.pictureBoxStop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxStop.TabIndex = 19;
             this.pictureBoxStop.TabStop = false;
@@ -582,10 +587,11 @@ namespace CyberSave77
             // 
             // pictureBoxStart
             // 
-            this.pictureBoxStart.Image = global::CyberSave77.Properties.Resources._117_play_button;
+            this.pictureBoxStart.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pictureBoxStart.Image = global::CyberSave77.Properties.Resources._117_play_button_white;
             this.pictureBoxStart.Location = new System.Drawing.Point(23, 3);
             this.pictureBoxStart.Name = "pictureBoxStart";
-            this.pictureBoxStart.Size = new System.Drawing.Size(50, 46);
+            this.pictureBoxStart.Size = new System.Drawing.Size(50, 50);
             this.pictureBoxStart.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxStart.TabIndex = 18;
             this.pictureBoxStart.TabStop = false;
